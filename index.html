@@ -7,25 +7,27 @@
 <style>
 /* ===== TOKENS ===== */
 :root {
-  --mint:    #4ECBA5;
-  --mint-dk: #2FA880;
-  --mint-lt: #E8F9F4;
-  --sky:     #5BA8D9;
-  --sky-lt:  #EAF4FB;
-  --sun:     #F7C948;
-  --sun-lt:  #FEF8E6;
-  --coral:   #F07060;
-  --coral-lt:#FEF0EE;
-  --ink:     #1E2B3A;
-  --ink-md:  #4A5B6B;
-  --ink-lt:  #8496A6;
-  --bg:      #F5F9FF;
+  --mint:    #3ECA9A;
+  --mint-dk: #1EA876;
+  --mint-lt: #DFFAF1;
+  --sky:     #4BAEE8;
+  --sky-lt:  #E0F3FF;
+  --sun:     #FFD02F;
+  --sun-lt:  #FFF8DC;
+  --coral:   #FF6B5E;
+  --coral-lt:#FFEEEC;
+  --violet:  #A78BFA;
+  --violet-lt:#F0EBFF;
+  --ink:     #1A2535;
+  --ink-md:  #3D4F62;
+  --ink-lt:  #7A8FA0;
+  --bg:      #FFFEF7;
   --card:    #FFFFFF;
-  --border:  #DDE8F0;
-  --radius:  16px;
-  --radius-sm:8px;
-  --shadow:  0 2px 12px rgba(30,43,58,.08);
-  --shadow-lg:0 8px 32px rgba(30,43,58,.13);
+  --border:  #E8EFF5;
+  --radius:  18px;
+  --radius-sm:10px;
+  --shadow:  0 3px 14px rgba(30,43,58,.09);
+  --shadow-lg:0 10px 36px rgba(30,43,58,.15);
   --font-display: 'Noto Sans KR', sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -38,7 +40,7 @@ img{max-width:100%}
 /* ===== LAYOUT ===== */
 .app{display:flex;flex-direction:column;min-height:100vh}
 .topbar{background:var(--card);border-bottom:1.5px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
-.topbar-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.05rem;color:var(--ink);cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .2s;border:none;background:transparent;text-decoration:none}
+.topbar-logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.05rem;color:var(--ink);cursor:pointer;padding:6px 8px;border-radius:10px;transition:background .2s;border:none;background:transparent;text-decoration:none;letter-spacing:-.2px}
 .topbar-logo:hover{background:var(--mint-lt)}
 .topbar-logo .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--mint),var(--sky));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
 .topbar-nav{display:flex;gap:2px}
@@ -57,36 +59,43 @@ img{max-width:100%}
 
 /* ===== HERO ===== */
 /* ===== HERO ===== */
-.hero{background:linear-gradient(135deg,#1A6B52 0%,#1E6EA8 100%);border-radius:20px;padding:0;color:#fff;margin-bottom:20px;overflow:hidden;position:relative}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;z-index:1}
-.hero-text{padding:28px 24px 28px 28px}
-.hero-eyebrow{font-size:.72rem;font-weight:700;opacity:.75;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
-.hero h1{font-size:1.65rem;font-weight:900;margin-bottom:10px;line-height:1.2;letter-spacing:-.3px}
-.hero p{font-size:.88rem;opacity:.88;line-height:1.6}
-.hero-grade{background:rgba(255,255,255,.12);backdrop-filter:blur(4px);padding:20px 20px 20px 16px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid rgba(255,255,255,.1)}
-.hero-grade-label{font-size:.72rem;font-weight:700;opacity:.8;margin-bottom:10px;letter-spacing:.3px}
-.hero-grade-row{display:flex;flex-direction:column;gap:6px}
-.hero-chip{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);cursor:pointer;transition:all .2s;text-align:left;color:#fff}
-.hero-chip:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5)}
-.hero-chip.selected{background:rgba(255,255,255,.25);border-color:#fff}
-.hero-chip span:first-child{font-size:1.2rem;flex-shrink:0}
-.hero-chip span:nth-child(2){font-size:.85rem;font-weight:700;flex:1}
-.hero-chip small{font-size:.68rem;opacity:.75}
+.hero{background:linear-gradient(160deg,#3ECA9A 0%,#4BAEE8 60%,#A78BFA 100%);border-radius:24px;padding:0;color:#fff;margin-bottom:20px;overflow:hidden;position:relative;box-shadow:0 8px 32px rgba(62,202,154,.35)}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.18) 0%,transparent 60%)}
+.hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:0;position:relative;z-index:1}
+.hero-text{padding:26px 20px 26px 24px}
+.hero-eyebrow{font-size:.8rem;font-weight:800;opacity:.9;letter-spacing:.3px;margin-bottom:10px;background:rgba(255,255,255,.2);display:inline-block;padding:3px 10px;border-radius:20px}
+.hero h1{font-size:1.9rem;font-weight:900;margin-bottom:8px;line-height:1.15;letter-spacing:-.5px;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hero p{font-size:.88rem;opacity:.93;line-height:1.6;font-weight:500}
+.hero-mascot{text-align:center;font-size:2.8rem;margin-bottom:6px;animation:mascot-float 2.5s ease-in-out infinite}
+.hero-grade{background:rgba(255,255,255,.15);backdrop-filter:blur(8px);padding:18px 16px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid rgba(255,255,255,.2)}
+.hero-grade-label{font-size:.78rem;font-weight:800;opacity:.95;margin-bottom:10px;text-align:center}
+.hero-grade-row{display:flex;flex-direction:column;gap:7px}
+.hero-chip{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;border:2px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);cursor:pointer;transition:all .2s;text-align:left;color:#fff}
+.hero-chip:hover{background:rgba(255,255,255,.28);border-color:rgba(255,255,255,.7);transform:scale(1.03)}
+.hero-chip.selected{background:rgba(255,255,255,.35);border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3)}
+.hero-chip span:first-child{font-size:1.3rem;flex-shrink:0}
+.hero-chip span:nth-child(2){font-size:.86rem;font-weight:800;flex:1}
+.hero-chip small{font-size:.69rem;opacity:.85}
 
 /* ===== SECTION LABEL ===== */
-.home-section-label{font-size:.8rem;font-weight:700;color:var(--ink-lt);letter-spacing:.5px;text-transform:uppercase;margin:0 0 10px 2px}
+.home-section-label{font-size:1rem;font-weight:900;color:var(--ink);margin:4px 0 12px 2px;display:flex;align-items:center;gap:6px}
 
 /* ===== MENU GRID (리디자인) ===== */
 .menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
-.menu-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:16px;cursor:pointer;transition:all .2s;border:1.5px solid transparent;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
-.menu-card::after{content:'→';position:absolute;right:14px;bottom:14px;font-size:.85rem;color:var(--border);font-weight:700;transition:all .2s}
-.menu-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--mint)}
-.menu-card:hover::after{color:var(--mint-dk);right:12px}
-.menu-card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
-.menu-card-body h3{font-size:.95rem;font-weight:800;color:var(--ink);margin-bottom:3px}
-.menu-card-body p{font-size:.78rem;color:var(--ink-md);line-height:1.4}
+.menu-card{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:18px 16px 16px;cursor:pointer;transition:all .22s cubic-bezier(.175,.885,.32,1.275);border:2.5px solid transparent;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.menu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:20px 20px 0 0;opacity:0;transition:opacity .2s}
+.menu-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:var(--shadow-lg)}
+.menu-card:hover::before{opacity:1}
+.menu-card:active{transform:scale(.97)}
+.menu-card-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:2px}
+.menu-card-body h3{font-size:1rem;font-weight:900;color:var(--ink);margin-bottom:3px}
+.menu-card-body p{font-size:.78rem;color:var(--ink-md);line-height:1.45}
 .menu-card .badge{align-self:flex-start}
+/* 메뉴 카드 개별 색 */
+.menu-card:nth-child(1){border-color:var(--mint-lt)} .menu-card:nth-child(1)::before{background:var(--mint)} .menu-card:nth-child(1):hover{border-color:var(--mint)}
+.menu-card:nth-child(2){border-color:var(--sun-lt)}  .menu-card:nth-child(2)::before{background:var(--sun)}  .menu-card:nth-child(2):hover{border-color:var(--sun)}
+.menu-card:nth-child(3){border-color:var(--sky-lt)}  .menu-card:nth-child(3)::before{background:var(--sky)}  .menu-card:nth-child(3):hover{border-color:var(--sky)}
+.menu-card:nth-child(4){border-color:var(--coral-lt)}.menu-card:nth-child(4)::before{background:var(--coral)}.menu-card:nth-child(4):hover{border-color:var(--coral)}
 
 /* ===== GRADE SELECTOR ===== */
 /* grade-chip → hero-chip으로 대체 (하위 호환 유지) */
@@ -97,7 +106,7 @@ img{max-width:100%}
 .grade-chip .emoji{font-size:1.6rem;display:block;margin-bottom:3px}
 
 /* ===== RANKING ===== */
-.ranking-board{background:linear-gradient(160deg,#1E2B3A 0%,#2A3D52 100%);border-radius:20px;padding:24px;margin-bottom:24px;color:#fff}
+.ranking-board{background:linear-gradient(160deg,#2C3E6A 0%,#1B4F72 100%);border-radius:20px;padding:20px;margin-bottom:24px;color:#fff;box-shadow:0 6px 24px rgba(28,50,100,.25)}
 .ranking-title{display:flex;align-items:center;gap:8px;font-size:1.05rem;font-weight:700;margin-bottom:16px}
 .ranking-list{list-style:none;display:flex;flex-direction:column;gap:8px}
 .ranking-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border-radius:10px;padding:10px 14px}
@@ -136,32 +145,78 @@ img{max-width:100%}
 .level-tab.active{background:var(--mint-dk);border-color:var(--mint-dk);color:#fff}
 .learn-content{display:none}
 .learn-content.active{display:block}
-.concept-box{background:var(--mint-lt);border-left:4px solid var(--mint-dk);border-radius:0 12px 12px 0;padding:16px 18px;margin-bottom:16px}
-.concept-box h4{font-size:.95rem;font-weight:700;color:var(--mint-dk);margin-bottom:6px}
-.concept-box p{font-size:.88rem;color:var(--ink-md);line-height:1.6}
-.compare-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:16px 0}
-.compare-table th{background:var(--ink);color:#fff;padding:10px 14px;text-align:left}
-.compare-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
-.compare-table tr:nth-child(even) td{background:var(--bg)}
 .you-msg{color:var(--coral);font-weight:600}
 .i-msg{color:var(--mint-dk);font-weight:600}
+
+/* 학습 단계 진행 바 */
+.learn-progress{display:flex;gap:6px;margin-bottom:20px;align-items:center}
+.learn-step-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--ink-lt);flex-shrink:0;transition:all .3s;cursor:pointer}
+.learn-step-dot.done{background:var(--mint-dk);border-color:var(--mint-dk);color:#fff}
+.learn-step-dot.active{background:var(--sky);border-color:var(--sky);color:#fff;box-shadow:0 0 0 3px var(--sky-lt)}
+.learn-step-line{flex:1;height:2px;background:var(--border);border-radius:2px}
+.learn-step-line.done{background:var(--mint-dk)}
+
+/* 학습 슬라이드 */
+.learn-slide{display:none}
+.learn-slide.active{display:block}
+
+/* 개념 카드 */
+.concept-hero{background:linear-gradient(135deg,var(--mint-dk),var(--sky));border-radius:16px;padding:24px;color:#fff;margin-bottom:16px;text-align:center}
+.concept-hero .big-emoji{font-size:3rem;margin-bottom:12px}
+.concept-hero h3{font-size:1.1rem;font-weight:800;margin-bottom:8px}
+.concept-hero p{font-size:.88rem;opacity:.92;line-height:1.6}
+
+/* 비교 카드 (테이블 대신) */
+.compare-cards{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.compare-card{border-radius:12px;padding:14px}
+.compare-card.you{background:var(--coral-lt);border:1.5px solid var(--coral)}
+.compare-card.me{background:var(--mint-lt);border:1.5px solid var(--mint-dk)}
+.compare-card-label{font-size:.72rem;font-weight:700;margin-bottom:6px}
+.compare-card.you .compare-card-label{color:var(--coral)}
+.compare-card.me .compare-card-label{color:var(--mint-dk)}
+.compare-card-text{font-size:.85rem;line-height:1.5;color:var(--ink)}
+.compare-situation{font-size:.75rem;font-weight:700;color:var(--ink-lt);margin-bottom:6px;padding:4px 8px;background:var(--bg);border-radius:6px;display:inline-block}
+
+/* 3요소 스텝 */
 .step-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin:16px 0}
 .step-item{display:flex;gap:14px;align-items:flex-start}
-.step-num{width:30px;height:30px;border-radius:50%;background:var(--mint-dk);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--mint-dk);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0}
 .step-text h5{font-size:.9rem;font-weight:700;margin-bottom:3px}
 .step-text p{font-size:.83rem;color:var(--ink-md);line-height:1.5}
-.flashcard-wrap{perspective:600px;margin:20px 0}
-.flashcard{width:100%;min-height:160px;border-radius:16px;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .5s}
-.flashcard.flipped{transform:rotateY(180deg)}
-.flashcard-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;align-items:center;justify-content:center;padding:24px;flex-direction:column;gap:10px;text-align:center}
-.flashcard-front{background:linear-gradient(135deg,var(--sky-lt),#fff);border:2px solid var(--sky)}
-.flashcard-back{background:linear-gradient(135deg,var(--mint-lt),#fff);border:2px solid var(--mint);transform:rotateY(180deg)}
-.flashcard-face h4{font-size:1rem;font-weight:700;color:var(--ink)}
-.flashcard-face p{font-size:.88rem;color:var(--ink-md);line-height:1.6}
-.flashcard-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:10px}
-.fc-btn{padding:8px 18px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-size:.85rem;font-weight:600;cursor:pointer}
-.fc-btn:hover{background:var(--mint-lt)}
-.fc-counter{font-size:.85rem;color:var(--ink-md)}
+
+/* 감정 단어 카드 */
+.emotion-grid{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.emotion-chip{padding:6px 12px;border-radius:20px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;border:1.5px solid transparent;user-select:none}
+.emotion-chip:hover{transform:scale(1.05)}
+.emotion-chip.type-sad{background:#EDF2FF;color:#3B5BDB;border-color:#BAC8FF}
+.emotion-chip.type-angry{background:#FFF5F5;color:#C92A2A;border-color:#FFC9C9}
+.emotion-chip.type-scared{background:#FFF9DB;color:#E67700;border-color:#FFE066}
+.emotion-chip.type-hurt{background:#F8F0FB;color:#862E9C;border-color:#E599F7}
+.emotion-chip.type-happy{background:#EBFBEE;color:#2B8A3E;border-color:#8CE99A}
+
+/* 입력 후 확인 퀴즈 */
+.fc-quiz-wrap{background:var(--card);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin:16px 0}
+.fc-quiz-situation{background:var(--sun-lt);padding:14px 18px;font-size:.9rem;font-weight:600;color:var(--ink);border-bottom:1px solid var(--border)}
+.fc-quiz-situation-label{font-size:.7rem;color:#7A5A00;font-weight:700;margin-bottom:4px}
+.fc-quiz-input-area{padding:16px 18px}
+.fc-quiz-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;outline:none;transition:border-color .2s;resize:none;font-family:inherit}
+.fc-quiz-input:focus{border-color:var(--mint-dk)}
+.fc-quiz-btn-row{display:flex;gap:8px;margin-top:10px}
+.fc-reveal{padding:14px 18px;border-top:1px solid var(--border);display:none}
+.fc-reveal.show{display:block}
+.fc-reveal-good{background:var(--mint-lt);border-left:3px solid var(--mint-dk);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:10px;font-size:.88rem;line-height:1.6}
+.fc-reveal-model{background:var(--bg);border-radius:8px;padding:10px 14px;font-size:.85rem;line-height:1.6}
+.fc-reveal-label{font-size:.72rem;font-weight:700;color:var(--mint-dk);margin-bottom:4px}
+.fc-nav-row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--border)}
+.fc-counter{font-size:.82rem;color:var(--ink-lt);font-weight:600}
+.fc-btn{padding:8px 16px;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-size:.83rem;font-weight:600;cursor:pointer;transition:all .2s}
+.fc-btn:hover{background:var(--mint-lt);border-color:var(--mint)}
+
+/* 완료 CTA */
+.learn-complete-cta{background:linear-gradient(135deg,var(--mint-dk),var(--sky));border-radius:16px;padding:22px;text-align:center;color:#fff;margin-top:20px}
+.learn-complete-cta h3{font-size:1.05rem;font-weight:800;margin-bottom:6px}
+.learn-complete-cta p{font-size:.85rem;opacity:.9;margin-bottom:16px}
 
 /* ===== PRACTICE PAGE ===== */
 .situation-card{background:var(--sun-lt);border:1.5px solid var(--sun);border-radius:12px;padding:16px 18px;margin-bottom:18px}
@@ -260,8 +315,8 @@ img{max-width:100%}
 .badge-item .b-desc{font-size:.65rem;color:var(--ink-lt);line-height:1.3}
 
 /* ===== TODAY SITUATION ===== */
-.today-sit{background:linear-gradient(135deg,var(--sky-lt),var(--mint-lt));border:1.5px solid var(--mint);border-radius:14px;padding:16px 18px;margin-bottom:20px;cursor:pointer;transition:all .2s}
-.today-sit:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.today-sit{background:linear-gradient(135deg,#E0F3FF,#DFFAF1);border:2.5px solid var(--mint-dk);border-radius:18px;padding:16px 18px;margin-bottom:20px;cursor:pointer;transition:all .22s;box-shadow:0 3px 12px rgba(62,202,154,.2)}
+.today-sit:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 8px 24px rgba(62,202,154,.3)}
 .today-label{font-size:.72rem;font-weight:700;color:var(--mint-dk);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
 .today-text{font-size:.92rem;font-weight:600;color:var(--ink);line-height:1.5}
 .today-action{font-size:.8rem;color:var(--mint-dk);margin-top:8px;font-weight:600}
@@ -306,13 +361,14 @@ img{max-width:100%}
   .main{padding:14px 12px}
   .menu-grid{grid-template-columns:1fr 1fr}
   .hero-inner{grid-template-columns:1fr}
-  .hero-grade{border-left:none;border-top:1px solid rgba(255,255,255,.1);padding:16px 18px}
+  .hero-grade{border-left:none;border-top:1.5px solid rgba(255,255,255,.2);padding:14px 16px}
   .hero-grade-row{flex-direction:row;gap:8px}
   .hero-chip{flex:1;flex-direction:column;align-items:center;text-align:center;padding:8px 4px;gap:3px}
   .hero-chip span:nth-child(2){font-size:.75rem}
   .hero-chip small{display:none}
-  .hero-text{padding:22px 18px 16px}
-  .hero h1{font-size:1.35rem}
+  .hero-mascot{display:none}
+  .hero-text{padding:20px 18px 14px}
+  .hero h1{font-size:1.55rem}
   .grade-chip{min-width:80px;padding:10px 6px;font-size:.82rem}
   .stat-chip{padding:8px 12px}
 }
@@ -320,6 +376,107 @@ img{max-width:100%}
   .menu-grid{grid-template-columns:1fr}
   .nav-btn{padding:5px 5px}
 }
+
+/* ===== 마스코트 오늘의 한마디 ===== */
+.mascot-today{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:20px;padding:14px 18px;margin-bottom:18px;box-shadow:var(--shadow);border:2px solid var(--sun-lt)}
+.mascot-today-char{font-size:2.4rem;flex-shrink:0;animation:mascot-float 2.5s ease-in-out infinite}
+.mascot-today-bubble{flex:1}
+.mascot-today-label{font-size:.7rem;font-weight:800;color:var(--sun);letter-spacing:.3px;margin-bottom:4px;text-transform:uppercase}
+.mascot-today-text{font-size:.9rem;font-weight:600;color:var(--ink);line-height:1.55}
+
+/* ===== 메뉴 카드 아이콘 색 ===== */
+.menu-icon-learn{background:linear-gradient(135deg,var(--mint-lt),#B8F0E0)}
+.menu-icon-practice{background:linear-gradient(135deg,var(--sun-lt),#FFE99A)}
+.menu-icon-apply{background:linear-gradient(135deg,var(--sky-lt),#B8DEFF)}
+.menu-icon-game{background:linear-gradient(135deg,var(--coral-lt),#FFD0CC)}
+
+/* ===== 나무 진도 강화 ===== */
+.tree-progress{background:linear-gradient(135deg,#F0FFF8,#F0F8FF);border:2px solid var(--mint-lt);border-radius:20px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.tree-visual{font-size:3.2rem;transition:all .5s;filter:drop-shadow(0 3px 8px rgba(0,0,0,.15));flex-shrink:0}
+.tree-name{font-size:1.05rem;font-weight:900;color:var(--mint-dk);margin-bottom:6px}
+.tree-bar-bg{background:var(--border);border-radius:10px;height:10px;overflow:hidden}
+.tree-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--mint-dk),var(--sun));transition:width .8s cubic-bezier(.175,.885,.32,1.275)}
+
+/* ===== 랭킹 강화 ===== */
+.ranking-title{display:flex;align-items:center;gap:8px;font-size:1rem;font-weight:900;margin-bottom:16px}
+.rank-1{background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff;box-shadow:0 2px 8px rgba(255,180,0,.4)}
+.rank-2{background:linear-gradient(135deg,#C8D6E0,#A0B4BF);color:#fff}
+.rank-3{background:linear-gradient(135deg,#D4956A,#B87040);color:#fff}
+.rank-school{flex:1;font-size:.92rem;font-weight:700}
+.rank-score{font-weight:900;font-size:1.05rem;color:var(--sun)}
+
+/* ===== 반응형 추가 ===== */
+@media(max-width:600px){
+  .hero h1{font-size:1.6rem}
+  .hero-mascot{font-size:2.2rem}
+  .mascot-today-char{font-size:2rem}
+  .menu-card-icon{width:48px;height:48px;font-size:1.5rem}
+}
+
+/* ===== 마스코트 ===== */
+.mascot-wrap{text-align:center;margin-bottom:4px}
+.mascot-bubble{display:inline-flex;align-items:flex-start;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:12px 16px;margin-bottom:16px;box-shadow:var(--shadow);max-width:100%;text-align:left;position:relative}
+.mascot-bubble::before{content:'';position:absolute;left:20px;top:-8px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--border)}
+.mascot-bubble::after{content:'';position:absolute;left:21px;top:-6px;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:7px solid var(--card)}
+.mascot-char{font-size:2rem;flex-shrink:0;line-height:1}
+.mascot-text{font-size:.85rem;color:var(--ink-md);line-height:1.55;padding-top:2px}
+.mascot-text strong{color:var(--ink)}
+.mascot-float{animation:mascot-float 3s ease-in-out infinite}
+@keyframes mascot-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+/* ===== 별점 ===== */
+.star-row{display:flex;gap:4px;justify-content:center;margin:10px 0}
+.star{font-size:1.6rem;transition:all .3s;filter:grayscale(1);opacity:.3}
+.star.lit{filter:none;opacity:1;animation:star-pop .4s cubic-bezier(.175,.885,.32,1.275) forwards}
+@keyframes star-pop{0%{transform:scale(0) rotate(-30deg)}70%{transform:scale(1.3) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+
+/* ===== 파티클 ===== */
+.particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500}
+
+/* ===== 나무 성장 ===== */
+.tree-progress{background:var(--card);border-radius:14px;padding:16px 18px;margin-bottom:20px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px}
+.tree-visual{font-size:3rem;transition:all .5s;filter:drop-shadow(0 2px 6px rgba(0,0,0,.12))}
+.tree-info{flex:1}
+.tree-title{font-size:.82rem;font-weight:700;color:var(--ink-md);margin-bottom:4px}
+.tree-name{font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:6px}
+.tree-bar-bg{background:var(--border);border-radius:10px;height:8px;overflow:hidden}
+.tree-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#4CAF50,#8BC34A);transition:width .6s}
+.tree-next{font-size:.72rem;color:var(--ink-lt);margin-top:4px}
+
+/* ===== 출석 스트릭 ===== */
+.streak-card{background:linear-gradient(135deg,#FF6B6B,#FF8E53);border-radius:14px;padding:14px 18px;margin-bottom:16px;color:#fff;display:flex;align-items:center;gap:14px}
+.streak-fire{font-size:2rem;animation:fire-pulse 1s ease-in-out infinite alternate}
+@keyframes fire-pulse{from{transform:scale(1)}to{transform:scale(1.15)}}
+.streak-info .streak-num{font-size:1.4rem;font-weight:900;line-height:1}
+.streak-info .streak-label{font-size:.78rem;opacity:.9;margin-top:2px}
+.streak-dots{display:flex;gap:5px;margin-left:auto}
+.streak-dot{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.streak-dot.done{background:rgba(255,255,255,.9);color:#FF6B6B}
+
+/* ===== 감정 색깔 선택 ===== */
+.mood-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.mood-btn{width:34px;height:34px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;transition:all .2s;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.mood-btn:hover{transform:scale(1.15)}
+.mood-btn.selected{border-color:var(--ink);transform:scale(1.2);box-shadow:0 0 0 3px rgba(0,0,0,.1)}
+.mood-label{font-size:.75rem;color:var(--ink-md);margin-bottom:8px;font-weight:600}
+
+/* ===== 공유 버튼 ===== */
+.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);font-size:.8rem;font-weight:700;color:var(--ink-md);cursor:pointer;transition:all .2s}
+.share-btn:hover{background:var(--sky-lt);border-color:var(--sky);color:var(--sky)}
+
+/* ===== 명언 카드 ===== */
+.quote-card{background:linear-gradient(135deg,var(--mint-lt),var(--sky-lt));border:1.5px solid var(--mint);border-radius:14px;padding:14px 18px;margin-bottom:16px;position:relative;overflow:hidden}
+.quote-card::after{content:'"';position:absolute;right:12px;bottom:-8px;font-size:5rem;color:var(--mint);opacity:.15;font-family:Georgia,serif;line-height:1}
+.quote-text{font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:6px}
+.quote-emoji{font-size:1rem;margin-right:6px}
+
+/* ===== 게임 강화 ===== */
+.combo-animate{animation:combo-pop .3s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes combo-pop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+.timer-pulse{animation:timer-pulse .5s ease-in-out infinite}
+@keyframes timer-pulse{0%,100%{box-shadow:0 0 0 0 rgba(240,112,96,.4)}50%{box-shadow:0 0 0 6px rgba(240,112,96,0)}}
+.score-fly{position:fixed;pointer-events:none;font-weight:900;font-size:1.4rem;color:var(--mint-dk);z-index:400;animation:score-fly .8s ease-out forwards}
+@keyframes score-fly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) scale(1.3)}}
 </style>
 </head>
 <body>
@@ -359,13 +516,14 @@ img{max-width:100%}
   <div class="hero">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="hero-eyebrow">초등학생을 위한 대화 훈련</div>
-        <h1>나 전달법 배움터</h1>
-        <p>친구와 다툼 없이 내 마음을 전하는<br>방법을 배우고 게임으로 연습해요!</p>
+        <div class="hero-eyebrow">🌱 대화 배움터</div>
+        <h1>나 전달법<br>배움터</h1>
+        <p>친구와 사이좋게 지내는<br>말하기 방법을 배워봐요!</p>
       </div>
       <!-- 학년 선택 통합 -->
       <div class="hero-grade">
-        <div class="hero-grade-label">내 학년을 선택하세요</div>
+        <div class="hero-mascot" id="hero-mascot">🐥</div>
+        <div class="hero-grade-label">내 학년 선택</div>
         <div class="hero-grade-row">
           <button class="hero-chip" onclick="selectGrade('low')" id="grade-low">
             <span>🐣</span><span>저학년</span><small>1~2학년</small>
@@ -381,11 +539,20 @@ img{max-width:100%}
     </div>
   </div>
 
+  <!-- 마스코트 오늘의 한마디 -->
+  <div class="mascot-today" id="mascot-today">
+    <div class="mascot-today-char" id="mascot-today-char">🐥</div>
+    <div class="mascot-today-bubble">
+      <div class="mascot-today-label">오늘의 한마디 ✨</div>
+      <div class="mascot-today-text" id="quote-text">화가 나도 괜찮아. 그 기분을 말로 표현하는 게 용기야.</div>
+    </div>
+  </div>
+
   <!-- 메뉴 (최우선 배치) -->
-  <div class="home-section-label">무엇을 할까요?</div>
+  <div class="home-section-label">🎯 무엇을 할까요?</div>
   <div class="menu-grid">
     <div class="menu-card" onclick="showPage('learn')">
-      <div class="menu-card-icon" style="background:var(--mint-lt)">📖</div>
+      <div class="menu-card-icon menu-icon-learn">📖</div>
       <div class="menu-card-body">
         <h3>배우기</h3>
         <p>나 전달법이 뭔지 알아봐요</p>
@@ -393,28 +560,40 @@ img{max-width:100%}
       <span class="badge badge-mint">개념 학습</span>
     </div>
     <div class="menu-card" onclick="showPage('practice')">
-      <div class="menu-card-icon" style="background:var(--sun-lt)">✏️</div>
+      <div class="menu-card-icon menu-icon-practice">✏️</div>
       <div class="menu-card-body">
         <h3>연습하기</h3>
-        <p>상황별 나 전달법 직접 써보기</p>
+        <p>직접 써보고 점수 받기</p>
       </div>
       <span class="badge badge-sun">키워드 채점</span>
     </div>
     <div class="menu-card" onclick="showPage('apply')">
-      <div class="menu-card-icon" style="background:var(--sky-lt)">🎭</div>
+      <div class="menu-card-icon menu-icon-apply">🎭</div>
       <div class="menu-card-body">
         <h3>적용하기</h3>
-        <p>30가지 상황에서 실전 적용</p>
+        <p>30가지 상황 실전 도전!</p>
       </div>
       <span class="badge badge-sky">30가지 상황</span>
     </div>
     <div class="menu-card" onclick="showPage('game')">
-      <div class="menu-card-icon" style="background:var(--coral-lt)">🎮</div>
+      <div class="menu-card-icon menu-icon-game">🎮</div>
       <div class="menu-card-body">
         <h3>게임하기</h3>
-        <p>골든벨 퀴즈로 실력 겨루기</p>
+        <p>골든벨로 실력 겨루기</p>
       </div>
       <span class="badge badge-coral">랭킹 등록</span>
+    </div>
+  </div>
+
+  <!-- 출석 스트릭 -->
+  <div id="streak-area" style="display:none">
+    <div class="streak-card">
+      <div class="streak-fire">🔥</div>
+      <div class="streak-info">
+        <div class="streak-num" id="streak-num">0</div>
+        <div class="streak-label">일 연속 학습 중!</div>
+      </div>
+      <div class="streak-dots" id="streak-dots"></div>
     </div>
   </div>
 
@@ -425,24 +604,26 @@ img{max-width:100%}
     <div class="today-action">나 전달법으로 말해보기 →</div>
   </div>
 
-  <!-- 내 진도 (재방문자용) -->
-  <div class="progress-track" id="my-progress">
-    <h4>📊 내 연습 현황</h4>
-    <div class="prog-row">
-      <span class="prog-label">연습하기</span>
-      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-practice" style="width:0%"></div></div>
-      <span class="prog-count" id="prog-p-cnt">0/21</span>
+  <!-- 나무 성장 진도 -->
+  <div class="tree-progress" id="my-progress">
+    <div class="tree-visual mascot-float" id="tree-visual">🌱</div>
+    <div class="tree-info">
+      <div class="tree-title">🌳 내 나무가 자라고 있어요!</div>
+      <div class="tree-name" id="tree-name">씨앗</div>
+      <div class="tree-bar-bg"><div class="tree-bar-fill" id="tree-bar" style="width:0%"></div></div>
+      <div class="tree-next" id="tree-next">연습하기를 시작해봐요!</div>
     </div>
-    <div class="prog-row">
-      <span class="prog-label">적용하기</span>
-      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-apply" style="width:0%"></div></div>
-      <span class="prog-count" id="prog-a-cnt">0/30</span>
+  </div>
+  <!-- 상세 진도 (숨김 → 클릭 토글) -->
+  <div id="detail-progress" style="display:none">
+    <div class="progress-track" style="margin-bottom:16px">
+      <div class="prog-row"><span class="prog-label">연습하기</span><div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-practice" style="width:0%"></div></div><span class="prog-count" id="prog-p-cnt">0/21</span></div>
+      <div class="prog-row"><span class="prog-label">적용하기</span><div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-apply" style="width:0%"></div></div><span class="prog-count" id="prog-a-cnt">0/30</span></div>
+      <div class="prog-row"><span class="prog-label">게임 최고점</span><div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-game" style="width:0%"></div></div><span class="prog-count" id="prog-g-cnt">0점</span></div>
     </div>
-    <div class="prog-row">
-      <span class="prog-label">게임 최고점</span>
-      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-game" style="width:0%"></div></div>
-      <span class="prog-count" id="prog-g-cnt">0점</span>
-    </div>
+  </div>
+  <div style="text-align:center;margin-bottom:16px">
+    <button onclick="toggleDetailProgress()" style="font-size:.75rem;color:var(--ink-lt);background:none;border:none;cursor:pointer">📊 상세 현황 보기/숨기기</button>
   </div>
 
   <!-- 뱃지: 1개 이상 달성 시에만 표시 -->
@@ -452,11 +633,11 @@ img{max-width:100%}
   </div>
 
   <!-- 전국 랭킹 (하단) -->
-  <div class="home-section-label">🏆 전국 TOP 10</div>
+  <div class="home-section-label">🏆 전국 TOP 10 랭킹</div>
   <div class="ranking-board">
     <div class="ranking-title">
-      이번 주 반별 랭킹
-      <span id="rank-period" style="font-size:.75rem;opacity:.6;margin-left:auto">실시간</span>
+      🥇 이번 주 반별 랭킹
+      <span id="rank-period" style="font-size:.73rem;opacity:.65;margin-left:auto;font-weight:600">실시간</span>
     </div>
     <ul class="ranking-list" id="ranking-list">
       <li class="rank-loading">🔄 랭킹을 불러오는 중...</li>
@@ -480,134 +661,18 @@ img{max-width:100%}
     <button class="sec-back" onclick="showPage('home')">← 홈으로</button>
   </div>
 
+  <!-- 학년 탭 -->
   <div class="level-tabs">
-    <button class="level-tab active" onclick="switchLearnLevel('low',this)">🐣 저학년 (1~2)</button>
-    <button class="level-tab" onclick="switchLearnLevel('mid',this)">🐥 중학년 (3~4)</button>
-    <button class="level-tab" onclick="switchLearnLevel('high',this)">🐓 고학년 (5~6)</button>
+    <button class="level-tab active" id="ltab-low" onclick="switchLearnLevel('low',this)">🐣 저학년 (1~2)</button>
+    <button class="level-tab" id="ltab-mid" onclick="switchLearnLevel('mid',this)">🐥 중학년 (3~4)</button>
+    <button class="level-tab" id="ltab-high" onclick="switchLearnLevel('high',this)">🐓 고학년 (5~6)</button>
   </div>
 
-  <!-- 저학년 -->
-  <div id="learn-low" class="learn-content active">
-    <div class="card">
-      <div class="concept-box">
-        <h4>💬 나 전달법이 뭐예요?</h4>
-        <p>내 마음속 기분을 친구에게 솔직하게 말해주는 방법이에요.<br>
-        "너 때문이야!"라고 하면 친구가 속상하지만,<br>
-        "나는 이런 기분이야"라고 말하면 서로 사이좋게 지낼 수 있어요! 😊</p>
-      </div>
-      <div style="background:var(--coral-lt);border-radius:12px;padding:16px;margin-bottom:14px">
-        <div style="font-weight:700;color:var(--coral);margin-bottom:8px">❌ 이렇게 말하면 싸움이 나요</div>
-        <div style="font-size:.9rem;line-height:1.7">"<span class="you-msg">너 때문에</span> 줄 서기 망했잖아!"<br>"<span class="you-msg">너는 왜</span> 항상 내 걸 빼앗아?"</div>
-      </div>
-      <div style="background:var(--mint-lt);border-radius:12px;padding:16px">
-        <div style="font-weight:700;color:var(--mint-dk);margin-bottom:8px">✅ 이렇게 말하면 사이좋게 지내요</div>
-        <div style="font-size:.9rem;line-height:1.7">"<span class="i-msg">나는</span> 속상했어. 같이 줄 서줬으면 좋겠어."<br>"<span class="i-msg">나는</span> 허락 없이 가져가면 슬퍼. 빌릴 때 물어봐줘."</div>
-      </div>
-    </div>
-    <div class="card">
-      <div style="font-weight:700;font-size:1rem;margin-bottom:14px">📝 이렇게 3가지로 말해봐요</div>
-      <ul class="step-list">
-        <li class="step-item"><div class="step-num">1</div><div class="step-text"><h5>🎬 어떤 일이 있었나요?</h5><p>친구가 무엇을 했는지 말해요<br><em style="color:var(--ink-lt)">"네가 내 앞으로 끼어들었을 때"</em></p></div></li>
-        <li class="step-item"><div class="step-num">2</div><div class="step-text"><h5>💜 내 기분은 어때요?</h5><p>내가 어떤 기분인지 솔직하게 말해요<br><em style="color:var(--ink-lt)">"나는 억울하고 속상해"</em></p></div></li>
-        <li class="step-item"><div class="step-num">3</div><div class="step-text"><h5>🌟 어떻게 해줬으면 해요?</h5><p>바라는 것을 부탁해요<br><em style="color:var(--ink-lt)">"줄은 뒤에서 서줬으면 해"</em></p></div></li>
-      </ul>
-    </div>
-    <!-- 플래시카드 -->
-    <div id="fc-low" class="card">
-      <div style="font-weight:700;margin-bottom:12px">🃏 카드 뒤집기 연습</div>
-      <div class="flashcard-wrap">
-        <div class="flashcard" id="fc-card-low" onclick="flipCard('low')">
-          <div class="flashcard-face flashcard-front"><h4 id="fc-front-low">카드를 눌러보세요!</h4></div>
-          <div class="flashcard-face flashcard-back"><h4>나 전달법으로 바꾸면</h4><p id="fc-back-low"></p></div>
-        </div>
-      </div>
-      <div class="flashcard-nav">
-        <button class="fc-btn" onclick="prevCard('low')">◀ 이전</button>
-        <span class="fc-counter" id="fc-counter-low">1 / 5</span>
-        <button class="fc-btn" onclick="nextCard('low')">다음 ▶</button>
-      </div>
-    </div>
-  </div>
+  <!-- 학습 단계 진행 바 -->
+  <div class="learn-progress" id="learn-progress-bar"></div>
 
-  <!-- 중학년 -->
-  <div id="learn-mid" class="learn-content">
-    <div class="card">
-      <div class="concept-box">
-        <h4>💬 나 전달법(I-Message)이란?</h4>
-        <p>상대방을 비난하지 않고, <strong>내가 느끼는 감정과 바라는 것</strong>을 솔직하게 전달하는 대화 방법이에요.<br>
-        "너 전달법"은 상대방을 비난해서 갈등을 키우지만, "나 전달법"은 내 마음을 전해 문제를 해결할 수 있어요.</p>
-      </div>
-      <table class="compare-table">
-        <tr><th>상황</th><th>❌ 너 전달법</th><th>✅ 나 전달법</th></tr>
-        <tr><td>새치기</td><td class="you-msg">"너는 왜 항상 새치기야?"</td><td class="i-msg">"새치기 당하면 억울한 기분이 들어."</td></tr>
-        <tr><td>물건 사용</td><td class="you-msg">"내 물건 왜 마음대로 써?"</td><td class="i-msg">"허락 없이 쓰면 속상해. 물어봐줘."</td></tr>
-        <tr><td>모둠활동</td><td class="you-msg">"너 때문에 우리 점수 낮잖아!"</td><td class="i-msg">"내가 혼자 하는 것 같아서 힘들어."</td></tr>
-      </table>
-    </div>
-    <div class="card">
-      <div style="font-weight:700;font-size:1rem;margin-bottom:14px">📋 나 전달법 3단계</div>
-      <ul class="step-list">
-        <li class="step-item"><div class="step-num">1</div><div class="step-text"><h5>행동 묘사</h5><p>문제가 되는 상황을 비난 없이 설명해요<br><em style="color:var(--ink-lt)">"네가 말도 없이 내 지우개를 가져갔을 때"</em></p></div></li>
-        <li class="step-item"><div class="step-num">2</div><div class="step-text"><h5>감정 표현</h5><p>그때 내가 느낀 감정을 정확하게 말해요<br><em style="color:var(--ink-lt)">"나는 당황스럽고 억울한 기분이 들었어"</em></p></div></li>
-        <li class="step-item"><div class="step-num">3</div><div class="step-text"><h5>바라는 점</h5><p>앞으로 어떻게 해줬으면 하는지 부탁해요<br><em style="color:var(--ink-lt)">"다음에는 먼저 물어봐 줬으면 좋겠어"</em></p></div></li>
-      </ul>
-    </div>
-    <div class="card">
-      <div style="font-weight:700;margin-bottom:12px">🃏 플래시카드 연습</div>
-      <div class="flashcard-wrap">
-        <div class="flashcard" id="fc-card-mid" onclick="flipCard('mid')">
-          <div class="flashcard-face flashcard-front"><h4 id="fc-front-mid">카드를 눌러보세요!</h4></div>
-          <div class="flashcard-face flashcard-back"><h4>나 전달법</h4><p id="fc-back-mid"></p></div>
-        </div>
-      </div>
-      <div class="flashcard-nav">
-        <button class="fc-btn" onclick="prevCard('mid')">◀ 이전</button>
-        <span class="fc-counter" id="fc-counter-mid">1 / 5</span>
-        <button class="fc-btn" onclick="nextCard('mid')">다음 ▶</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 고학년 -->
-  <div id="learn-high" class="learn-content">
-    <div class="card">
-      <div class="concept-box">
-        <h4>💬 나 전달법(I-Message) — 토마스 고든의 대화법</h4>
-        <p>심리학자 토마스 고든이 제안한 비폭력 대화 기술로, 갈등 상황에서 상대방을 <strong>비난하거나 평가하지 않고</strong> 자신의 감정과 욕구를 솔직하게 전달하는 방법입니다. 초등 도덕 5학년 2단원 「감정, 내 안에 있는 친구」에서도 다루고 있어요.</p>
-      </div>
-      <table class="compare-table">
-        <tr><th>구분</th><th>너 전달법 (You-Message)</th><th>나 전달법 (I-Message)</th></tr>
-        <tr><td>특징</td><td>상대방 비난·평가·공격</td><td>자신의 감정·필요 표현</td></tr>
-        <tr><td>효과</td><td>방어적 반응 → 갈등 심화</td><td>공감·이해 → 관계 회복</td></tr>
-        <tr><td>예시</td><td class="you-msg">"넌 왜 항상 그래? 이기적이야"</td><td class="i-msg">"그렇게 하면 소외된 느낌이 들어서 힘들어"</td></tr>
-      </table>
-    </div>
-    <div class="card">
-      <div style="font-weight:700;font-size:1rem;margin-bottom:14px">📋 나 전달법 3요소 (고든의 모델)</div>
-      <ul class="step-list">
-        <li class="step-item"><div class="step-num">1</div><div class="step-text"><h5>관찰한 사실 (행동 묘사)</h5><p>평가나 판단 없이 구체적인 행동만 서술<br><em style="color:var(--ink-lt)">"네가 모둠회의에서 내 의견을 무시하고 넘어갔을 때"</em></p></div></li>
-        <li class="step-item"><div class="step-num">2</div><div class="step-text"><h5>느낀 감정</h5><p>솔직하게 자신의 감정을 표현 — 강한 단어보다 구체적인 표현이 효과적<br><em style="color:var(--ink-lt)">"나는 당황스럽고 무시당한 것 같아서 속상했어"</em></p></div></li>
-        <li class="step-item"><div class="step-num">3</div><div class="step-text"><h5>바라는 점 (욕구)</h5><p>왜 그 감정이 드는지, 어떻게 해줬으면 하는지 설명<br><em style="color:var(--ink-lt)">"내 의견도 한 번쯤 들어봐줬으면 해"</em></p></div></li>
-      </ul>
-      <div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:12px;font-size:.87rem;line-height:1.7">
-        <strong>완성 예시:</strong> "네가 내 의견을 무시하고 넘어갔을 때, 나는 무시당한 것 같아서 속상했어. 내 의견도 한 번 들어봐줬으면 해."
-      </div>
-    </div>
-    <div class="card">
-      <div style="font-weight:700;margin-bottom:12px">🃏 플래시카드 연습</div>
-      <div class="flashcard-wrap">
-        <div class="flashcard" id="fc-card-high" onclick="flipCard('high')">
-          <div class="flashcard-face flashcard-front"><h4 id="fc-front-high">카드를 눌러보세요!</h4></div>
-          <div class="flashcard-face flashcard-back"><h4>나 전달법 예시</h4><p id="fc-back-high"></p></div>
-        </div>
-      </div>
-      <div class="flashcard-nav">
-        <button class="fc-btn" onclick="prevCard('high')">◀ 이전</button>
-        <span class="fc-counter" id="fc-counter-high">1 / 5</span>
-        <button class="fc-btn" onclick="nextCard('high')">다음 ▶</button>
-      </div>
-    </div>
-  </div>
+  <!-- 각 학년 콘텐츠 컨테이너 -->
+  <div id="learn-container"></div>
 </div>
 
 <!-- ======================== PRACTICE PAGE ======================== -->
@@ -1249,7 +1314,11 @@ function showPage(name, pushState=true) {
     if(window._loadRanking) window._loadRanking();
     updateProgress();
     initTodaySituation();
+    initStreak();
+    initTreeProgress();
+    initQuote();
   }
+  if(name==='learn') { syncLearnTab(); renderLearn(); }
   if(name==='practice') { syncPracticeTab(); renderPractice(); }
   if(name==='apply') renderApply();
   if(name==='game') renderGameIntro();
@@ -1293,7 +1362,14 @@ function selectGrade(g) {
   document.querySelectorAll('.grade-chip, .hero-chip').forEach(c=>c.classList.remove('selected'));
   document.getElementById('grade-'+g)?.classList.add('selected');
   practiceLevel = g;  // 연습하기 학년 자동 연동
-  showToast({ low:'🐣 저학년으로 설정됐어요!', mid:'🐥 중학년으로 설정됐어요!', high:'🐓 고학년으로 설정됐어요!'}[g]);
+  // 마스코트 동기화
+  const mascotMap = { low:'🐣', mid:'🐥', high:'🦉' };
+  const m = mascotMap[g];
+  ['hero-mascot','mascot-today-char'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) { el.textContent = m; el.style.transform='scale(1.3)'; setTimeout(()=>el.style.transform='',400); }
+  });
+  showToast({ low:'🐣 저학년으로 설정됐어요!', mid:'🐥 중학년으로 설정됐어요!', high:'🦉 고학년으로 설정됐어요!'}[g]);
 }
 
 /* =====================================================
@@ -1315,47 +1391,443 @@ function renderRanking(list) {
 /* =====================================================
    배우기 — 플래시카드
 ===================================================== */
+/* =====================================================
+   배우기 — 학습 데이터
+===================================================== */
+const LEARN_DATA = {
+  low: {
+    steps: ['개념', '비교', '3단계', '감정 단어', '연습'],
+    slides: [
+      /* 슬라이드 0: 개념 */
+      { type:'concept',
+        emoji:'💬', title:'나 전달법이 뭐예요?',
+        desc:'친구에게 내 마음을 솔직하게 전하는 방법이에요.<br>상대를 탓하지 않고 <strong>내 기분</strong>을 말하면 싸움이 줄어요!',
+        tip:'핵심: <strong>"너"</strong> 대신 <strong>"나"</strong>를 주어로 말해요.'
+      },
+      /* 슬라이드 1: 비교 */
+      { type:'compare',
+        title:'이렇게 달라요!',
+        rows:[
+          { situation:'새치기 당했을 때',
+            you:'너는 왜 항상 새치기야?',
+            me:'네가 앞으로 끼어들면 억울하고 속상해.' },
+          { situation:'물건 빌려갔을 때',
+            you:'왜 내 물건 마음대로 가져가?',
+            me:'허락 없이 가져가면 속상해. 물어봐줘.' },
+          { situation:'나만 빼고 놀 때',
+            you:'너네 진짜 나쁘다!',
+            me:'나만 빠지면 슬퍼. 같이 놀고 싶어.' }
+        ]
+      },
+      /* 슬라이드 2: 3단계 */
+      { type:'steps',
+        title:'이렇게 3가지로 말해봐요',
+        steps:[
+          { num:'1', icon:'🎬', title:'어떤 일이 있었나요?',
+            desc:'친구가 무엇을 했는지 말해요',
+            ex:'"네가 내 앞으로 끼어들었을 때"' },
+          { num:'2', icon:'💜', title:'내 기분은 어때요?',
+            desc:'솔직하게 내 감정을 말해요',
+            ex:'"나는 억울하고 속상해"' },
+          { num:'3', icon:'🌟', title:'어떻게 해줬으면 해요?',
+            desc:'바라는 것을 부탁해요',
+            ex:'"줄 뒤에 서줬으면 해"' }
+        ]
+      },
+      /* 슬라이드 3: 감정 단어 */
+      { type:'emotions',
+        title:'감정을 나타내는 말들이에요',
+        desc:'내 기분을 말할 때 이 단어들을 써봐요!',
+        groups:[
+          { label:'😢 슬플 때', type:'sad', words:['슬퍼','외로워','서운해','울고 싶어','섭섭해'] },
+          { label:'😠 화날 때', type:'angry', words:['억울해','속상해','화가 나','짜증 나','불공평해'] },
+          { label:'😨 무서울 때', type:'scared', words:['무서워','불안해','걱정돼','두려워'] },
+          { label:'🥺 상처받을 때', type:'hurt', words:['상처받았어','창피해','부끄러워','당황했어'] }
+        ]
+      },
+      /* 슬라이드 4: 연습 퀴즈 */
+      { type:'quiz',
+        title:'직접 나 전달법으로 바꿔봐요',
+        cards: null  // FC_DATA.low 사용
+      }
+    ]
+  },
+  mid: {
+    steps: ['개념', '비교', '3단계', '감정 단어', '연습'],
+    slides: [
+      { type:'concept',
+        emoji:'💬', title:'나 전달법(I-Message)이란?',
+        desc:'상대방을 비난하지 않고, <strong>내가 느끼는 감정과 바라는 것</strong>을 솔직하게 전달하는 대화 방법이에요.<br>"너 전달법"은 갈등을 키우지만, "나 전달법"은 문제를 해결해요.',
+        tip:'핵심: 상대의 행동을 판단하지 말고, <strong>내 감정</strong>을 중심으로 말해요.'
+      },
+      { type:'compare',
+        title:'너 전달법 vs 나 전달법',
+        rows:[
+          { situation:'모둠활동 무임승차',
+            you:'"너 때문에 우리 점수 낮잖아!"',
+            me:'"내가 혼자 하는 것 같아서 힘들어."' },
+          { situation:'발표 중 장난',
+            you:'"야, 왜 자꾸 방해해?"',
+            me:'"발표할 때 장난치면 집중하기 어렵고 당황스러워."' },
+          { situation:'이름 별명으로 부를 때',
+            you:'"왜 이상한 별명으로 불러?"',
+            me:'"그 별명으로 불리면 기분이 나쁘고 상처받아."' }
+        ]
+      },
+      { type:'steps',
+        title:'나 전달법 3단계',
+        steps:[
+          { num:'1', icon:'📌', title:'행동 묘사',
+            desc:'문제 상황을 비난 없이 설명해요',
+            ex:'"네가 말도 없이 내 지우개를 가져갔을 때"' },
+          { num:'2', icon:'💙', title:'감정 표현',
+            desc:'그때 내가 느낀 감정을 정확하게 말해요',
+            ex:'"나는 당황스럽고 억울한 기분이 들었어"' },
+          { num:'3', icon:'✨', title:'바라는 점',
+            desc:'앞으로 어떻게 해줬으면 하는지 부탁해요',
+            ex:'"다음에는 먼저 물어봐 줬으면 해"' }
+        ]
+      },
+      { type:'emotions',
+        title:'감정 표현을 풍부하게 해봐요',
+        desc:'같은 감정도 더 구체적으로 표현하면 상대가 더 잘 이해해요.',
+        groups:[
+          { label:'😢 슬픔 계열', type:'sad', words:['슬퍼','외로워','서운해','섭섭해','소외된 기분이야','허전해'] },
+          { label:'😤 억울함 계열', type:'angry', words:['억울해','속상해','불공평해','화가 나','짜증스러워','답답해'] },
+          { label:'😟 불편함 계열', type:'scared', words:['불편해','당황스러워','걱정돼','불안해','두려워'] },
+          { label:'🥺 상처 계열', type:'hurt', words:['상처받았어','배신당한 기분이야','무시당한 것 같아','창피해','자존심이 상해'] }
+        ]
+      },
+      { type:'quiz', title:'나 전달법으로 바꿔봐요', cards: null }
+    ]
+  },
+  high: {
+    steps: ['개념·이론', '너↔나 비교', '3요소 심화', '감정 어휘', '실전 연습'],
+    slides: [
+      { type:'concept',
+        emoji:'🧠', title:'나 전달법 — 토마스 고든의 이론',
+        desc:'심리학자 토마스 고든이 제안한 비폭력 대화(NVC) 기술로, 갈등 상황에서 상대를 <strong>비난·평가하지 않고</strong> 자신의 감정과 욕구를 전달합니다. 초등 도덕 5학년 2단원에서도 다루는 내용이에요.',
+        tip:'너 전달법: 방어적 반응 → 갈등 심화 / 나 전달법: 공감·이해 → 관계 회복'
+      },
+      { type:'compare',
+        title:'구조적 차이를 파악해봐요',
+        rows:[
+          { situation:'단톡방 험담',
+            you:'"넌 정말 배신자야. 왜 그런 짓을 해?"',
+            me:'"단톡방에서 그 글을 봤을 때 배신당한 기분이었어. 직접 말해줬으면 해."' },
+          { situation:'의견 무시',
+            you:'"넌 왜 항상 자기 의견만 내세워?"',
+            me:'"내 의견이 무시당하는 것 같아 소외된 기분이야. 번갈아 이야기했으면 해."' },
+          { situation:'발표 준비 혼자',
+            you:'"너 때문에 발표 망했잖아!"',
+            me:'"혼자 준비하게 됐을 때 지치고 불공평하다는 생각이 들었어."' }
+        ]
+      },
+      { type:'steps',
+        title:'나 전달법 3요소 (고든 모델)',
+        steps:[
+          { num:'1', icon:'🔍', title:'관찰한 사실 (행동 묘사)',
+            desc:'평가나 판단 없이 <strong>구체적 행동만</strong> 서술',
+            ex:'"네가 모둠회의에서 내 의견을 무시하고 넘어갔을 때"' },
+          { num:'2', icon:'💜', title:'느낀 감정',
+            desc:'솔직하게 자신의 감정 표현 — 강한 단어보다 <strong>구체적 표현</strong>이 효과적',
+            ex:'"나는 당황스럽고 무시당한 것 같아서 속상했어"' },
+          { num:'3', icon:'🎯', title:'바라는 점 (욕구)',
+            desc:'왜 그 감정이 드는지, <strong>어떻게 해줬으면 하는지</strong> 설명',
+            ex:'"내 의견도 한 번쯤 들어봐줬으면 해"' }
+        ],
+        example:'"네가 내 의견을 무시하고 넘어갔을 때, 나는 무시당한 것 같아서 속상했어. 내 의견도 한 번 들어봐줬으면 해."'
+      },
+      { type:'emotions',
+        title:'감정 어휘를 풍부하게',
+        desc:'정확한 감정 표현일수록 상대방이 공감하기 쉬워요. 상황에 맞는 단어를 골라봐요.',
+        groups:[
+          { label:'소외·거절감', type:'sad', words:['소외된 기분이야','배제된 것 같아','외로워','허전해','서운해'] },
+          { label:'억울·불공평', type:'angry', words:['억울해','불공평해','답답해','화가 나','속상해','지쳐'] },
+          { label:'배신·상처', type:'hurt', words:['배신당한 기분이야','무시당한 것 같아','상처받았어','자존심이 상해','실망했어'] },
+          { label:'불안·당황', type:'scared', words:['당황스러워','불안해','두려워','걱정돼','긴장돼'] }
+        ]
+      },
+      { type:'quiz', title:'나 전달법으로 변환 연습', cards: null }
+    ]
+  }
+};
+
+/* =====================================================
+   배우기 — 상태
+===================================================== */
+let learnLevel    = 'mid';
+let learnSlideIdx = 0;
+let learnQuizIdx  = 0;
+let learnQuizAnswered = false;
+
+/* ─ 학년 탭 전환 ─ */
 function switchLearnLevel(level, el) {
+  learnLevel    = level;
+  learnSlideIdx = 0;
+  learnQuizIdx  = 0;
   document.querySelectorAll('.level-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  document.querySelectorAll('.learn-content').forEach(c=>c.classList.remove('active'));
-  document.getElementById('learn-'+level).classList.add('active');
-  initFlashcard(level);
+  renderLearn();
 }
 
-function initFlashcard(level) {
-  fcIndex[level] = 0;
-  renderFlashcard(level);
+/* ─ 메인 렌더 ─ */
+function renderLearn() {
+  const data  = LEARN_DATA[learnLevel];
+  const slide = data.slides[learnSlideIdx];
+  const total = data.slides.length;
+
+  // 진행 바
+  const pb = document.getElementById('learn-progress-bar');
+  if(pb) {
+    pb.innerHTML = data.steps.map((s,i) => {
+      const cls = i < learnSlideIdx ? 'done' : i === learnSlideIdx ? 'active' : '';
+      const line = i < data.steps.length-1
+        ? `<div class="learn-step-line${i < learnSlideIdx?' done':''}"></div>` : '';
+      return `<div class="learn-step-dot ${cls}" onclick="jumpLearnSlide(${i})" title="${s}">${i+1}</div>${line}`;
+    }).join('');
+  }
+
+  // 슬라이드 렌더
+  const container = document.getElementById('learn-container');
+  if(!container) return;
+
+  // 마스코트 말풍선
+  const mascots = { low:'🐣', mid:'🐥', high:'🦉' };
+  const mascotMsgs = {
+    low:   ['안녕! 나랑 같이 배워봐요! 😊','잘 하고 있어요! 파이팅!','거의 다 왔어요! 조금만 더!','감정 단어를 알면 말하기 쉬워져요!','직접 써봐요! 틀려도 괜찮아요!'],
+    mid:   ['나 전달법은 갈등을 줄여줘요!','비교해보면 차이가 보여요!','3단계만 기억하면 돼요!','감정을 정확히 말할수록 더 잘 통해요!','연습이 실력이에요! 도전해봐요!'],
+    high:  ['토마스 고든의 지혜를 배워봐요!','구조적 차이를 파악해봐요!','3요소를 완벽하게 익혀봐요!','풍부한 어휘가 공감을 높여줘요!','실전 연습으로 마무리해봐요!']
+  };
+  const mIdx = Math.min(learnSlideIdx, mascotMsgs[learnLevel].length-1);
+  const mascotHtml = `
+    <div class="mascot-wrap">
+      <span class="mascot-float" style="font-size:2.2rem">${mascots[learnLevel]}</span>
+    </div>
+    <div class="mascot-bubble">
+      <span class="mascot-char">${mascots[learnLevel]}</span>
+      <span class="mascot-text">${mascotMsgs[learnLevel][mIdx]}</span>
+    </div>`;
+
+  let html = mascotHtml;
+
+  if(slide.type === 'concept') {
+    html = `
+      <div class="card">
+        <div class="concept-hero">
+          <div class="big-emoji">${slide.emoji}</div>
+          <h3>${slide.title}</h3>
+          <p>${slide.desc}</p>
+        </div>
+        <div style="background:var(--sun-lt);border-radius:10px;padding:12px 16px;font-size:.85rem;color:#7A5A00;line-height:1.6">
+          💡 ${slide.tip}
+        </div>
+      </div>`;
+  }
+
+  else if(slide.type === 'compare') {
+    const rows = slide.rows.map(r=>`
+      <div style="margin-bottom:14px">
+        <div class="compare-situation">📌 ${r.situation}</div>
+        <div class="compare-row">
+          <div class="compare-card you">
+            <div class="compare-card-label">❌ 너 전달법</div>
+            <div class="compare-card-text">${r.you}</div>
+          </div>
+          <div class="compare-card me">
+            <div class="compare-card-label">✅ 나 전달법</div>
+            <div class="compare-card-text">${r.me}</div>
+          </div>
+        </div>
+      </div>`).join('');
+    html = `<div class="card"><div style="font-weight:700;font-size:1rem;margin-bottom:14px">${slide.title}</div>${rows}</div>`;
+  }
+
+  else if(slide.type === 'steps') {
+    const steps = slide.steps.map(s=>`
+      <li class="step-item">
+        <div class="step-num">${s.num}</div>
+        <div class="step-text">
+          <h5>${s.icon} ${s.title}</h5>
+          <p>${s.desc}<br><em style="color:var(--ink-lt)">${s.ex}</em></p>
+        </div>
+      </li>`).join('');
+    const example = slide.example
+      ? `<div style="background:var(--bg);border-radius:10px;padding:14px;margin-top:14px;font-size:.87rem;line-height:1.7"><strong>완성 예시:</strong> ${slide.example}</div>`
+      : '';
+    html = `<div class="card"><div style="font-weight:700;font-size:1rem;margin-bottom:14px">${slide.title}</div><ul class="step-list">${steps}</ul>${example}</div>`;
+  }
+
+  else if(slide.type === 'emotions') {
+    const groups = slide.groups.map(g=>`
+      <div style="margin-bottom:12px">
+        <div style="font-size:.78rem;font-weight:700;color:var(--ink-md);margin-bottom:6px">${g.label}</div>
+        <div class="emotion-grid">${g.words.map(w=>`<span class="emotion-chip type-${g.type}">${w}</span>`).join('')}</div>
+      </div>`).join('');
+    html = `<div class="card">
+      <div style="font-weight:700;font-size:1rem;margin-bottom:6px">${slide.title}</div>
+      <div style="font-size:.82rem;color:var(--ink-md);margin-bottom:14px">${slide.desc}</div>
+      ${groups}
+      <div style="background:var(--mint-lt);border-radius:8px;padding:10px 14px;font-size:.82rem;color:var(--mint-dk);margin-top:4px">
+        💡 단어를 눌러보면서 내 감정을 찾아봐요!
+      </div>
+    </div>`;
+  }
+
+  else if(slide.type === 'quiz') {
+    html = renderLearnQuiz();
+  }
+
+  // 이전/다음 버튼
+  const isLast = learnSlideIdx === total - 1;
+  html += `
+    <div style="display:flex;gap:10px;margin-top:16px">
+      ${learnSlideIdx > 0
+        ? `<button class="btn-secondary" style="flex:1" onclick="learnNav(-1)">◀ 이전</button>` : ''}
+      ${!isLast
+        ? `<button class="btn-primary" style="flex:2;justify-content:center" onclick="learnNav(1)">다음 단계 ▶</button>`
+        : `<button class="btn-primary" style="flex:2;justify-content:center;background:linear-gradient(135deg,var(--mint-dk),var(--sky))" onclick="learnComplete()">✅ 학습 완료! 연습하러 가기</button>`}
+    </div>`;
+
+  container.innerHTML = html;
+
+  // 퀴즈 슬라이드면 첫 문제 세팅
+  if(slide.type === 'quiz') initLearnQuiz();
 }
 
-function renderFlashcard(level) {
-  const data = FC_DATA[level];
-  const idx = fcIndex[level];
-  const card = document.getElementById('fc-card-'+level);
-  if(card) card.classList.remove('flipped');
-  const f = document.getElementById('fc-front-'+level);
-  const b = document.getElementById('fc-back-'+level);
-  const c = document.getElementById('fc-counter-'+level);
-  if(f) f.textContent = data[idx].q;
-  if(b) b.textContent = data[idx].a;
-  if(c) c.textContent = `${idx+1} / ${data.length}`;
+/* ─ 슬라이드 이동 ─ */
+function learnNav(dir) {
+  const total = LEARN_DATA[learnLevel].slides.length;
+  learnSlideIdx = Math.max(0, Math.min(total-1, learnSlideIdx+dir));
+  learnQuizIdx  = 0;
+  learnQuizAnswered = false;
+  renderLearn();
+  window.scrollTo(0,100);
+}
+function jumpLearnSlide(idx) {
+  learnSlideIdx = idx;
+  learnQuizIdx  = 0;
+  learnQuizAnswered = false;
+  renderLearn();
+  window.scrollTo(0,100);
 }
 
-function flipCard(level) {
-  document.getElementById('fc-card-'+level)?.classList.toggle('flipped');
+/* ─ 학습 완료 ─ */
+function learnComplete() {
+  localStorage.setItem('imsg_learn_done','1');
+  checkNewBadge();
+  updateProgress();
+  showToast('🎉 배우기 완료! 이제 연습해봐요!', 2500);
+  setTimeout(()=>{ showPage('practice'); }, 800);
 }
 
-function nextCard(level) {
-  const data = FC_DATA[level];
-  fcIndex[level] = (fcIndex[level]+1) % data.length;
-  renderFlashcard(level);
+/* ─ 퀴즈 렌더 ─ */
+function renderLearnQuiz() {
+  const cards = FC_DATA[learnLevel];
+  const item  = cards[learnQuizIdx];
+  return `
+    <div class="fc-quiz-wrap">
+      <div style="display:flex;justify-content:space-between;padding:12px 18px;background:var(--bg);border-bottom:1px solid var(--border)">
+        <span style="font-size:.82rem;font-weight:700;color:var(--ink-md)">${FC_DATA[learnLevel].length}개 문장 변환 연습</span>
+        <span class="fc-counter">${learnQuizIdx+1} / ${FC_DATA[learnLevel].length}</span>
+      </div>
+      <div class="fc-quiz-situation">
+        <div class="fc-quiz-situation-label">❌ 너 전달법</div>
+        <div id="fq-situation">${item.q}</div>
+      </div>
+      <div class="fc-quiz-input-area">
+        <div style="font-size:.82rem;font-weight:600;color:var(--ink-md);margin-bottom:8px">✏️ 나 전달법으로 바꿔봐요</div>
+        <textarea class="fc-quiz-input" id="fq-input" rows="2"
+          placeholder="나는 ____ 해. ____해줬으면 해."
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();checkLearnQuiz()}"></textarea>
+        <div class="fc-quiz-btn-row">
+          <button class="btn-primary" style="font-size:.85rem;padding:10px 18px" onclick="checkLearnQuiz()">확인하기 ✅</button>
+          <button class="btn-secondary" style="font-size:.85rem;padding:10px 14px" onclick="showLearnModel()">답 보기</button>
+        </div>
+      </div>
+      <div class="fc-reveal" id="fq-reveal"></div>
+      <div class="fc-nav-row">
+        <button class="fc-btn" onclick="learnQuizNav(-1)" ${learnQuizIdx===0?'disabled style="opacity:.4"':''}>◀ 이전</button>
+        <div style="display:flex;gap:4px">${FC_DATA[learnLevel].map((_,i)=>`
+          <div style="width:8px;height:8px;border-radius:50%;background:${i===learnQuizIdx?'var(--mint-dk)':'var(--border)'}"></div>`).join('')}</div>
+        <button class="fc-btn" onclick="learnQuizNav(1)" ${learnQuizIdx===FC_DATA[learnLevel].length-1?'disabled style="opacity:.4"':''}>다음 ▶</button>
+      </div>
+    </div>`;
 }
 
-function prevCard(level) {
-  const data = FC_DATA[level];
-  fcIndex[level] = (fcIndex[level]-1+data.length) % data.length;
-  renderFlashcard(level);
+function initLearnQuiz() {
+  // 퀴즈 렌더 후 input 포커스
+  setTimeout(()=>document.getElementById('fq-input')?.focus(), 100);
 }
+
+function checkLearnQuiz() {
+  const item   = FC_DATA[learnLevel][learnQuizIdx];
+  const answer = document.getElementById('fq-input')?.value.trim() || '';
+  if(!answer) { showToast('나 전달법으로 바꿔서 입력해봐요!'); return; }
+
+  const result  = scoreAnswer(answer, { keywords:{
+    action: item.a.split(' ').slice(0,3),
+    feel:   ['속상','억울','슬프','당황','외로','힘들','상처','불편','서운','배신','소외','창피','지쳐'],
+    want:   ['줘','주세요','해줘','했으면','않았으면','말아줘','바라','원해']
+  }, badWords:['때문에','왜 그래','나쁜','이기적'], model:item.a });
+
+  const reveal = document.getElementById('fq-reveal');
+  if(!reveal) return;
+
+  const feedColor = result.score>=70 ? 'var(--mint-dk)' : result.score>=40 ? 'var(--sun)' : 'var(--coral)';
+  reveal.className = 'fc-reveal show';
+  reveal.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <span style="font-size:1.2rem">${result.emoji}</span>
+      <span style="font-weight:700;font-size:.92rem;color:${feedColor}">${result.title}</span>
+      <span style="margin-left:auto;font-weight:800;color:${feedColor}">${result.score}점</span>
+    </div>
+    ${result.tips.length ? `<div style="font-size:.82rem;color:var(--ink-md);line-height:1.6;margin-bottom:10px">${result.tips.slice(0,2).join('<br>')}</div>` : ''}
+    <div class="fc-reveal-model">
+      <div class="fc-reveal-label">✅ 모범 답안</div>
+      ${item.a}
+    </div>`;
+  learnQuizAnswered = true;
+}
+
+function showLearnModel() {
+  const item   = FC_DATA[learnLevel][learnQuizIdx];
+  const reveal = document.getElementById('fq-reveal');
+  if(!reveal) return;
+  reveal.className = 'fc-reveal show';
+  reveal.innerHTML = `
+    <div class="fc-reveal-model">
+      <div class="fc-reveal-label">✅ 모범 답안</div>
+      ${item.a}
+    </div>`;
+}
+
+function learnQuizNav(dir) {
+  const max = FC_DATA[learnLevel].length - 1;
+  learnQuizIdx = Math.max(0, Math.min(max, learnQuizIdx+dir));
+  learnQuizAnswered = false;
+  // 퀴즈 부분만 교체
+  const container = document.getElementById('learn-container');
+  if(!container) return;
+  const quizWrap = container.querySelector('.fc-quiz-wrap');
+  if(quizWrap) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = renderLearnQuiz();
+    quizWrap.replaceWith(tmp.firstElementChild);
+    initLearnQuiz();
+  }
+}
+
+window.learnNav         = learnNav;
+window.jumpLearnSlide   = jumpLearnSlide;
+window.learnComplete    = learnComplete;
+window.checkLearnQuiz   = checkLearnQuiz;
+window.showLearnModel   = showLearnModel;
+window.learnQuizNav     = learnQuizNav;
+// 하위 호환 (기존 HTML에 남아있을 수 있는 onclick)
+window.flipCard  = ()=>{};
+window.nextCard  = ()=>{};
+window.prevCard  = ()=>{};
 
 /* =====================================================
    연습하기
@@ -1374,6 +1846,15 @@ function switchPracticeLevel(level, el) {
   document.querySelectorAll('#page-practice .level-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   renderPractice();
+}
+
+/* ─ 배우기 학년 탭 동기화 ─ */
+function syncLearnTab() {
+  learnLevel = currentGrade || 'mid';
+  learnSlideIdx = 0;
+  learnQuizIdx  = 0;
+  document.querySelectorAll('#page-learn .level-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('ltab-'+learnLevel)?.classList.add('active');
 }
 
 /* ─ 현재 학년 탭 동기화 ─ */
@@ -1430,6 +1911,7 @@ function renderPractice() {
       </div>
 
       <!-- 자유 문장 입력 -->
+      <div id="mood-picker-${item.id}"></div>
       <div class="input-group">
         <div class="input-label" style="font-size:.88rem;margin-bottom:8px">
           ✏️ 나 전달법 문장을 써보세요
@@ -1466,6 +1948,8 @@ function renderPractice() {
 
   // 이미 제출한 문제라면 결과 복원
   if(practiceDone[item.id]) restoreFeedback(item.id);
+  // 감정 선택기 초기화
+  renderMoodPicker('mood-picker-'+item.id, 'p-answer-'+item.id);
 }
 
 /* ─ 이전/다음 이동 ─ */
@@ -1591,6 +2075,10 @@ function submitPractice(id) {
     <div class="model-answer" style="margin-top:12px">
       <div class="model-label">✅ 모범 답안</div>
       ${item.model}
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+      <div id="stars-${id}" class="star-row"></div>
+      <button class="share-btn" onclick="shareAnswer(document.getElementById('p-answer-${id}')?.value||'')">📤 공유</button>
     </div>`;
 
   fb.className = `feedback-box show ${gradeClass}`;
@@ -1602,6 +2090,11 @@ function submitPractice(id) {
 
   // 캐시 저장
   _practiceCache[id] = { html, cls:`feedback-box show ${gradeClass}` };
+  // 별점 렌더 + 파티클
+  setTimeout(()=>{
+    renderStars(result.score, 'stars-'+id);
+    if(result.score >= 80) launchParticles(result.score===100?'gold':'normal');
+  }, 200);
 
   // 진도: 최초 1회만 카운트 (80점 이상)
   if(!practiceDone[id]) {
@@ -1782,6 +2275,10 @@ function submitApply(gIdx) {
     </div>` : ''}
     <div class="model-answer" style="margin-top:12px">
       <div class="model-label">✅ 모범 답안</div>${item.model}
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+      <div id="astars-${gIdx}" class="star-row"></div>
+      <button class="share-btn" onclick="shareAnswer(document.getElementById('apply-answer-${gIdx}')?.value||'')">📤 공유</button>
     </div>`;
 
   fb.className = `feedback-box show ${gradeClass}`;
@@ -1792,6 +2289,10 @@ function submitApply(gIdx) {
 
   // 캐시 저장
   applyCache[gIdx] = { html, cls:`feedback-box show ${gradeClass}` };
+  setTimeout(()=>{
+    renderStars(result.score, 'astars-'+gIdx);
+    if(result.score >= 80) launchParticles(result.score===100?'gold':'normal');
+  }, 200);
 
   // 진도: 최초 1회 + 80점 이상만 카운트
   if(!applyDone[gIdx]) {
@@ -1937,7 +2438,7 @@ function startTimer() {
     if(timeEl()) timeEl().textContent = gameState.timeLeft;
     if(bar()) {
       bar().style.width = (gameState.timeLeft/30*100)+'%';
-      if(gameState.timeLeft<=10) bar().classList.add('danger');
+      if(gameState.timeLeft<=10) { bar().classList.add('danger'); bar().classList.add('timer-pulse'); }
     }
     if(gameState.timeLeft<=0) { clearInterval(gameTimer); if(!gameState.answered) timeUp(); }
   }, 1000);
@@ -1974,7 +2475,9 @@ function answerGame(idx) {
     gameState.combo++;
     gameState.maxCombo = Math.max(gameState.maxCombo, gameState.combo);
     document.getElementById('g-score').textContent = gameState.score;
-    document.getElementById('g-combo').textContent = gameState.combo;
+    const comboEl = document.getElementById('g-combo');
+    if(comboEl) { comboEl.textContent = gameState.combo; comboEl.classList.remove('combo-animate'); void comboEl.offsetWidth; comboEl.classList.add('combo-animate'); }
+    showScoreFly(pts, window.innerWidth/2, window.innerHeight*0.4);
     showToast(`🎉 정답! +${pts}점${comboBonus>0?' (콤보 보너스!)':''}`);
   } else {
     gameState.combo = 0;
@@ -2015,6 +2518,7 @@ function endGame() {
   clearInterval(gameTimer);
   const score = gameState.score;
   pendingScore = score;
+  setTimeout(()=>launchParticles(score>=800?'gold':'normal'), 300);
   const best = parseInt(localStorage.getItem('imsg_best')||0);
   if(score > best) localStorage.setItem('imsg_best', score);
   const prevCombo = parseInt(localStorage.getItem('imsg_max_combo')||0);
@@ -2366,12 +2870,281 @@ function checkFirebaseSetup() {
   // 스크립트 내 config 확인은 못하므로 에러 핸들링으로 처리됨
 }
 
+/* =====================================================
+   🌟 명언 카드
+===================================================== */
+const QUOTES = [
+  { emoji:'🌱', text:'화가 나도 괜찮아. 그 기분을 말로 표현하는 게 용기야.' },
+  { emoji:'💬', text:'"나는 속상해"라고 말하는 게 싸우는 것보다 훨씬 용감해.' },
+  { emoji:'💜', text:'내 마음을 솔직하게 말할 때 친구와 더 가까워질 수 있어.' },
+  { emoji:'🌈', text:'감정은 좋고 나쁜 게 없어. 느끼는 대로 말해봐!' },
+  { emoji:'⭐', text:'바라는 것을 부드럽게 말하면 친구도 기꺼이 도와줄 거야.' },
+  { emoji:'🤝', text:'나 전달법은 싸움을 줄이는 마법 같은 말하기야.' },
+  { emoji:'🦋', text:'한 번 연습하면 다음에는 더 쉬워져. 오늘도 파이팅!' },
+  { emoji:'🌻', text:'내 기분을 말할 수 있는 사람은 이미 대화의 달인이야.' },
+  { emoji:'🎯', text:'비난 없이 말하면 상대방도 마음을 열어.' },
+  { emoji:'💡', text:'"너 때문에" 대신 "나는~"으로 시작해봐. 대화가 달라져!' },
+];
+
+function initQuote() {
+  const today = new Date();
+  const idx = (today.getFullYear()*12 + today.getMonth()*31 + today.getDate()) % QUOTES.length;
+  const q = QUOTES[idx];
+  // 마스코트 말풍선 업데이트
+  const tt = document.getElementById('quote-text');
+  if(tt) tt.textContent = q.text;
+  // 마스코트 캐릭터 학년별 동기화
+  const mascots = { low:'🐣', mid:'🐥', high:'🦉' };
+  const m = mascots[currentGrade] || '🐥';
+  const mc = document.getElementById('mascot-today-char');
+  if(mc) mc.textContent = m;
+  const hm = document.getElementById('hero-mascot');
+  if(hm) hm.textContent = m;
+}
+
+/* =====================================================
+   🔥 출석 스트릭
+===================================================== */
+function initStreak() {
+  const today  = new Date().toISOString().slice(0,10);
+  const streak = JSON.parse(localStorage.getItem('imsg_streak') || '{"days":[],"last":""}');
+  const days   = streak.days || [];
+
+  // 오늘 방문 기록
+  if(!days.includes(today)) {
+    days.push(today);
+    // 최근 30일만 유지
+    const sorted = days.sort().slice(-30);
+    localStorage.setItem('imsg_streak', JSON.stringify({ days: sorted, last: today }));
+  }
+
+  // 연속일 계산
+  const sortedDays = [...new Set(days)].sort().reverse();
+  let count = 0;
+  let checkDate = new Date();
+  for(let i=0; i<sortedDays.length; i++) {
+    const d = checkDate.toISOString().slice(0,10);
+    if(sortedDays[i] === d) { count++; checkDate.setDate(checkDate.getDate()-1); }
+    else if(i===0) break;
+    else break;
+  }
+
+  const area = document.getElementById('streak-area');
+  if(area && count >= 1) {
+    area.style.display = 'block';
+    const numEl = document.getElementById('streak-num');
+    if(numEl) numEl.textContent = count;
+
+    // 요일 도트 (이번주 월~일)
+    const dots = document.getElementById('streak-dots');
+    if(dots) {
+      const dayNames = ['월','화','수','목','금','토','일'];
+      const now = new Date();
+      const dow = (now.getDay()+6)%7; // 월=0
+      dots.innerHTML = dayNames.slice(0,7).map((d,i) => {
+        const dt = new Date(now);
+        dt.setDate(now.getDate() - dow + i);
+        const ds = dt.toISOString().slice(0,10);
+        const done = days.includes(ds);
+        return `<div class="streak-dot ${done?'done':''}">${done?'✓':d}</div>`;
+      }).join('');
+    }
+  }
+}
+
+/* =====================================================
+   🌳 나무 성장 진도
+===================================================== */
+const TREE_STAGES = [
+  { min:0,  max:5,  emoji:'🌱', name:'씨앗',    next:'연습을 시작해봐요!' },
+  { min:5,  max:15, emoji:'🌿', name:'새싹',    next:'조금 더 연습하면 나무가 자라요!' },
+  { min:15, max:30, emoji:'🌳', name:'작은 나무', next:'적용하기도 도전해봐요!' },
+  { min:30, max:45, emoji:'🎄', name:'큰 나무',  next:'게임에서 높은 점수를 노려봐요!' },
+  { min:45, max:51, emoji:'✨🌟✨', name:'빛나는 나무', next:'모든 과제를 완료했어요! 대단해요!' },
+];
+
+function initTreeProgress() {
+  const stats   = getStats();
+  const total   = stats.practiceCount + stats.applyCount + (stats.bestScore >= 300 ? 6 : 0);
+  const stage   = TREE_STAGES.find(s => total < s.max) || TREE_STAGES[TREE_STAGES.length-1];
+  const pct     = Math.min(100, Math.round(((total - stage.min) / (stage.max - stage.min)) * 100));
+
+  const vis  = document.getElementById('tree-visual');
+  const name = document.getElementById('tree-name');
+  const bar  = document.getElementById('tree-bar');
+  const next = document.getElementById('tree-next');
+  if(vis)  vis.textContent  = stage.emoji;
+  if(name) name.textContent = stage.name;
+  if(bar)  bar.style.width  = pct + '%';
+  if(next) next.textContent = stage.next;
+}
+
+function toggleDetailProgress() {
+  const el = document.getElementById('detail-progress');
+  if(el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+/* =====================================================
+   ⭐ 별점 채점
+===================================================== */
+function renderStars(score, containerId) {
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  const count = score >= 80 ? 3 : score >= 50 ? 2 : 1;
+  el.innerHTML = [1,2,3].map((i,idx) =>
+    `<span class="star${idx < count ? ' lit' : ''}" style="animation-delay:${idx*0.15}s">⭐</span>`
+  ).join('');
+}
+
+/* =====================================================
+   🎊 파티클 효과
+===================================================== */
+function launchParticles(type='normal') {
+  const canvas = document.createElement('canvas');
+  canvas.className = 'particle-canvas';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = type === 'gold'
+    ? ['#FFD700','#FFA500','#FF6B35','#FFEC3D']
+    : ['#4ECBA5','#5BA8D9','#F7C948','#F07060','#a78bfa'];
+
+  const particles = Array.from({length: type==='gold'?80:50}, () => ({
+    x: Math.random() * canvas.width,
+    y: -20,
+    vx: (Math.random()-0.5) * 4,
+    vy: Math.random() * 3 + 2,
+    size: Math.random() * 8 + 4,
+    color: colors[Math.floor(Math.random()*colors.length)],
+    rotation: Math.random()*360,
+    rotSpeed: (Math.random()-0.5)*10,
+    life: 1,
+    shape: Math.random() > 0.5 ? 'rect' : 'circle'
+  }));
+
+  let frame;
+  function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive = 0;
+    particles.forEach(p => {
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vy += 0.1;
+      p.rotation += p.rotSpeed;
+      p.life -= 0.012;
+      if(p.life <= 0) return;
+      alive++;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation * Math.PI/180);
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+      if(p.shape === 'rect') ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+      else { ctx.beginPath(); ctx.arc(0,0,p.size/2,0,Math.PI*2); ctx.fill(); }
+      ctx.restore();
+    });
+    if(alive > 0) frame = requestAnimationFrame(animate);
+    else { canvas.remove(); }
+  }
+  animate();
+  setTimeout(()=>{ cancelAnimationFrame(frame); canvas.remove(); }, 3000);
+}
+
+/* =====================================================
+   🏆 점수 팝업 (게임)
+===================================================== */
+function showScoreFly(pts, x, y) {
+  const el = document.createElement('div');
+  el.className = 'score-fly';
+  el.textContent = '+' + pts + '점!';
+  el.style.left = (x||window.innerWidth/2) + 'px';
+  el.style.top  = (y||window.innerHeight/2) + 'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 900);
+}
+
+/* =====================================================
+   😊 감정 색깔 선택
+===================================================== */
+const MOODS = [
+  { emoji:'😊', color:'#FEF08A', label:'기분 좋아' },
+  { emoji:'😢', color:'#BFDBFE', label:'슬퍼' },
+  { emoji:'😤', color:'#FECACA', label:'억울해' },
+  { emoji:'😨', color:'#DDD6FE', label:'무서워' },
+  { emoji:'😐', color:'#E5E7EB', label:'모르겠어' },
+];
+
+let currentMood = null;
+
+function renderMoodPicker(containerId, inputId) {
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = `
+    <div class="mood-label">💭 지금 내 기분은?</div>
+    <div class="mood-picker">
+      ${MOODS.map((m,i)=>`
+        <button class="mood-btn" onclick="selectMood(${i},'${inputId}')"
+          style="background:${m.color}" title="${m.label}" id="mood-btn-${containerId}-${i}">
+          ${m.emoji}
+        </button>`).join('')}
+    </div>`;
+}
+
+function selectMood(idx, inputId) {
+  currentMood = MOODS[idx];
+  const input = document.getElementById(inputId);
+  if(input) {
+    input.style.borderColor = currentMood.color;
+    input.style.background  = currentMood.color + '30';
+    input.placeholder = currentMood.label + ' 할 때... 나는';
+  }
+  document.querySelectorAll('.mood-btn').forEach((b,i) => {
+    b.classList.toggle('selected', i===idx);
+  });
+  showToast(currentMood.emoji + ' ' + currentMood.label + '! 그 마음을 나 전달법으로 써봐요.');
+}
+window.selectMood = selectMood;
+
+/* =====================================================
+   📤 공유 기능
+===================================================== */
+function shareAnswer(text) {
+  const msg = `💬 나 전달법 연습 결과\n\n"${text}"\n\n🌱 나 전달법 배움터에서 연습했어요!`;
+  if(navigator.share) {
+    navigator.share({ title:'나 전달법 배움터', text:msg }).catch(()=>{});
+  } else {
+    navigator.clipboard?.writeText(msg).then(()=>showToast('📋 클립보드에 복사됐어요!')).catch(()=>{});
+  }
+}
+window.shareAnswer = shareAnswer;
+
+/* =====================================================
+   updateProgress 확장 (나무 + 스트릭)
+===================================================== */
+// 기존 updateProgress 이후 호출
+const _origUpdateProgress = updateProgress;
+updateProgress = function() {
+  _origUpdateProgress();
+  initTreeProgress();
+};
+
 window.showPage = showPage;
-window.selectGrade = selectGrade;
+window.syncLearnTab = syncLearnTab;
+window.renderStars = renderStars;
+window.launchParticles = launchParticles;
+window.initStreak = initStreak;
+window.initQuote = initQuote;
+window.initTreeProgress = initTreeProgress;
+window.syncLearnTab = syncLearnTab;
+window.renderStars = renderStars;
+window.launchParticles = launchParticles;
+window.initStreak = initStreak;
+window.initQuote = initQuote;
+window.initTreeProgress = initTreeProgress;
 window.switchLearnLevel = switchLearnLevel;
-window.flipCard = flipCard;
-window.nextCard = nextCard;
-window.prevCard = prevCard;
+window.selectGrade = selectGrade;
 window.switchPracticeLevel = switchPracticeLevel;
 window.submitPractice = submitPractice;
 window.renderGameIntro = renderGameIntro;
@@ -2386,6 +3159,14 @@ document.getElementById('grade-'+currentGrade)?.classList.add('selected');
 initApplyCats();
 initTodaySituation();
 updateProgress();
+initStreak();
+initQuote();
+initTreeProgress();
+window.toggleDetailProgress = toggleDetailProgress;
+initStreak();
+initQuote();
+initTreeProgress();
+window.toggleDetailProgress = toggleDetailProgress;
 
 // 새로고침/직접 URL 접근 시 hash 페이지 복원
 (function() {
