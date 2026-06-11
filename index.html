@@ -379,6 +379,32 @@ img{max-width:100%}
   .nav-btn{padding:5px 5px}
 }
 
+/* ===== 씨앗 레벨 2지선다 큰 버튼 ===== */
+.quiz-options-2{display:flex;flex-direction:column;gap:14px}
+.quiz-option-big{padding:18px 16px;border-radius:14px;border:2.5px solid var(--border);background:var(--card);text-align:left;font-size:.95rem;font-weight:700;line-height:1.5;color:var(--ink);transition:all .2s;min-height:60px}
+.quiz-option-big:hover:not(:disabled){border-color:var(--sky);background:var(--sky-lt);transform:scale(1.02)}
+.quiz-option-big.correct{border-color:var(--mint-dk)!important;background:var(--mint-lt)!important}
+.quiz-option-big.wrong{border-color:var(--coral)!important;background:var(--coral-lt)!important}
+
+/* ===== 랭킹 레벨 탭 ===== */
+.rank-level-tabs{display:flex;gap:6px;margin-bottom:14px}
+.rank-tab{flex:1;padding:8px 6px;border-radius:10px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s}
+.rank-tab:hover{background:rgba(255,255,255,.2)}
+.rank-tab.active{background:rgba(255,255,255,.25);border-color:#fff;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+
+/* ===== 씨앗 레벨 2지선다 큰 버튼 ===== */
+.quiz-options-2{display:flex;flex-direction:column;gap:14px}
+.quiz-option-big{padding:18px 16px;border-radius:14px;border:2.5px solid var(--border);background:var(--card);text-align:left;font-size:.95rem;font-weight:700;line-height:1.5;color:var(--ink);transition:all .2s;min-height:60px}
+.quiz-option-big:hover:not(:disabled){border-color:var(--sky);background:var(--sky-lt);transform:scale(1.02)}
+.quiz-option-big.correct{border-color:var(--mint-dk)!important;background:var(--mint-lt)!important}
+.quiz-option-big.wrong{border-color:var(--coral)!important;background:var(--coral-lt)!important}
+
+/* ===== 랭킹 레벨 탭 ===== */
+.rank-level-tabs{display:flex;gap:6px;margin-bottom:14px}
+.rank-tab{flex:1;padding:8px 6px;border-radius:10px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s}
+.rank-tab:hover{background:rgba(255,255,255,.2)}
+.rank-tab.active{background:rgba(255,255,255,.25);border-color:#fff;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+
 /* ===== 마스코트 오늘의 한마디 ===== */
 .mascot-today{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:20px;padding:14px 18px;margin-bottom:18px;box-shadow:var(--shadow);border:2px solid var(--sun-lt)}
 .mascot-today-char{font-size:2.4rem;flex-shrink:0;animation:mascot-float 2.5s ease-in-out infinite}
@@ -639,9 +665,10 @@ img{max-width:100%}
   <!-- 전국 랭킹 (하단) -->
   <div class="home-section-label">🏆 전국 TOP 10 랭킹</div>
   <div class="ranking-board">
-    <div class="ranking-title">
-      🥇 이번 주 반별 랭킹
-      <span id="rank-period" style="font-size:.73rem;opacity:.65;margin-left:auto;font-weight:600">실시간</span>
+    <div class="rank-level-tabs">
+      <button class="rank-tab active" id="rtab-seed"   onclick="switchRankTab('seed',this)">🐣 씨앗</button>
+      <button class="rank-tab"        id="rtab-sprout" onclick="switchRankTab('sprout',this)">🐥 새싹</button>
+      <button class="rank-tab"        id="rtab-tree"   onclick="switchRankTab('tree',this)">🦉 열매</button>
     </div>
     <ul class="ranking-list" id="ranking-list">
       <li class="rank-loading">🔄 랭킹을 불러오는 중...</li>
@@ -649,18 +676,8 @@ img{max-width:100%}
   </div>
 
   <!-- 제작자 -->
-  <div style="text-align:center;padding:8px 0 20px;font-size:.72rem;color:var(--ink-lt);opacity:.55;letter-spacing:.3px">
-    © 2026 최창훈
-  </div>
-
-  <!-- 제작자 -->
-  <div style="text-align:center;padding:6px 0 18px;font-size:.7rem;color:var(--ink-lt);opacity:.45;letter-spacing:.4px">
+  <div style="text-align:center;padding:6px 0 20px;font-size:.7rem;color:var(--ink-lt);opacity:.45;letter-spacing:.4px">
     만든이 · 2026 최창훈
-  </div>
-
-  <!-- 제작자 -->
-  <div style="text-align:center;padding:6px 0 18px;font-size:.7rem;color:var(--ink-lt);opacity:.45;letter-spacing:.4px">
-    만든이 &middot; 2026 최창훈
   </div>
 
   <!-- Firebase 설정 안내 -->
@@ -801,18 +818,23 @@ window._db = db;
 window._fbModules = { collection, addDoc, getDocs, query, orderBy, limit, where, Timestamp };
 
 // 랭킹 불러오기
-async function loadRanking() {
+async function loadRanking(level) {
+  const lv = level || currentRankLevel || 'seed';
   try {
-    const { query: q, collection: col, getDocs: gd, orderBy: ob, limit: lim } = window._fbModules;
+    const { query: q, collection: col, getDocs: gd, orderBy: ob, limit: lim, where: wh } = window._fbModules;
     const rankRef = col(db, 'rankings');
-    const qs = q(rankRef, ob('score','desc'), lim(10));
+    const qs = q(rankRef, wh('level','==',lv), ob('score','desc'), lim(10));
     const snap = await gd(qs);
     const list = [];
     snap.forEach(doc => list.push(doc.data()));
     renderRanking(list);
   } catch(e) {
-    // Firebase 미설정 시 데모 데이터
-    renderRanking(DEMO_RANKINGS);
+    // Firebase 미설정 시 데모 데이터 (레벨별 필터)
+    const demo = DEMO_RANKINGS.filter((_,i)=>
+      lv==='seed'   ? i<3 :
+      lv==='sprout' ? (i>=2&&i<6) : i>=4
+    );
+    renderRanking(demo.length ? demo : DEMO_RANKINGS.slice(0,5));
   }
 }
 
@@ -1136,161 +1158,194 @@ const SITUATIONS_30 = [
          'order'   → 순서 맞추기
          'convert' → 너→나 전달법 변환
 ===================================================== */
-const QUIZ_DATA = [
+/* =====================================================
+   게임 레벨별 퀴즈 데이터
+   level: 'seed'(씨앗 1~2학년) | 'sprout'(새싹 3~4학년) | 'tree'(열매 5~6학년)
+===================================================== */
 
-  /* ── 유형1: 올바른 나 전달법 고르기 ── */
-  {
-    type:'choose',
-    situation:'줄을 서고 있는데 친구가 내 앞으로 새치기했어요.',
-    q:'다음 중 나 전달법에 가장 가까운 것은?',
+/* ── 🐣 씨앗 레벨 (1~2학년): 2지선다, 짧은 문장, 45초 ── */
+const QUIZ_SEED = [
+  { type:'choose2', situation:'친구가 내 앞으로 새치기했어요.',
+    q:'나 전달법은 어느 것일까요?',
+    options:['야! 왜 새치기야!', '나는 억울해. 줄 뒤에 서줘.'],
+    answer:1, explain:'내 기분을 말하는 게 나 전달법이에요!' },
+  { type:'choose2', situation:'친구가 내 지우개를 말없이 가져갔어요.',
+    q:'나 전달법을 골라봐요!',
+    options:['허락 없이 가져가면 속상해. 물어봐줘.', '왜 내 거 가져가?'],
+    answer:0, explain:'속상한 내 기분을 말하고 부탁하는 게 맞아요!' },
+  { type:'choose2', situation:'친구들이 나만 빼고 놀고 있어요.',
+    q:'나 전달법은 어느 것일까요?',
+    options:['나만 빠지면 슬퍼. 같이 놀고 싶어.', '너네 진짜 나빠!'],
+    answer:0, explain:'슬픈 마음을 솔직하게 말하는 게 나 전달법이에요!' },
+  { type:'choose2', situation:'친구가 내 그림을 못 그린다고 했어요.',
+    q:'나 전달법을 골라봐요!',
+    options:['너도 못 그리잖아!', '그 말 들으면 속상해. 놀리지 말아줘.'],
+    answer:1, explain:'상처받은 마음을 말하고 부탁해봐요!' },
+  { type:'choose2', situation:'친구가 내 차례인데 먼저 해버렸어요.',
+    q:'나 전달법은 어느 것일까요?',
+    options:['내 차례인데 먼저 하면 억울해. 차례를 지켜줘.', '왜 내 차례를 빼앗아!'],
+    answer:0, explain:'억울한 기분을 말하고 부탁하는 게 나 전달법이에요!' },
+  { type:'choose2', situation:'친구가 내 별명을 이상하게 불러요.',
+    q:'나 전달법을 골라봐요!',
+    options:['그 별명으로 부르면 기분 나빠. 바른 이름으로 불러줘.', '야! 그렇게 부르지 마!'],
+    answer:0, explain:'기분이 나쁘다고 솔직하게 말하는 게 나 전달법이에요!' },
+  { type:'choose2', situation:'친구가 청소를 안 하고 있어요.',
+    q:'나 전달법을 골라봐요!',
+    options:['게으른 거 아니야?', '혼자 청소하면 힘들어. 같이 해줘.'],
+    answer:1, explain:'힘든 내 마음을 말하고 부탁해봐요!' },
+  { type:'choose2', situation:'친구가 내 물건을 망가뜨렸어요.',
+    q:'나 전달법을 골라봐요!',
+    options:['너 때문에 망가졌잖아!', '물건이 망가지니 속상해. 조심해줘.'],
+    answer:1, explain:'속상한 마음을 솔직하게 말하는 게 나 전달법이에요!' },
+];
+
+/* ── 🐥 새싹 레벨 (3~4학년): 4지선다, 빈칸+고르기, 35초 ── */
+const QUIZ_SPROUT = [
+  { type:'choose', situation:'줄을 서고 있는데 친구가 내 앞으로 새치기했어요.',
+    q:'나 전달법에 가장 가까운 것은?',
     options:[
       '네가 새치기하면 안 된다는 거 알잖아. 왜 자꾸 그러는 거야?',
       '네가 내 앞으로 끼어들면 억울하고 속상해. 줄 뒤에서 서줬으면 해.',
       '새치기했을 때 나는 기분이 좀 안 좋았어. 다음엔 조심해.',
       '새치기는 규칙 위반이야. 나는 규칙을 지켜야 한다고 생각해.'
-    ],
-    answer:1,
-    explain:'\'비난 없는 행동 묘사 + 구체적 감정 + 명확한 바라는 점\' 세 요소가 모두 있어야 해요.'
-  },
-  {
-    type:'choose',
-    situation:'친구가 말도 없이 내 색연필을 가져다 써요.',
-    q:'나 전달법으로 가장 알맞게 표현한 것은?',
+    ], answer:1, explain:"'행동 묘사 + 내 감정 + 바라는 점' 세 가지가 모두 있어야 해요." },
+  { type:'choose', situation:'친구가 말도 없이 내 색연필을 가져다 써요.',
+    q:'나 전달법으로 가장 알맞은 것은?',
     options:[
       '허락 없이 가져가면 당황스럽고 속상해. 빌릴 때는 먼저 물어봐줘.',
       '내 물건을 허락 없이 쓰면 짜증 나. 앞으로는 그러지 마.',
       '내 색연필이 없어서 나는 수업을 못 했어. 네가 가져간 거잖아.',
       '빌릴 거면 빌린다고 말해야지. 나는 그게 예의라고 생각해.'
-    ],
-    answer:0,
-    explain:'\'당황스럽고 속상해\'처럼 구체적인 감정 표현과 \'먼저 물어봐줘\'처럼 부드러운 바라는 점이 핵심이에요.'
-  },
-  {
-    type:'choose',
-    situation:'모둠활동에서 한 친구가 계속 아무것도 안 하고 있어요.',
+    ], answer:0, explain:"'당황스럽고 속상해'라는 감정과 '먼저 물어봐줘'라는 부탁이 핵심이에요." },
+  { type:'choose', situation:'모둠활동에서 한 친구가 계속 아무것도 안 해요.',
     q:'가장 올바른 나 전달법은?',
     options:[
       '나만 열심히 하는 것 같아서 억울해. 너도 같이 해줬으면 해.',
       '모둠 활동인데 참여 안 하면 모두에게 피해야. 같이 해줘.',
       '혼자 다 하는 것 같아서 힘들고 지쳐. 역할을 나눠서 같이 하면 좋겠어.',
       '네가 안 하면 나도 하기 싫어져. 분위기를 망치지 말아줘.'
-    ],
-    answer:2,
-    explain:'\'혼자 하는 것 같아 힘들다\'는 감정 표현이 상대를 비난하지 않으면서 내 상황을 솔직하게 전달해요.'
-  },
+    ], answer:2, explain:"'혼자 힘들다'는 감정을 비난 없이 전달하는 게 핵심이에요." },
+  { type:'blank', situation:'친구가 발표 중에 장난을 쳐서 집중이 안 됐어요.',
+    q:'빈칸에 들어갈 말은?\n\n[ 네가 장난쳤을 때, 나는 ___①___. 발표할 때는 ___②___. ]',
+    options:[
+      '① 화가 났어  /  ② 그러지 마',
+      '① 집중하기 어렵고 당황스러웠어  /  ② 조용히 들어줬으면 해',
+      '① 너무 짜증났어  /  ② 장난치지 말아야 해',
+      '① 기분이 좋지 않았어  /  ② 알아서 해줘'
+    ], answer:1, explain:"①은 구체적인 감정, ②는 강요 없는 부탁이어야 해요." },
+  { type:'blank', situation:'친구들이 나만 빼고 따로 모여서 이야기하고 있어요.',
+    q:'빈칸에 알맞은 말은?\n\n[ 너희끼리만 이야기할 때 나는 ___①___. 나도 ___②___. ]',
+    options:[
+      '① 소외되고 슬픈 기분이야  /  ② 함께했으면 해',
+      '① 정말 화가 나  /  ② 끼워줘야 하는 거 아냐',
+      '① 별로 안 좋아  /  ② 알아서 해',
+      '① 이해가 안 돼  /  ② 왜 그러는지 설명해줘'
+    ], answer:0, explain:"'소외되고 슬프다'는 감정과 '함께했으면 해'라는 바람이 핵심이에요." },
+  { type:'choose', situation:'친구가 내 이름 대신 이상한 별명으로 불러요.',
+    q:'나 전달법으로 알맞은 것은?',
+    options:[
+      '넌 왜 그런 별명으로 불러? 이상하게.',
+      '그 별명으로 불리면 기분이 나쁘고 상처받아. 바른 이름으로 불러줘.',
+      '에이, 신경 쓰지 마.',
+      '나도 네 별명 만들어 줄게!'
+    ], answer:1, explain:"감정(기분 나쁨)과 바라는 점(바른 이름)이 모두 있어야 해요." },
+  { type:'choose', situation:'청소 당번인데 친구가 아무것도 안 해요.',
+    q:'가장 좋은 나 전달법은?',
+    options:[
+      '혼자 청소하는 것 같아 힘들어. 같이 해줬으면 해.',
+      '왜 넌 항상 이래?',
+      '선생님한테 이를 거야.',
+      '내가 다 할게.'
+    ], answer:0, explain:"내 힘든 마음을 말하고 같이 해달라고 부탁하는 게 맞아요." },
+  { type:'choose', situation:'친구가 약속을 어겼어요.',
+    q:'나 전달법을 골라봐요.',
+    options:[
+      '넌 항상 약속을 안 지켜.',
+      '약속을 어기면 실망하고 속상해. 못 할 것 같으면 미리 말해줘.',
+      '됐어, 친구 안 해.',
+      '에이, 뭐.'
+    ], answer:1, explain:"실망한 감정과 미리 말해달라는 부탁이 나 전달법이에요." },
+];
 
-  /* ── 유형2: 빈칸 채우기 ── */
-  {
-    type:'blank',
-    situation:'친구가 발표 중에 장난을 쳐서 집중이 안 됐어요.',
+/* ── 🦉 열매 레벨 (5~6학년): 5유형 전부, 25초, 힌트 없음 ── */
+const QUIZ_TREE = [
+  { type:'choose', situation:'줄을 서고 있는데 친구가 내 앞으로 새치기했어요.',
+    q:'다음 중 나 전달법에 가장 가까운 것은?',
+    options:[
+      '네가 새치기하면 안 된다는 거 알잖아. 왜 자꾸 그러는 거야?',
+      '네가 내 앞으로 끼어들면 억울하고 속상해. 줄 뒤에서 서줬으면 해.',
+      '새치기했을 때 나는 기분이 좀 안 좋았어. 다음엔 조심해.',
+      '새치기는 규칙 위반이야. 나는 규칙을 지켜야 한다고 생각해.'
+    ], answer:1, explain:"'비난 없는 행동 묘사 + 구체적 감정 + 명확한 바라는 점' 세 요소가 모두 있어야 해요." },
+  { type:'choose', situation:'모둠활동에서 한 친구가 계속 아무것도 안 하고 있어요.',
+    q:'가장 올바른 나 전달법은?',
+    options:[
+      '나만 열심히 하는 것 같아서 억울해. 너도 같이 해줬으면 해.',
+      '모둠 활동인데 참여 안 하면 모두에게 피해야. 같이 해줘.',
+      '혼자 다 하는 것 같아서 힘들고 지쳐. 역할을 나눠서 같이 하면 좋겠어.',
+      '네가 안 하면 나도 하기 싫어져. 분위기를 망치지 말아줘.'
+    ], answer:2, explain:"'혼자 하는 것 같아 힘들다'는 감정 표현이 상대를 비난하지 않으면서 솔직하게 전달해요." },
+  { type:'blank', situation:'친구가 발표 중에 장난을 쳐서 집중이 안 됐어요.',
     q:'나 전달법 문장의 빈칸에 들어갈 말로 알맞은 것은?\n\n[ 네가 발표 중에 장난쳤을 때, 나는 ___①___. 발표할 때는 ___②___. ]',
     options:[
       '① 화가 났어  /  ② 그러지 마',
       '① 집중하기 어렵고 당황스러웠어  /  ② 조용히 들어줬으면 해',
       '① 너무 짜증났어  /  ② 장난치지 말아야 해',
       '① 기분이 좋지 않았어  /  ② 알아서 해줘'
-    ],
-    answer:1,
-    explain:'빈칸 ①은 구체적이고 차분한 감정 표현, ②는 강요 없이 부드럽게 부탁하는 표현이어야 해요.'
-  },
-  {
-    type:'blank',
-    situation:'친구들이 나만 빼고 따로 모여서 이야기하고 있어요.',
+    ], answer:1, explain:"빈칸 ①은 구체적이고 차분한 감정 표현, ②는 강요 없이 부드럽게 부탁하는 표현이어야 해요." },
+  { type:'blank', situation:'친구들이 나만 빼고 따로 모여서 이야기하고 있어요.',
     q:'빈칸에 알맞은 말을 골라 나 전달법 문장을 완성하세요.\n\n[ 너희끼리만 이야기할 때 나는 ___①___. 나도 ___②___. ]',
     options:[
       '① 소외되고 슬픈 기분이야  /  ② 함께했으면 해',
       '① 정말 화가 나  /  ② 끼워줘야 하는 거 아냐',
       '① 별로 안 좋아  /  ② 알아서 해',
       '① 이해가 안 돼  /  ② 왜 그러는지 설명해줘'
-    ],
-    answer:0,
-    explain:'\'소외되고 슬프다\'는 솔직한 감정 표현과 \'함께했으면 해\'라는 바라는 점이 나 전달법의 핵심이에요.'
-  },
-
-  /* ── 유형3: 잘못된 부분 찾기 ── */
-  {
-    type:'error',
-    situation:'친구가 내 비밀을 다른 친구에게 말했어요.',
-    q:'다음 문장에서 나 전달법답지 않은 부분은 어디일까요?\n\n[ 네가 내 비밀을 말했을 때 배신당한 기분이었어. 넌 정말 믿을 수가 없어. 앞으로는 비밀을 지켜줘. ]',
-    options:[
-      '배신당한 기분이었어',
-      '넌 정말 믿을 수가 없어',
-      '내 비밀을 말했을 때',
-      '비밀을 지켜줘'
-    ],
-    answer:1,
-    explain:'\'넌 믿을 수가 없어\'는 상대방을 평가·비난하는 너 전달법이에요. 나 전달법은 상대를 판단하지 않아요.'
-  },
-  {
-    type:'error',
-    situation:'친구가 약속 시간에 30분 늦게 왔어요.',
+    ], answer:0, explain:"'소외되고 슬프다'는 솔직한 감정 표현과 '함께했으면 해'라는 바라는 점이 핵심이에요." },
+  { type:'error', situation:'친구가 내 비밀을 다른 친구에게 말했어요.',
+    q:'다음 문장에서 나 전달법답지 않은 부분은?\n\n[ 네가 내 비밀을 말했을 때 배신당한 기분이었어. 넌 정말 믿을 수가 없어. 앞으로는 비밀을 지켜줘. ]',
+    options:['배신당한 기분이었어','넌 정말 믿을 수가 없어','내 비밀을 말했을 때','비밀을 지켜줘'],
+    answer:1, explain:"'넌 믿을 수가 없어'는 상대방을 평가·비난하는 너 전달법이에요." },
+  { type:'error', situation:'친구가 약속 시간에 30분 늦게 왔어요.',
     q:'다음 문장에서 나 전달법이 아닌 부분을 찾으세요.\n\n[ 네가 30분 늦게 왔을 때 걱정되고 지쳤어. 넌 항상 늦잖아. 다음엔 시간을 지켜줬으면 해. ]',
-    options:[
-      '30분 늦게 왔을 때',
-      '걱정되고 지쳤어',
-      '넌 항상 늦잖아',
-      '시간을 지켜줬으면 해'
-    ],
-    answer:2,
-    explain:'\'항상\'이라는 단어로 상대를 일반화·비난하는 건 너 전달법이에요. 이번 일만 구체적으로 말하는 게 좋아요.'
-  },
-
-  /* ── 유형4: 순서 맞추기 ── */
-  {
-    type:'order',
-    situation:'친구가 내 이름을 이상한 별명으로 불러요.',
-    q:'나 전달법의 3요소 (행동 → 감정 → 바라는 점) 순서로 올바르게 연결한 것은?',
+    options:['30분 늦게 왔을 때','걱정되고 지쳤어','넌 항상 늦잖아','시간을 지켜줬으면 해'],
+    answer:2, explain:"'항상'이라는 단어로 상대를 일반화·비난하는 건 너 전달법이에요." },
+  { type:'order', situation:'친구가 내 이름을 이상한 별명으로 불러요.',
+    q:'나 전달법 3요소 (행동 → 감정 → 바라는 점) 순서로 올바르게 연결한 것은?',
     options:[
       '바른 이름으로 불러줘 → 그 별명으로 불릴 때 → 기분이 나쁘고 상처받아',
       '그 별명으로 불릴 때 → 기분이 나쁘고 상처받아 → 바른 이름으로 불러줘',
       '기분이 나쁘고 상처받아 → 바른 이름으로 불러줘 → 그 별명으로 불릴 때',
       '그 별명으로 불릴 때 → 바른 이름으로 불러줘 → 기분이 나쁘고 상처받아'
-    ],
-    answer:1,
-    explain:'나 전달법은 ①행동 묘사 → ②내 감정 → ③바라는 점 순서로 말하면 가장 자연스럽고 효과적이에요.'
-  },
-  {
-    type:'order',
-    situation:'모둠 발표 준비를 나만 혼자 다 했어요.',
+    ], answer:1, explain:"나 전달법은 ①행동 묘사 → ②내 감정 → ③바라는 점 순서가 가장 효과적이에요." },
+  { type:'order', situation:'모둠 발표 준비를 나만 혼자 다 했어요.',
     q:'나 전달법 3단계를 올바른 순서로 나열한 것은?',
     options:[
       '역할을 나눠서 준비하면 좋겠어 → 나 혼자 준비하게 됐을 때 → 지치고 불공평하다는 생각이 들었어',
       '나 혼자 준비하게 됐을 때 → 역할을 나눠서 준비하면 좋겠어 → 지치고 불공평하다는 생각이 들었어',
       '나 혼자 준비하게 됐을 때 → 지치고 불공평하다는 생각이 들었어 → 역할을 나눠서 준비하면 좋겠어',
       '지치고 불공평하다는 생각이 들었어 → 나 혼자 준비하게 됐을 때 → 역할을 나눠서 준비하면 좋겠어'
-    ],
-    answer:2,
-    explain:'행동 → 감정 → 바라는 점 순서가 맞아요. 행동을 먼저 구체적으로 말한 다음 감정, 마지막으로 부탁해요.'
-  },
-
-  /* ── 유형5: 너→나 전달법 변환 ── */
-  {
-    type:'convert',
-    situation:'청소 당번인 친구가 아무것도 하지 않아요.',
+    ], answer:2, explain:"행동 → 감정 → 바라는 점 순서예요. 행동을 먼저 말하고 감정, 마지막으로 부탁해요." },
+  { type:'convert', situation:'청소 당번인 친구가 아무것도 하지 않아요.',
     q:'다음 너 전달법을 나 전달법으로 바르게 바꾼 것은?\n\n너 전달법: "넌 왜 맨날 청소 안 해? 진짜 게으르다."',
     options:[
       '청소를 안 하면 안 된다는 거 알지? 다음엔 꼭 해줘.',
       '혼자 청소하게 되면 힘들고 지쳐. 같이 해줬으면 해.',
       '나는 청소를 열심히 했는데 너는 안 했어. 그건 불공평한 거야.',
       '청소를 같이 해야 빨리 끝나잖아. 우리 같이 하는 게 좋지 않을까?'
-    ],
-    answer:1,
-    explain:'\'혼자 청소하게 되면 힘들고 지쳐\'처럼 내 감정을 솔직하게 표현하고, \'같이 해줬으면 해\'로 부드럽게 부탁하는 게 나 전달법이에요.'
-  },
-  {
-    type:'convert',
-    situation:'친구가 나를 다른 친구와 비교하며 못한다고 해요.',
+    ], answer:1, explain:"'힘들고 지쳐'라는 감정과 '같이 해줬으면 해'라는 부탁이 나 전달법이에요." },
+  { type:'convert', situation:'친구가 나를 다른 친구와 비교하며 못한다고 해요.',
     q:'너 전달법을 나 전달법으로 바르게 바꾼 것은?\n\n너 전달법: "넌 왜 걔보다 못해? 부끄럽지도 않냐."',
     options:[
       '비교당하면 자존심이 상하고 속상해. 비교하지 않았으면 해.',
       '나도 열심히 하고 있어. 비교하는 건 나쁜 거야.',
       '그런 말 들으면 기분 나빠. 조금만 생각하고 말해.',
       '비교하면 서로 상처받는 거 알지? 앞으로 조심해줘.'
-    ],
-    answer:0,
-    explain:'\'자존심이 상하고 속상해\'라는 구체적 감정과 \'비교하지 않았으면 해\'라는 명확한 바라는 점이 모두 들어 있어요.'
-  }
+    ], answer:0, explain:"'자존심이 상하고 속상해'라는 감정과 '비교하지 않았으면 해'라는 바라는 점이 모두 들어 있어요." },
 ];
+
+// 하위 호환용 (기존 코드에서 QUIZ_DATA 참조 시)
+const QUIZ_DATA = QUIZ_TREE;
+
 const DEMO_RANKINGS = [
   { school:"서울행복초", grade:"5", classNum:"2", name:"사랑반", score:980 },
   { school:"부산햇살초", grade:"4", classNum:"1", name:"희망반", score:960 },
@@ -2379,38 +2434,89 @@ window.jumpApply      = jumpApply;
 ===================================================== *//* =====================================================
    게임하기
 ===================================================== */
+/* =====================================================
+   게임 설정 (레벨별)
+===================================================== */
+const GAME_LEVELS = {
+  seed:   { label:'씨앗',  emoji:'🐣', qs:QUIZ_SEED,   count:5,  timer:45, grade:'low',  color:'#3ECA9A' },
+  sprout: { label:'새싹',  emoji:'🐥', qs:QUIZ_SPROUT, count:8,  timer:35, grade:'mid',  color:'#4BAEE8' },
+  tree:   { label:'열매',  emoji:'🦉', qs:QUIZ_TREE,   count:10, timer:25, grade:'high', color:'#A78BFA' },
+};
+
+// 학년 → 레벨 매핑
+const GRADE_TO_LEVEL = { low:'seed', mid:'sprout', high:'tree' };
+
+let gameLevel = 'sprout'; // 현재 선택된 레벨
+let currentRankLevel = 'seed'; // 현재 랭킹 탭
+
+/* ─ 레벨 매핑 초기화 ─ */
+function syncGameLevel() {
+  gameLevel = GRADE_TO_LEVEL[currentGrade] || 'sprout';
+}
+
+/* ─ 게임 인트로 ─ */
 function renderGameIntro() {
-  const best = localStorage.getItem('imsg_best') || 0;
+  syncGameLevel();
+  const lv   = GAME_LEVELS[gameLevel];
+  const best = parseInt(localStorage.getItem('imsg_best_'+gameLevel)||0);
   document.getElementById('game-container').innerHTML = `
     <div class="game-intro">
-      <div class="big-emoji">🎮</div>
-      <h2>나 전달법 골든벨!</h2>
-      <p>10문제 중 나 전달법을 올바르게 선택하세요.<br>빠를수록, 연속 정답일수록 더 높은 점수를 받아요!</p>
+      <div style="font-size:3.5rem;margin-bottom:8px">${lv.emoji}</div>
+      <h2>${lv.label} 레벨 골든벨!</h2>
+      <p style="margin-bottom:14px">${
+        gameLevel==='seed'
+          ? '나 전달법을 배우기 시작했어요! 2개 중 하나를 골라봐요 😊'
+          : gameLevel==='sprout'
+          ? '나 전달법을 더 잘 알아봐요! 4개 중 올바른 것을 골라요 💪'
+          : '나 전달법 실력을 겨뤄봐요! 5가지 유형에 도전! 🦉'
+      }</p>
       <div class="game-stats-row">
-        <div class="stat-chip"><div class="val">${QUIZ_DATA.length}</div><div class="lbl">문제 수</div></div>
-        <div class="stat-chip"><div class="val">30초</div><div class="lbl">문제당 시간</div></div>
+        <div class="stat-chip"><div class="val">${lv.count}</div><div class="lbl">문제 수</div></div>
+        <div class="stat-chip"><div class="val">${lv.timer}초</div><div class="lbl">문제당 시간</div></div>
         <div class="stat-chip"><div class="val">${best}</div><div class="lbl">내 최고점</div></div>
       </div>
-      <button class="btn-primary" onclick="startGame()" style="font-size:1rem;padding:16px 36px">
-        🚀 게임 시작!
+      <!-- 레벨 선택 -->
+      <div style="display:flex;gap:8px;margin:16px 0;justify-content:center">
+        ${Object.entries(GAME_LEVELS).map(([k,v])=>`
+          <button onclick="changeGameLevel('${k}')" style="
+            padding:8px 14px;border-radius:12px;border:2px solid ${k===gameLevel?v.color:'var(--border)'};
+            background:${k===gameLevel?v.color+'20':'var(--card)'};
+            color:${k===gameLevel?v.color:'var(--ink-md)'};
+            font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s">
+            ${v.emoji} ${v.label}
+          </button>`).join('')}
+      </div>
+      <button class="btn-primary" onclick="startGame()" style="font-size:1rem;padding:16px 36px;background:${lv.color};margin-top:4px">
+        🚀 시작하기!
       </button>
     </div>`;
 }
 
+function changeGameLevel(level) {
+  gameLevel = level;
+  renderGameIntro();
+}
+window.changeGameLevel = changeGameLevel;
+
+/* ─ 게임 시작 ─ */
 function startGame() {
+  const lv = GAME_LEVELS[gameLevel];
   gameState = {
-    questions: [...QUIZ_DATA].sort(()=>Math.random()-.5).slice(0,10),
-    current: 0,
-    score: 0,
-    combo: 0,
-    maxCombo: 0,
-    timeLeft: 30,
-    answered: false
+    level:     gameLevel,
+    questions: [...lv.qs].sort(()=>Math.random()-.5).slice(0, lv.count),
+    current:   0,
+    score:     0,
+    combo:     0,
+    maxCombo:  0,
+    timeLeft:  lv.timer,
+    maxTime:   lv.timer,
+    answered:  false
   };
   renderGameQuestion();
 }
 
 const QUIZ_TYPE_LABEL = {
+  choose2: { icon:'👀', text:'나 전달법 골라봐요' },
   choose:  { icon:'🔍', text:'올바른 나 전달법 고르기' },
   blank:   { icon:'✏️', text:'빈칸 채우기' },
   error:   { icon:'🔎', text:'잘못된 부분 찾기' },
@@ -2418,12 +2524,16 @@ const QUIZ_TYPE_LABEL = {
   convert: { icon:'🔄', text:'나 전달법으로 바꾸기' },
 };
 
+/* ─ 문제 렌더 ─ */
 function renderGameQuestion() {
   if(!gameState) return;
-  const q = gameState.questions[gameState.current];
+  const q        = gameState.questions[gameState.current];
+  const lv       = GAME_LEVELS[gameState.level];
   const typeInfo = QUIZ_TYPE_LABEL[q.type] || QUIZ_TYPE_LABEL.choose;
   const container = document.getElementById('game-container');
-    const questionHtml = q.q.split('\n').join('<br>');
+  const questionHtml = q.q.split('\n').join('<br>');
+  // 씨앗 레벨: 큰 버튼 2개 레이아웃
+  const isSeed = q.type === 'choose2';
   container.innerHTML = `
     <div class="game-stats-row">
       <div class="stat-chip"><div class="val">${gameState.current+1}/${gameState.questions.length}</div><div class="lbl">문제</div></div>
@@ -2434,83 +2544,92 @@ function renderGameQuestion() {
     <div class="timer-bar-wrap"><div class="timer-bar" id="g-timer-bar" style="width:100%"></div></div>
     <div class="quiz-card">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
-        <span style="font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--sky-lt);color:var(--sky)">${typeInfo.icon} ${typeInfo.text}</span>
+        <span style="font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px;background:${lv.color}20;color:${lv.color}">${lv.emoji} ${lv.label} · ${typeInfo.icon} ${typeInfo.text}</span>
         ${gameState.combo>=3?`<span class="combo-badge">${gameState.combo}콤보!</span>`:''}
       </div>
       <div class="quiz-situation">${q.situation}</div>
       <div class="quiz-question">${questionHtml}</div>
-      <div class="quiz-options" id="quiz-opts">
-        ${q.options.map((o,i)=>`<button class="quiz-option" onclick="answerGame(${i})" id="qopt-${i}">${o.split('\n').join('<br>')}</button>`).join('')}
+      <div class="quiz-options${isSeed?' quiz-options-2':''}" id="quiz-opts">
+        ${q.options.map((o,i)=>`<button class="quiz-option${isSeed?' quiz-option-big':''}" onclick="answerGame(${i})" id="qopt-${i}">${o.split('\n').join('<br>')}</button>`).join('')}
       </div>
     </div>`;
   startTimer();
 }
 
+/* ─ 타이머 ─ */
 function startTimer() {
   clearInterval(gameTimer);
-  gameState.timeLeft = 30;
   gameState.answered = false;
-  const bar = ()=>document.getElementById('g-timer-bar');
-  const timeEl = ()=>document.getElementById('g-time');
+  const maxT  = gameState.maxTime;
+  const bar   = ()=>document.getElementById('g-timer-bar');
+  const timeEl= ()=>document.getElementById('g-time');
   gameTimer = setInterval(()=>{
-    if(!gameState) { clearInterval(gameTimer); return; }
+    if(!gameState){ clearInterval(gameTimer); return; }
     gameState.timeLeft--;
     if(timeEl()) timeEl().textContent = gameState.timeLeft;
-    if(bar()) {
-      bar().style.width = (gameState.timeLeft/30*100)+'%';
-      if(gameState.timeLeft<=10) { bar().classList.add('danger'); bar().classList.add('timer-pulse'); }
+    if(bar()){
+      bar().style.width = (gameState.timeLeft/maxT*100)+'%';
+      const danger = gameState.timeLeft <= Math.min(10, Math.floor(maxT*0.3));
+      if(danger){ bar().classList.add('danger'); bar().classList.add('timer-pulse'); }
     }
-    if(gameState.timeLeft<=0) { clearInterval(gameTimer); if(!gameState.answered) timeUp(); }
-  }, 1000);
+    if(gameState.timeLeft<=0){ clearInterval(gameTimer); if(!gameState.answered) timeUp(); }
+  },1000);
 }
 
+/* ─ 정답 처리 ─ */
 function answerGame(idx) {
   if(gameState.answered) return;
   gameState.answered = true;
   clearInterval(gameTimer);
-  const q = gameState.questions[gameState.current];
+  const q       = gameState.questions[gameState.current];
   const correct = idx === q.answer;
+  const isSeed  = q.type === 'choose2';
+
   document.querySelectorAll('.quiz-option').forEach((btn,i)=>{
     btn.disabled = true;
     if(i===q.answer) btn.classList.add('correct');
     else if(i===idx && !correct) btn.classList.add('wrong');
   });
 
-  // 해설 박스 표시
+  // 해설 박스
   if(q.explain) {
-    const explainBox = document.createElement('div');
-    explainBox.style.cssText = 'margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.83rem;line-height:1.6;' +
+    const box = document.createElement('div');
+    box.style.cssText = 'margin-top:12px;padding:11px 14px;border-radius:10px;line-height:1.6;' +
+      `font-size:${isSeed?'.9rem':'.83rem'};` +
       (correct
         ? 'background:var(--mint-lt);border:1.5px solid var(--mint-dk);color:var(--mint-dk)'
         : 'background:var(--coral-lt);border:1.5px solid var(--coral);color:#8B1A0A');
-    explainBox.innerHTML = (correct?'✅ ':'❌ ') + '<strong>' + (correct?'정답!':'오답!') + '</strong> ' + q.explain;
-    document.getElementById('quiz-opts')?.after(explainBox);
+    box.innerHTML = (correct?'✅ ':'❌ ') + '<strong>'+(correct?'정답!':'오답!')+'</strong> ' + q.explain;
+    document.getElementById('quiz-opts')?.after(box);
   }
 
-  if(correct) {
-    const timeBonus = Math.floor(gameState.timeLeft * 3);
-    const comboBonus = gameState.combo >= 2 ? gameState.combo * 20 : 0;
-    const pts = 100 + timeBonus + comboBonus;
+  if(correct){
+    const timeBonus  = Math.floor(gameState.timeLeft * (isSeed?2:3));
+    const comboBonus = gameState.combo>=2 ? gameState.combo*20 : 0;
+    const pts        = (isSeed?80:100) + timeBonus + comboBonus;
     gameState.score += pts;
     gameState.combo++;
     gameState.maxCombo = Math.max(gameState.maxCombo, gameState.combo);
     document.getElementById('g-score').textContent = gameState.score;
-    const comboEl = document.getElementById('g-combo');
-    if(comboEl) { comboEl.textContent = gameState.combo; comboEl.classList.remove('combo-animate'); void comboEl.offsetWidth; comboEl.classList.add('combo-animate'); }
+    const ce = document.getElementById('g-combo');
+    if(ce){ ce.textContent=gameState.combo; ce.classList.remove('combo-animate'); void ce.offsetWidth; ce.classList.add('combo-animate'); }
     showScoreFly(pts, window.innerWidth/2, window.innerHeight*0.4);
     showToast(`🎉 정답! +${pts}점${comboBonus>0?' (콤보 보너스!)':''}`);
   } else {
     gameState.combo = 0;
-    document.getElementById('g-combo').textContent = 0;
+    const ce = document.getElementById('g-combo');
+    if(ce) ce.textContent = 0;
     showToast('😅 오답! 해설을 확인해보세요.');
   }
+  const delay = isSeed ? 3000 : 2400;
   setTimeout(()=>{
     gameState.current++;
     if(gameState.current < gameState.questions.length) renderGameQuestion();
     else endGame();
-  }, 2400);
+  }, delay);
 }
 
+/* ─ 시간초과 ─ */
 function timeUp() {
   if(!gameState||gameState.answered) return;
   gameState.answered = true;
@@ -2520,13 +2639,13 @@ function timeUp() {
     btn.disabled = true;
     if(i===q.answer) btn.classList.add('correct');
   });
-  if(q.explain) {
-    const explainBox = document.createElement('div');
-    explainBox.style.cssText = 'margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.83rem;line-height:1.6;background:var(--sun-lt);border:1.5px solid var(--sun);color:#7A5A00';
-    explainBox.innerHTML = '⏰ <strong>시간 초과!</strong> ' + q.explain;
-    document.getElementById('quiz-opts')?.after(explainBox);
+  if(q.explain){
+    const box = document.createElement('div');
+    box.style.cssText = 'margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.85rem;line-height:1.6;background:var(--sun-lt);border:1.5px solid var(--sun);color:#7A5A00';
+    box.innerHTML = '⏰ <strong>시간 초과!</strong> ' + q.explain;
+    document.getElementById('quiz-opts')?.after(box);
   }
-  showToast('⏰ 시간 초과! 해설을 확인하세요.');
+  showToast('⏰ 시간 초과!');
   setTimeout(()=>{
     gameState.current++;
     if(gameState.current < gameState.questions.length) renderGameQuestion();
@@ -2534,35 +2653,45 @@ function timeUp() {
   }, 2400);
 }
 
+/* ─ 게임 종료 ─ */
 function endGame() {
   clearInterval(gameTimer);
   const score = gameState.score;
+  const lv    = GAME_LEVELS[gameState.level];
   pendingScore = score;
-  setTimeout(()=>launchParticles(score>=800?'gold':'normal'), 300);
-  const best = parseInt(localStorage.getItem('imsg_best')||0);
-  if(score > best) localStorage.setItem('imsg_best', score);
+  setTimeout(()=>launchParticles(score>=(lv.count*160)?'gold':'normal'), 300);
+
+  // 레벨별 최고점 저장
+  const bestKey = 'imsg_best_'+gameState.level;
+  const best    = parseInt(localStorage.getItem(bestKey)||0);
+  if(score > best) localStorage.setItem(bestKey, score);
+  // 전체 최고점도 유지
+  const bestAll = parseInt(localStorage.getItem('imsg_best')||0);
+  if(score > bestAll) localStorage.setItem('imsg_best', score);
+
   const prevCombo = parseInt(localStorage.getItem('imsg_max_combo')||0);
   if(gameState.maxCombo > prevCombo) localStorage.setItem('imsg_max_combo', gameState.maxCombo);
   checkNewBadge();
   updateProgress();
-  const grade = score>=900?'🥇 나 전달법 달인!':score>=600?'🥈 나 전달법 친구!':'🥉 조금 더 연습해봐요!';
+
+  const pct   = Math.round(score / (lv.count*(lv.timer*3+100+80)) * 100);
+  const grade = pct>=85?'🥇 나 전달법 달인!':pct>=60?'🥈 잘 했어요!':'🥉 더 연습해봐요!';
+
   document.getElementById('game-container').innerHTML = `
     <div class="score-result">
       <div style="font-size:2.5rem">🎊</div>
       <div class="score-big">${score.toLocaleString()}점</div>
       <div class="score-grade">${grade}</div>
-      <div style="font-size:.85rem;color:var(--ink-lt);margin-bottom:24px">최고 콤보: ${gameState.maxCombo}회 🔥</div>
+      <div style="font-size:.85rem;color:var(--ink-lt);margin-bottom:24px">최고 콤보: ${gameState.maxCombo}회 🔥 · ${lv.emoji} ${lv.label} 레벨</div>
       <div class="register-form">
-        <h4>🏆 전국 랭킹에 등록할까요?</h4>
+        <h4>🏆 ${lv.emoji} ${lv.label} 랭킹에 등록할까요?</h4>
         <div class="form-group">
           <label class="form-label">학교 검색</label>
           <div class="school-search-wrap" id="r-school-wrap">
             <div class="school-input-row">
               <input type="text" class="form-input" id="r-school-input"
-                placeholder="학교 이름을 입력하세요"
-                autocomplete="off"
-                oninput="searchSchool(this.value,'r')"
-                onkeydown="schoolKeyNav(event,'r')">
+                placeholder="학교 이름을 입력하세요" autocomplete="off"
+                oninput="searchSchool(this.value,'r')" onkeydown="schoolKeyNav(event,'r')">
               <button class="school-clear" onclick="clearSchool('r')" title="지우기">✕</button>
             </div>
             <div class="school-selected-badge" id="r-school-badge">
@@ -2576,7 +2705,7 @@ function endGame() {
           <div class="form-group">
             <label class="form-label">학년</label>
             <select class="form-input" id="r-grade">
-              ${[1,2,3,4,5,6].map(n=>`<option value="${n}">${n}학년</option>`).join('')}
+              ${[1,2,3,4,5,6].map(n=>`<option value="${n}"${n===(gameState.level==='seed'?1:gameState.level==='sprout'?3:5)?' selected':''}>` + n+'학년</option>').join('')}
             </select>
           </div>
           <div class="form-group">
@@ -2596,24 +2725,33 @@ function endGame() {
     </div>`;
 }
 
+/* ─ 랭킹 등록 ─ */
 async function registerScore() {
-  // hidden input(선택된 학교) 우선, 없으면 텍스트 입력값 fallback
   const schoolHidden = document.getElementById('r-school')?.value.trim();
   const schoolInput  = document.getElementById('r-school-input')?.value.trim();
-  const school = schoolHidden || schoolInput;
+  const school   = schoolHidden || schoolInput;
   const grade    = document.getElementById('r-grade')?.value;
   const classNum = document.getElementById('r-class')?.value.trim();
   const name     = document.getElementById('r-name')?.value.trim();
 
-  if(!school)    { showToast('🏫 학교를 검색해서 선택해주세요!'); document.getElementById('r-school-input')?.focus(); return; }
-  if(!classNum)  { showToast('반을 입력해주세요!'); return; }
-  if(!name)      { showToast('이름을 입력해주세요!'); return; }
+  if(!school)   { showToast('🏫 학교를 검색해서 선택해주세요!'); return; }
+  if(!classNum) { showToast('반을 입력해주세요!'); return; }
+  if(!name)     { showToast('이름을 입력해주세요!'); return; }
 
-  const data = { school, grade, classNum, name, score: pendingScore };
-  const ok = window._submitScore ? await window._submitScore(data) : false;
+  const data = { school, grade, classNum, name, score:pendingScore, level:gameState?.level||'sprout' };
+  const ok   = window._submitScore ? await window._submitScore(data) : false;
   showToast(ok ? '🏆 랭킹에 등록됐어요!' : '📋 기록됐어요! (데모 모드)');
   setTimeout(()=>{ showPage('home'); }, 1500);
 }
+
+/* ─ 랭킹 탭 전환 ─ */
+function switchRankTab(level, el) {
+  currentRankLevel = level;
+  document.querySelectorAll('.rank-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if(window._loadRanking) window._loadRanking(level);
+}
+window.switchRankTab = switchRankTab;
 
 function closeModal() {
   document.getElementById('register-modal').classList.remove('open');
@@ -3169,6 +3307,7 @@ window.switchPracticeLevel = switchPracticeLevel;
 window.submitPractice = submitPractice;
 window.renderGameIntro = renderGameIntro;
 window.startGame = startGame;
+window.syncGameLevel = syncGameLevel;
 window.answerGame = answerGame;
 window.endGame = endGame;
 window.registerScore = registerScore;
@@ -3179,13 +3318,19 @@ document.getElementById('grade-'+currentGrade)?.classList.add('selected');
 initApplyCats();
 initTodaySituation();
 updateProgress();
+syncGameLevel();
 initStreak();
 initQuote();
 initTreeProgress();
+// 학년에 맞는 랭킹 탭 자동 선택
+(()=>{ const lv = GRADE_TO_LEVEL[currentGrade]||'sprout'; currentRankLevel=lv; const tab=document.getElementById('rtab-'+lv); if(tab){document.querySelectorAll('.rank-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');} })();
 window.toggleDetailProgress = toggleDetailProgress;
+syncGameLevel();
 initStreak();
 initQuote();
 initTreeProgress();
+// 학년에 맞는 랭킹 탭 자동 선택
+(()=>{ const lv = GRADE_TO_LEVEL[currentGrade]||'sprout'; currentRankLevel=lv; const tab=document.getElementById('rtab-'+lv); if(tab){document.querySelectorAll('.rank-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');} })();
 window.toggleDetailProgress = toggleDetailProgress;
 
 // 새로고침/직접 URL 접근 시 hash 페이지 복원
