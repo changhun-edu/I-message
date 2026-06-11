@@ -488,9 +488,6 @@ img{max-width:100%}
 .mood-btn.selected{border-color:var(--ink);transform:scale(1.2);box-shadow:0 0 0 3px rgba(0,0,0,.1)}
 .mood-label{font-size:.75rem;color:var(--ink-md);margin-bottom:8px;font-weight:600}
 
-/* ===== 공유 버튼 ===== */
-.share-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);font-size:.8rem;font-weight:700;color:var(--ink-md);cursor:pointer;transition:all .2s}
-.share-btn:hover{background:var(--sky-lt);border-color:var(--sky);color:var(--sky)}
 
 /* ===== 명언 카드 ===== */
 .quote-card{background:linear-gradient(135deg,var(--mint-lt),var(--sky-lt));border:1.5px solid var(--mint);border-radius:14px;padding:14px 18px;margin-bottom:16px;position:relative;overflow:hidden}
@@ -1374,18 +1371,7 @@ const QUIZ_TREE = [
 // 하위 호환용 (기존 코드에서 QUIZ_DATA 참조 시)
 const QUIZ_DATA = QUIZ_TREE;
 
-const DEMO_RANKINGS = [
-  { school:"서울행복초", grade:"1", classNum:"2", level:"seed",   totalScore:4250, participantCnt:17 },
-  { school:"부산햇살초", grade:"2", classNum:"1", level:"seed",   totalScore:3900, participantCnt:15 },
-  { school:"광주미래초", grade:"1", classNum:"3", level:"seed",   totalScore:3500, participantCnt:14 },
-  { school:"대전꿈초",   grade:"3", classNum:"1", level:"sprout", totalScore:7200, participantCnt:24 },
-  { school:"인천바다초", grade:"4", classNum:"2", level:"sprout", totalScore:6800, participantCnt:22 },
-  { school:"대구하늘초", grade:"3", classNum:"1", level:"sprout", totalScore:6200, participantCnt:20 },
-  { school:"울산별빛초", grade:"4", classNum:"3", level:"sprout", totalScore:5800, participantCnt:18 },
-  { school:"세종새날초", grade:"5", classNum:"3", level:"tree",   totalScore:9600, participantCnt:26 },
-  { school:"수원꽃잎초", grade:"6", classNum:"1", level:"tree",   totalScore:8900, participantCnt:24 },
-  { school:"창원푸른초", grade:"5", classNum:"2", level:"tree",   totalScore:8200, participantCnt:22 }
-];
+const DEMO_RANKINGS = [];
 
 /* =====================================================
    상태
@@ -2190,7 +2176,6 @@ function submitPractice(id) {
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
       <div id="stars-${id}" class="star-row"></div>
-      <button class="share-btn" onclick="shareAnswer(document.getElementById('p-answer-${id}')?.value||'')">📤 공유</button>
     </div>`;
 
   fb.className = `feedback-box show ${gradeClass}`;
@@ -2390,7 +2375,6 @@ function submitApply(gIdx) {
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
       <div id="astars-${gIdx}" class="star-row"></div>
-      <button class="share-btn" onclick="shareAnswer(document.getElementById('apply-answer-${gIdx}')?.value||'')">📤 공유</button>
     </div>`;
 
   fb.className = `feedback-box show ${gradeClass}`;
@@ -3310,18 +3294,6 @@ function selectMood(idx, inputId) {
 }
 window.selectMood = selectMood;
 
-/* =====================================================
-   📤 공유 기능
-===================================================== */
-function shareAnswer(text) {
-  const msg = `💬 나 전달법 연습 결과\n\n"${text}"\n\n🌱 나 전달법 배움터에서 연습했어요!`;
-  if(navigator.share) {
-    navigator.share({ title:'나 전달법 배움터', text:msg }).catch(()=>{});
-  } else {
-    navigator.clipboard?.writeText(msg).then(()=>showToast('📋 클립보드에 복사됐어요!')).catch(()=>{});
-  }
-}
-window.shareAnswer = shareAnswer;
 
 /* =====================================================
    updateProgress 확장 (나무 + 스트릭)
