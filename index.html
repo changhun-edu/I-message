@@ -823,13 +823,12 @@ async function loadRanking(level) {
   try {
     const { query: q, collection: col, getDocs: gd, orderBy: ob, limit: lim, where: wh } = window._fbModules;
     const rankRef = col(db, 'rankings');
-    const qs = q(rankRef, wh('level','==',lv), ob('score','desc'), lim(10));
+    const qs = q(rankRef, wh('level','==',lv), ob('totalScore','desc'), lim(10));
     const snap = await gd(qs);
     const list = [];
-    snap.forEach(doc => list.push(doc.data()));
+    snap.forEach(d => list.push(d.data()));
     renderRanking(list);
   } catch(e) {
-    // Firebase 미설정 시 데모 데이터 (레벨별 필터)
     const demo = DEMO_RANKINGS.filter((_,i)=>
       lv==='seed'   ? i<3 :
       lv==='sprout' ? (i>=2&&i<6) : i>=4
@@ -840,9 +839,38 @@ async function loadRanking(level) {
 
 window._loadRanking = loadRanking;
 window._submitScore = async function(data) {
+  // 반 누적 방식: school+grade+classNum+level 로 문서 식별, 점수 누적
   try {
-    const { collection: col, addDoc: ad, Timestamp: Ts } = window._fbModules;
-    await ad(col(db,'rankings'), { ...data, createdAt: Ts.now() });
+    const { collection: col, getDocs: gd, addDoc: ad, doc: dc,
+            setDoc: sd, query: q, where: wh, Timestamp: Ts } = window._fbModules;
+    const rankRef = col(db,'rankings');
+    const docId   = `${data.school}_${data.grade}_${data.classNum}_${data.level}`;
+    const existing = await gd(q(rankRef, wh('docId','==',docId)));
+
+    if(!existing.empty) {
+      // 기존 반 문서 업데이트: 점수 누적, 참여인원 +1
+      const docRef  = existing.docs[0].ref;
+      const prev    = existing.docs[0].data();
+      await sd(docRef, {
+        ...prev,
+        totalScore:    (prev.totalScore||0) + data.score,
+        participantCnt:(prev.participantCnt||0) + 1,
+        updatedAt:     Ts.now()
+      }, { merge:true });
+    } else {
+      // 새 반 문서 생성
+      await ad(rankRef, {
+        docId,
+        school:         data.school,
+        grade:          data.grade,
+        classNum:       data.classNum,
+        level:          data.level,
+        totalScore:     data.score,
+        participantCnt: 1,
+        createdAt:      Ts.now(),
+        updatedAt:      Ts.now()
+      });
+    }
     return true;
   } catch(e) {
     console.warn('Firebase 저장 실패 (데모 모드):', e);
@@ -1347,16 +1375,16 @@ const QUIZ_TREE = [
 const QUIZ_DATA = QUIZ_TREE;
 
 const DEMO_RANKINGS = [
-  { school:"서울행복초", grade:"5", classNum:"2", name:"사랑반", score:980 },
-  { school:"부산햇살초", grade:"4", classNum:"1", name:"희망반", score:960 },
-  { school:"광주미래초", grade:"6", classNum:"3", name:"도전반", score:940 },
-  { school:"대전꿈초", grade:"5", classNum:"1", name:"나눔반", score:920 },
-  { school:"인천바다초", grade:"3", classNum:"2", name:"우정반", score:900 },
-  { school:"대구하늘초", grade:"6", classNum:"1", name:"성장반", score:880 },
-  { school:"울산별빛초", grade:"4", classNum:"3", name:"열정반", score:860 },
-  { school:"세종새날초", grade:"5", classNum:"3", name:"지혜반", score:840 },
-  { school:"수원꽃잎초", grade:"2", classNum:"1", name:"사랑반", score:820 },
-  { school:"창원푸른초", grade:"6", classNum:"2", name:"미래반", score:800 }
+  { school:"서울행복초", grade:"1", classNum:"2", level:"seed",   totalScore:4250, participantCnt:17 },
+  { school:"부산햇살초", grade:"2", classNum:"1", level:"seed",   totalScore:3900, participantCnt:15 },
+  { school:"광주미래초", grade:"1", classNum:"3", level:"seed",   totalScore:3500, participantCnt:14 },
+  { school:"대전꿈초",   grade:"3", classNum:"1", level:"sprout", totalScore:7200, participantCnt:24 },
+  { school:"인천바다초", grade:"4", classNum:"2", level:"sprout", totalScore:6800, participantCnt:22 },
+  { school:"대구하늘초", grade:"3", classNum:"1", level:"sprout", totalScore:6200, participantCnt:20 },
+  { school:"울산별빛초", grade:"4", classNum:"3", level:"sprout", totalScore:5800, participantCnt:18 },
+  { school:"세종새날초", grade:"5", classNum:"3", level:"tree",   totalScore:9600, participantCnt:26 },
+  { school:"수원꽃잎초", grade:"6", classNum:"1", level:"tree",   totalScore:8900, participantCnt:24 },
+  { school:"창원푸른초", grade:"5", classNum:"2", level:"tree",   totalScore:8200, participantCnt:22 }
 ];
 
 /* =====================================================
@@ -1452,14 +1480,24 @@ function selectGrade(g) {
 function renderRanking(list) {
   const ul = document.getElementById('ranking-list');
   if(!list||!list.length){ ul.innerHTML='<li class="rank-loading">아직 랭킹이 없어요 🌱</li>'; return; }
-  ul.innerHTML = list.map((r,i)=>`
+  ul.innerHTML = list.map((r,i)=>{
+    const total = (r.totalScore||r.score||0).toLocaleString();
+    const cnt   = r.participantCnt || 1;
+    const avg   = Math.round((r.totalScore||r.score||0) / cnt).toLocaleString();
+    return `
     <li class="ranking-item">
       <div class="rank-badge ${i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-other'}">${i+1}</div>
       <div style="flex:1">
-        <div class="rank-school">${r.school} <span class="rank-class">${r.grade}학년 ${r.classNum}반${r.name?' · '+r.name:''}</span></div>
+        <div class="rank-school">${r.school}
+          <span class="rank-class">${r.grade}학년 ${r.classNum}반</span>
+        </div>
+        <div style="font-size:.72rem;opacity:.7;margin-top:2px">
+          👥 ${cnt}명 참여 · 평균 ${avg}점
+        </div>
       </div>
-      <div class="rank-score">${r.score.toLocaleString()}점</div>
-    </li>`).join('');
+      <div class="rank-score">${total}점</div>
+    </li>`;
+  }).join('');
 }
 
 /* =====================================================
@@ -2684,7 +2722,10 @@ function endGame() {
       <div class="score-grade">${grade}</div>
       <div style="font-size:.85rem;color:var(--ink-lt);margin-bottom:24px">최고 콤보: ${gameState.maxCombo}회 🔥 · ${lv.emoji} ${lv.label} 레벨</div>
       <div class="register-form">
-        <h4>🏆 ${lv.emoji} ${lv.label} 랭킹에 등록할까요?</h4>
+        <h4>🏫 우리 반 점수로 등록할까요?</h4>
+        <div style="font-size:.8rem;color:var(--ink-md);margin-bottom:14px;line-height:1.6;background:var(--mint-lt);border-radius:8px;padding:8px 12px">
+          💡 우리 반 친구들이 함께 점수를 쌓아요!<br>같은 학교·학년·반으로 등록하면 자동으로 합산돼요.
+        </div>
         <div class="form-group">
           <label class="form-label">학교 검색</label>
           <div class="school-search-wrap" id="r-school-wrap">
@@ -2713,12 +2754,8 @@ function endGame() {
             <input type="number" class="form-input" id="r-class" placeholder="1" min="1" max="20">
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">이름 (닉네임)</label>
-          <input type="text" class="form-input" id="r-name" placeholder="예) 홍길동">
-        </div>
         <div class="btn-row">
-          <button class="btn-primary" onclick="registerScore()" style="flex:1;justify-content:center">🚀 랭킹 등록</button>
+          <button class="btn-primary" onclick="registerScore()" style="flex:1;justify-content:center">🚀 우리 반 점수 등록!</button>
           <button class="btn-secondary" onclick="startGame()">다시 하기</button>
         </div>
       </div>
@@ -2732,16 +2769,24 @@ async function registerScore() {
   const school   = schoolHidden || schoolInput;
   const grade    = document.getElementById('r-grade')?.value;
   const classNum = document.getElementById('r-class')?.value.trim();
-  const name     = document.getElementById('r-name')?.value.trim();
 
-  if(!school)   { showToast('🏫 학교를 검색해서 선택해주세요!'); return; }
+  if(!school)   { showToast('🏫 학교를 검색해서 선택해주세요!'); document.getElementById('r-school-input')?.focus(); return; }
   if(!classNum) { showToast('반을 입력해주세요!'); return; }
-  if(!name)     { showToast('이름을 입력해주세요!'); return; }
 
-  const data = { school, grade, classNum, name, score:pendingScore, level:gameState?.level||'sprout' };
+  const data = { school, grade, classNum, score:pendingScore, level:gameState?.level||'sprout' };
   const ok   = window._submitScore ? await window._submitScore(data) : false;
-  showToast(ok ? '🏆 랭킹에 등록됐어요!' : '📋 기록됐어요! (데모 모드)');
-  setTimeout(()=>{ showPage('home'); }, 1500);
+  if(ok) {
+    showToast('🏆 우리 반 점수가 등록됐어요! 함께 1등을 향해!', 3000);
+  } else {
+    // 데모 모드: localStorage에 임시 누적
+    const key  = `demo_${school}_${grade}_${classNum}_${data.level}`;
+    const prev = JSON.parse(localStorage.getItem(key)||'{"totalScore":0,"participantCnt":0}');
+    prev.totalScore     += pendingScore;
+    prev.participantCnt += 1;
+    localStorage.setItem(key, JSON.stringify(prev));
+    showToast(`📋 우리 반 누적 ${prev.totalScore.toLocaleString()}점! (${prev.participantCnt}명 참여)`, 3000);
+  }
+  setTimeout(()=>{ showPage('home'); }, 1800);
 }
 
 /* ─ 랭킹 탭 전환 ─ */
