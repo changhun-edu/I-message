@@ -188,8 +188,13 @@ img{max-width:100%}
 
 /* 감정 단어 카드 */
 .emotion-grid{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
-.emotion-chip{padding:6px 12px;border-radius:20px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;border:1.5px solid transparent;user-select:none}
-.emotion-chip:hover{transform:scale(1.05)}
+.emotion-chip{padding:6px 12px;border-radius:20px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;border:1.5px solid transparent;user-select:none;position:relative}
+.emotion-chip:hover{transform:scale(1.06)}
+.emotion-chip.active{transform:scale(1.1);box-shadow:0 3px 10px rgba(0,0,0,.12)}
+/* 배우기 감정 설명 박스 */
+.emotion-desc-box{background:var(--card);border-radius:12px;padding:12px 14px;margin-top:10px;border:1.5px solid var(--border);font-size:.83rem;line-height:1.6;color:var(--ink-md);display:none;animation:mood-fade .2s ease}
+.emotion-desc-box.show{display:block}
+.emotion-desc-emoji{font-size:1.4rem;margin-right:6px}
 .emotion-chip.type-sad{background:#EDF2FF;color:#3B5BDB;border-color:#BAC8FF}
 .emotion-chip.type-angry{background:#FFF5F5;color:#C92A2A;border-color:#FFC9C9}
 .emotion-chip.type-scared{background:#FFF9DB;color:#E67700;border-color:#FFE066}
@@ -482,11 +487,22 @@ img{max-width:100%}
 .streak-dot.done{background:rgba(255,255,255,.9);color:#FF6B6B}
 
 /* ===== 감정 색깔 선택 ===== */
-.mood-picker{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.mood-btn{width:34px;height:34px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;transition:all .2s;font-size:1rem;display:flex;align-items:center;justify-content:center}
-.mood-btn:hover{transform:scale(1.15)}
-.mood-btn.selected{border-color:var(--ink);transform:scale(1.2);box-shadow:0 0 0 3px rgba(0,0,0,.1)}
-.mood-label{font-size:.75rem;color:var(--ink-md);margin-bottom:8px;font-weight:600}
+.mood-picker{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.mood-btn-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.mood-btn{width:44px;height:44px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;transition:all .22s cubic-bezier(.175,.885,.32,1.275);font-size:1.5rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.mood-btn:hover{transform:scale(1.18)}
+.mood-btn.selected{border-color:var(--ink);transform:scale(1.22);box-shadow:0 0 0 3px rgba(0,0,0,.12)}
+.mood-btn-name{font-size:.7rem;font-weight:700;color:var(--ink-md);transition:all .2s}
+.mood-btn-wrap.selected .mood-btn-name{color:var(--ink);font-weight:900}
+.mood-label{font-size:.78rem;color:var(--ink-md);margin-bottom:10px;font-weight:700}
+/* 감정 확장 패널 */
+.mood-expand{margin:8px 0 12px;border-radius:14px;padding:12px 14px;display:none;animation:mood-fade .25s ease}
+.mood-expand.show{display:block}
+@keyframes mood-fade{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.mood-expand-body{font-size:.78rem;color:var(--ink-md);line-height:1.55;margin-bottom:8px}
+.mood-expand-words{display:flex;flex-wrap:wrap;gap:5px}
+.mood-word-chip{padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .18s;border:1.5px solid transparent}
+.mood-word-chip:hover{transform:scale(1.06)}
 
 
 /* ===== 명언 카드 ===== */
@@ -1760,7 +1776,8 @@ function renderLearn() {
     const groups = slide.groups.map(g=>`
       <div style="margin-bottom:12px">
         <div style="font-size:.78rem;font-weight:700;color:var(--ink-md);margin-bottom:6px">${g.label}</div>
-        <div class="emotion-grid">${g.words.map(w=>`<span class="emotion-chip type-${g.type}">${w}</span>`).join('')}</div>
+        <div class="emotion-grid">${g.words.map(w=>`<span class="emotion-chip type-${g.type}" onclick="showEmotionDesc('${w}','${g.type}')">${w}</span>`).join('')}</div>
+        <div class="emotion-desc-box" id="emotion-desc-learn-${g.type}"></div>
       </div>`).join('');
     html = `<div class="card">
       <div style="font-weight:700;font-size:1rem;margin-bottom:6px">${slide.title}</div>
@@ -3256,11 +3273,21 @@ function showScoreFly(pts, x, y) {
    😊 감정 색깔 선택
 ===================================================== */
 const MOODS = [
-  { emoji:'😊', color:'#FEF08A', label:'기분 좋아' },
-  { emoji:'😢', color:'#BFDBFE', label:'슬퍼' },
-  { emoji:'😤', color:'#FECACA', label:'억울해' },
-  { emoji:'😨', color:'#DDD6FE', label:'무서워' },
-  { emoji:'😐', color:'#E5E7EB', label:'모르겠어' },
+  { emoji:'😊', color:'#FEF08A', label:'기분 좋아',
+    body:'마음이 따뜻하고 웃음이 나올 때',
+    words:['기뻐','설레','행복해','좋아','뿌듯해'] },
+  { emoji:'😢', color:'#BFDBFE', label:'슬퍼',
+    body:'눈물이 나고 기운이 없을 때',
+    words:['슬퍼','외로워','서운해','섭섭해','허전해'] },
+  { emoji:'😤', color:'#FECACA', label:'억울해',
+    body:'가슴이 답답하고 열받을 때',
+    words:['억울해','속상해','화가 나','불공평해','짜증스러워'] },
+  { emoji:'😨', color:'#DDD6FE', label:'무서워',
+    body:'심장이 두근두근하고 떨릴 때',
+    words:['무서워','불안해','걱정돼','두려워','긴장돼'] },
+  { emoji:'😐', color:'#E5E7EB', label:'모르겠어',
+    body:'내 기분이 뭔지 잘 모를 때',
+    words:['당황했어','어색해','멍해','헷갈려','복잡해'] },
 ];
 
 let currentMood = null;
@@ -3272,27 +3299,124 @@ function renderMoodPicker(containerId, inputId) {
     <div class="mood-label">💭 지금 내 기분은?</div>
     <div class="mood-picker">
       ${MOODS.map((m,i)=>`
-        <button class="mood-btn" onclick="selectMood(${i},'${inputId}')"
-          style="background:${m.color}" title="${m.label}" id="mood-btn-${containerId}-${i}">
-          ${m.emoji}
-        </button>`).join('')}
-    </div>`;
+        <div class="mood-btn-wrap" id="mood-wrap-${containerId}-${i}"
+             onclick="selectMood(${i},'${inputId}','${containerId}')">
+          <button class="mood-btn" style="background:${m.color}">${m.emoji}</button>
+          <span class="mood-btn-name">${m.label}</span>
+        </div>`).join('')}
+    </div>
+    <div class="mood-expand" id="mood-expand-${containerId}"></div>`;
 }
 
-function selectMood(idx, inputId) {
+function selectMood(idx, inputId, containerId) {
   currentMood = MOODS[idx];
+  const cid = containerId || '';
+
+  // 입력창 스타일 + placeholder 연동
   const input = document.getElementById(inputId);
   if(input) {
     input.style.borderColor = currentMood.color;
-    input.style.background  = currentMood.color + '30';
-    input.placeholder = currentMood.label + ' 할 때... 나는';
+    input.style.background  = currentMood.color + '28';
+    input.placeholder = `${currentMood.label} 할 때... 나는 ${currentMood.words[0]} 라고 느꼈어. ___해줬으면 해.`;
+    input.focus();
   }
-  document.querySelectorAll('.mood-btn').forEach((b,i) => {
-    b.classList.toggle('selected', i===idx);
+
+  // 버튼 선택 표시
+  document.querySelectorAll(`[id^="mood-wrap-${cid}"]`).forEach((w,i) => {
+    w.classList.toggle('selected', i===idx);
+    w.querySelector('.mood-btn')?.classList.toggle('selected', i===idx);
   });
-  showToast(currentMood.emoji + ' ' + currentMood.label + '! 그 마음을 나 전달법으로 써봐요.');
+
+  // 감정 확장 패널 표시
+  const expand = document.getElementById('mood-expand-'+cid);
+  if(expand) {
+    expand.className = 'mood-expand show';
+    expand.style.background = currentMood.color + '28';
+    expand.style.border     = `1.5px solid ${currentMood.color}`;
+    expand.innerHTML = `
+      <div class="mood-expand-body">
+        <strong>${currentMood.emoji} ${currentMood.label}</strong> —
+        ${currentMood.body}<br>
+        <span style="font-size:.75rem;margin-top:4px;display:inline-block">✏️ 아래 단어 중 골라서 문장에 써봐요!</span>
+      </div>
+      <div class="mood-expand-words">
+        ${currentMood.words.map(w=>`
+          <span class="mood-word-chip"
+            style="background:${currentMood.color}50;border-color:${currentMood.color};color:var(--ink)"
+            onclick="insertMoodWord('${w}','${inputId}')">${w}</span>`).join('')}
+      </div>`;
+  }
 }
-window.selectMood = selectMood;
+
+function insertMoodWord(word, inputId) {
+  const input = document.getElementById(inputId);
+  if(!input) return;
+  const v = input.value;
+  // 커서 위치에 단어 삽입, 없으면 끝에 추가
+  const start = input.selectionStart || v.length;
+  const end   = input.selectionEnd   || v.length;
+  input.value = v.slice(0,start) + word + v.slice(end);
+  input.focus();
+  input.setSelectionRange(start+word.length, start+word.length);
+  showToast(word + ' 를 입력했어요! ✏️');
+}
+/* =====================================================
+   배우기 감정 단어 설명
+===================================================== */
+const EMOTION_DESCS = {
+  '슬퍼':'눈물이 나고 기운이 없을 때 느껴요.',
+  '외로워':'혼자인 것 같고 아무도 나를 모르는 것 같을 때예요.',
+  '서운해':'친구가 나에게 상처 주는 말이나 행동을 했을 때 느껴요.',
+  '섭섭해':'내가 기대했던 것과 달라서 실망스러울 때예요.',
+  '허전해':'무언가 빠진 것 같고 채워지지 않는 느낌이에요.',
+  '소외된 기분이야':'여럿이 있는데 나만 빠진 것 같을 때예요.',
+  '배제된 것 같아':'일부러 나를 빼는 것 같다는 느낌이에요.',
+  '억울해':'내가 잘못하지 않았는데 혼나거나 오해받을 때 느껴요.',
+  '속상해':'마음이 편하지 않고 뭔가 뒤틀린 느낌이에요.',
+  '불공평해':'나만 손해를 보는 것 같아 화가 날 때예요.',
+  '화가 나':'참을 수 없이 열받고 몸에서 열이 올라올 때예요.',
+  '짜증스러워':'사소한 것도 다 거슬리고 신경 쓰일 때예요.',
+  '답답해':'말이 통하지 않거나 원하는 대로 안 될 때 느껴요.',
+  '지쳐':'너무 많이 힘든 일이 있어서 더 이상 하기 싫을 때예요.',
+  '당황스러워':'예상하지 못한 일이 갑자기 생겨 어떻게 해야 할지 모를 때예요.',
+  '불안해':'앞으로 어떻게 될지 몰라 걱정되고 두려울 때예요.',
+  '두려워':'무서운 일이 생길 것 같아 몸이 움츠러들 때예요.',
+  '걱정돼':'나쁜 일이 생길까봐 마음이 쓰일 때예요.',
+  '상처받았어':'누군가의 말이나 행동이 마음속 깊이 아프게 닿았을 때예요.',
+  '배신당한 기분이야':'믿었던 사람이 약속을 어기거나 비밀을 말했을 때 느껴요.',
+  '무시당한 것 같아':'내 말이나 존재를 아무도 신경 써주지 않는 것 같을 때예요.',
+  '자존심이 상해':'내가 못나거나 부족하다고 느끼게 만들 때 생기는 기분이에요.',
+  '실망했어':'기대했는데 그렇게 되지 않아 허탈할 때예요.',
+  '창피해':'많은 사람 앞에서 망신당한 것 같아 얼굴이 빨개질 때예요.',
+  '부끄러워':'내 잘못이나 약점이 드러나서 민망할 때예요.',
+  '소외돼':'나만 따로 떨어진 느낌이 들 때예요.',
+};
+
+const TYPE_EMOJI = { sad:'😢', angry:'😤', scared:'😨', hurt:'🥺', happy:'😊' };
+
+function showEmotionDesc(word, type) {
+  const desc = EMOTION_DESCS[word];
+  const boxId = 'emotion-desc-learn-' + type;
+  // 같은 타입의 모든 칩 active 해제 후 선택 칩만 active
+  document.querySelectorAll('.emotion-chip.type-'+type).forEach(c=>{
+    c.classList.toggle('active', c.textContent.trim()===word);
+  });
+  const box = document.getElementById(boxId);
+  if(!box) return;
+  if(!desc) { box.className='emotion-desc-box'; return; }
+  box.className = 'emotion-desc-box show';
+  box.innerHTML = `
+    <span class="emotion-desc-emoji">${TYPE_EMOJI[type]||'💭'}</span>
+    <strong style="color:var(--ink)">${word}</strong> —
+    ${desc}
+    <span style="display:block;margin-top:6px;font-size:.75rem;color:var(--ink-lt)">
+      💡 나 전달법 문장에 이 단어를 써봐요!
+    </span>`;
+}
+window.showEmotionDesc = showEmotionDesc;
+
+window.selectMood     = selectMood;
+window.insertMoodWord = insertMoodWord;
 
 
 /* =====================================================
