@@ -37,11 +37,13 @@ img{max-width:100%}
 
 /* ===== LAYOUT ===== */
 .app{display:flex;flex-direction:column;min-height:100vh}
-.topbar{background:var(--card);border-bottom:1.5px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
-.topbar-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem;color:var(--ink)}
-.topbar-logo span{font-size:1.5rem}
-.topbar-nav{display:flex;gap:4px}
-.nav-btn{padding:7px 14px;border-radius:8px;border:none;background:transparent;font-size:.85rem;font-weight:600;color:var(--ink-md);transition:all .2s}
+.topbar{background:var(--card);border-bottom:1.5px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.topbar-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.05rem;color:var(--ink);cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .2s;border:none;background:transparent;text-decoration:none}
+.topbar-logo:hover{background:var(--mint-lt)}
+.topbar-logo .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--mint),var(--sky));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.topbar-nav{display:flex;gap:2px}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;border-radius:8px;border:none;background:transparent;font-size:.72rem;font-weight:600;color:var(--ink-lt);transition:all .2s;line-height:1}
+.nav-btn .nav-icon{font-size:1.05rem;line-height:1}
 .nav-btn:hover,.nav-btn.active{background:var(--mint-lt);color:var(--mint-dk)}
 .main{flex:1;padding:24px 16px;max-width:960px;margin:0 auto;width:100%}
 
@@ -54,17 +56,45 @@ img{max-width:100%}
 .card-sm{padding:16px}
 
 /* ===== HERO ===== */
-.hero{background:linear-gradient(135deg,var(--mint) 0%,var(--sky) 100%);border-radius:20px;padding:32px 28px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden}
-.hero::after{content:'💬';position:absolute;right:20px;bottom:-10px;font-size:80px;opacity:.18}
-.hero h1{font-size:1.8rem;font-weight:800;margin-bottom:8px;line-height:1.3}
-.hero p{font-size:1rem;opacity:.92;max-width:440px}
+/* ===== HERO ===== */
+.hero{background:linear-gradient(135deg,#1A6B52 0%,#1E6EA8 100%);border-radius:20px;padding:0;color:#fff;margin-bottom:20px;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;z-index:1}
+.hero-text{padding:28px 24px 28px 28px}
+.hero-eyebrow{font-size:.72rem;font-weight:700;opacity:.75;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.hero h1{font-size:1.65rem;font-weight:900;margin-bottom:10px;line-height:1.2;letter-spacing:-.3px}
+.hero p{font-size:.88rem;opacity:.88;line-height:1.6}
+.hero-grade{background:rgba(255,255,255,.12);backdrop-filter:blur(4px);padding:20px 20px 20px 16px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid rgba(255,255,255,.1)}
+.hero-grade-label{font-size:.72rem;font-weight:700;opacity:.8;margin-bottom:10px;letter-spacing:.3px}
+.hero-grade-row{display:flex;flex-direction:column;gap:6px}
+.hero-chip{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);cursor:pointer;transition:all .2s;text-align:left;color:#fff}
+.hero-chip:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5)}
+.hero-chip.selected{background:rgba(255,255,255,.25);border-color:#fff}
+.hero-chip span:first-child{font-size:1.2rem;flex-shrink:0}
+.hero-chip span:nth-child(2){font-size:.85rem;font-weight:700;flex:1}
+.hero-chip small{font-size:.68rem;opacity:.75}
+
+/* ===== SECTION LABEL ===== */
+.home-section-label{font-size:.8rem;font-weight:700;color:var(--ink-lt);letter-spacing:.5px;text-transform:uppercase;margin:0 0 10px 2px}
+
+/* ===== MENU GRID (리디자인) ===== */
+.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.menu-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:16px;cursor:pointer;transition:all .2s;border:1.5px solid transparent;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.menu-card::after{content:'→';position:absolute;right:14px;bottom:14px;font-size:.85rem;color:var(--border);font-weight:700;transition:all .2s}
+.menu-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--mint)}
+.menu-card:hover::after{color:var(--mint-dk);right:12px}
+.menu-card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.menu-card-body h3{font-size:.95rem;font-weight:800;color:var(--ink);margin-bottom:3px}
+.menu-card-body p{font-size:.78rem;color:var(--ink-md);line-height:1.4}
+.menu-card .badge{align-self:flex-start}
 
 /* ===== GRADE SELECTOR ===== */
-.grade-row{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
-.grade-chip{flex:1;min-width:120px;padding:14px 10px;border-radius:12px;border:2px solid var(--border);background:var(--card);text-align:center;cursor:pointer;transition:all .2s;font-weight:700;font-size:.95rem}
+/* grade-chip → hero-chip으로 대체 (하위 호환 유지) */
+.grade-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.grade-chip{flex:1;min-width:100px;padding:12px 8px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);text-align:center;cursor:pointer;transition:all .2s;font-weight:700;font-size:.88rem}
 .grade-chip:hover{border-color:var(--mint);background:var(--mint-lt)}
 .grade-chip.selected{border-color:var(--mint-dk);background:var(--mint-lt);color:var(--mint-dk)}
-.grade-chip .emoji{font-size:1.8rem;display:block;margin-bottom:4px}
+.grade-chip .emoji{font-size:1.6rem;display:block;margin-bottom:3px}
 
 /* ===== RANKING ===== */
 .ranking-board{background:linear-gradient(160deg,#1E2B3A 0%,#2A3D52 100%);border-radius:20px;padding:24px;margin-bottom:24px;color:#fff}
@@ -269,18 +299,26 @@ img{max-width:100%}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:600px){
-  .topbar{padding:0 14px}
-  .topbar-logo{font-size:.95rem}
-  .nav-btn{padding:6px 10px;font-size:.78rem}
-  .main{padding:16px 12px}
+  .topbar{padding:0 10px;height:52px}
+  .topbar-logo{font-size:.9rem;gap:6px}
+  .nav-btn{padding:5px 7px;font-size:.65rem}
+  .nav-btn .nav-icon{font-size:.95rem}
+  .main{padding:14px 12px}
   .menu-grid{grid-template-columns:1fr 1fr}
-  .hero h1{font-size:1.4rem}
-  .hero{padding:24px 20px}
-  .grade-chip{min-width:90px;padding:12px 8px;font-size:.85rem}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-grade{border-left:none;border-top:1px solid rgba(255,255,255,.1);padding:16px 18px}
+  .hero-grade-row{flex-direction:row;gap:8px}
+  .hero-chip{flex:1;flex-direction:column;align-items:center;text-align:center;padding:8px 4px;gap:3px}
+  .hero-chip span:nth-child(2){font-size:.75rem}
+  .hero-chip small{display:none}
+  .hero-text{padding:22px 18px 16px}
+  .hero h1{font-size:1.35rem}
+  .grade-chip{min-width:80px;padding:10px 6px;font-size:.82rem}
   .stat-chip{padding:8px 12px}
 }
 @media(max-width:400px){
   .menu-grid{grid-template-columns:1fr}
+  .nav-btn{padding:5px 5px}
 }
 </style>
 </head>
@@ -288,16 +326,26 @@ img{max-width:100%}
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <div class="topbar-logo">
-    <span>🌱</span>
+  <button class="topbar-logo" onclick="showPage('home')" aria-label="홈으로 이동">
+    <div class="logo-icon">🌱</div>
     <span>나 전달법 배움터</span>
-  </div>
+  </button>
   <nav class="topbar-nav">
-    <button class="nav-btn active" onclick="showPage('home')">홈</button>
-    <button class="nav-btn" onclick="showPage('learn')">배우기</button>
-    <button class="nav-btn" onclick="showPage('practice')">연습</button>
-    <button class="nav-btn" onclick="showPage('apply')">적용</button>
-    <button class="nav-btn" onclick="showPage('game')">게임</button>
+    <button class="nav-btn active" onclick="showPage('home')">
+      <span class="nav-icon">🏠</span>홈
+    </button>
+    <button class="nav-btn" onclick="showPage('learn')">
+      <span class="nav-icon">📖</span>배우기
+    </button>
+    <button class="nav-btn" onclick="showPage('practice')">
+      <span class="nav-icon">✏️</span>연습
+    </button>
+    <button class="nav-btn" onclick="showPage('apply')">
+      <span class="nav-icon">🎭</span>적용
+    </button>
+    <button class="nav-btn" onclick="showPage('game')">
+      <span class="nav-icon">🎮</span>게임
+    </button>
   </nav>
 </div>
 
@@ -306,27 +354,67 @@ img{max-width:100%}
 
 <!-- ======================== HOME PAGE ======================== -->
 <div id="page-home" class="page active">
+
+  <!-- 히어로: 서비스 소개 + 학년 선택 통합 -->
   <div class="hero">
-    <h1>나 전달법 배움터</h1>
-    <p>내 마음을 솔직하고 따뜻하게 전달하는 방법을 배워봐요 ✨</p>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-eyebrow">초등학생을 위한 대화 훈련</div>
+        <h1>나 전달법 배움터</h1>
+        <p>친구와 다툼 없이 내 마음을 전하는<br>방법을 배우고 게임으로 연습해요!</p>
+      </div>
+      <!-- 학년 선택 통합 -->
+      <div class="hero-grade">
+        <div class="hero-grade-label">내 학년을 선택하세요</div>
+        <div class="hero-grade-row">
+          <button class="hero-chip" onclick="selectGrade('low')" id="grade-low">
+            <span>🐣</span><span>저학년</span><small>1~2학년</small>
+          </button>
+          <button class="hero-chip" onclick="selectGrade('mid')" id="grade-mid">
+            <span>🐥</span><span>중학년</span><small>3~4학년</small>
+          </button>
+          <button class="hero-chip" onclick="selectGrade('high')" id="grade-high">
+            <span>🐓</span><span>고학년</span><small>5~6학년</small>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- 학년군 선택 -->
-  <div class="card card-sm" style="margin-bottom:20px">
-    <div style="font-size:.85rem;font-weight:700;color:var(--ink-md);margin-bottom:12px">내 학년을 선택하세요</div>
-    <div class="grade-row">
-      <div class="grade-chip" onclick="selectGrade('low')" id="grade-low">
-        <span class="emoji">🐣</span>
-        저학년<br><small style="font-weight:400;color:var(--ink-lt)">1~2학년</small>
+  <!-- 메뉴 (최우선 배치) -->
+  <div class="home-section-label">무엇을 할까요?</div>
+  <div class="menu-grid">
+    <div class="menu-card" onclick="showPage('learn')">
+      <div class="menu-card-icon" style="background:var(--mint-lt)">📖</div>
+      <div class="menu-card-body">
+        <h3>배우기</h3>
+        <p>나 전달법이 뭔지 알아봐요</p>
       </div>
-      <div class="grade-chip" onclick="selectGrade('mid')" id="grade-mid">
-        <span class="emoji">🐥</span>
-        중학년<br><small style="font-weight:400;color:var(--ink-lt)">3~4학년</small>
+      <span class="badge badge-mint">개념 학습</span>
+    </div>
+    <div class="menu-card" onclick="showPage('practice')">
+      <div class="menu-card-icon" style="background:var(--sun-lt)">✏️</div>
+      <div class="menu-card-body">
+        <h3>연습하기</h3>
+        <p>상황별 나 전달법 직접 써보기</p>
       </div>
-      <div class="grade-chip" onclick="selectGrade('high')" id="grade-high">
-        <span class="emoji">🐓</span>
-        고학년<br><small style="font-weight:400;color:var(--ink-lt)">5~6학년</small>
+      <span class="badge badge-sun">키워드 채점</span>
+    </div>
+    <div class="menu-card" onclick="showPage('apply')">
+      <div class="menu-card-icon" style="background:var(--sky-lt)">🎭</div>
+      <div class="menu-card-body">
+        <h3>적용하기</h3>
+        <p>30가지 상황에서 실전 적용</p>
       </div>
+      <span class="badge badge-sky">30가지 상황</span>
+    </div>
+    <div class="menu-card" onclick="showPage('game')">
+      <div class="menu-card-icon" style="background:var(--coral-lt)">🎮</div>
+      <div class="menu-card-body">
+        <h3>게임하기</h3>
+        <p>골든벨 퀴즈로 실력 겨루기</p>
+      </div>
+      <span class="badge badge-coral">랭킹 등록</span>
     </div>
   </div>
 
@@ -337,61 +425,49 @@ img{max-width:100%}
     <div class="today-action">나 전달법으로 말해보기 →</div>
   </div>
 
-  <!-- 내 진도 -->
+  <!-- 내 진도 (재방문자용) -->
   <div class="progress-track" id="my-progress">
     <h4>📊 내 연습 현황</h4>
-    <div class="prog-row"><span class="prog-label">연습하기</span><div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-practice" style="width:0%"></div></div><span class="prog-count" id="prog-p-cnt">0/15</span></div>
-    <div class="prog-row"><span class="prog-label">적용하기</span><div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-apply" style="width:0%"></div></div><span class="prog-count" id="prog-a-cnt">0/30</span></div>
-    <div class="prog-row"><span class="prog-label">게임 최고점</span><div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-game" style="width:0%"></div></div><span class="prog-count" id="prog-g-cnt">0점</span></div>
+    <div class="prog-row">
+      <span class="prog-label">연습하기</span>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-practice" style="width:0%"></div></div>
+      <span class="prog-count" id="prog-p-cnt">0/21</span>
+    </div>
+    <div class="prog-row">
+      <span class="prog-label">적용하기</span>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-apply" style="width:0%"></div></div>
+      <span class="prog-count" id="prog-a-cnt">0/30</span>
+    </div>
+    <div class="prog-row">
+      <span class="prog-label">게임 최고점</span>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-game" style="width:0%"></div></div>
+      <span class="prog-count" id="prog-g-cnt">0점</span>
+    </div>
   </div>
 
-  <!-- 뱃지 -->
-  <div class="card card-sm" style="margin-bottom:20px">
-    <div style="font-size:.85rem;font-weight:700;color:var(--ink-md);margin-bottom:12px">🏅 내 뱃지</div>
+  <!-- 뱃지: 1개 이상 달성 시에만 표시 -->
+  <div id="badge-area" style="display:none">
+    <div class="home-section-label">🏅 내 뱃지</div>
     <div class="badge-system" id="badge-list"></div>
   </div>
 
-  <!-- 랭킹 -->
+  <!-- 전국 랭킹 (하단) -->
+  <div class="home-section-label">🏆 전국 TOP 10</div>
   <div class="ranking-board">
-    <div class="ranking-title">🏆 전국 TOP 10 <span id="rank-period" style="font-size:.78rem;opacity:.7;margin-left:auto">이번 주</span></div>
+    <div class="ranking-title">
+      이번 주 반별 랭킹
+      <span id="rank-period" style="font-size:.75rem;opacity:.6;margin-left:auto">실시간</span>
+    </div>
     <ul class="ranking-list" id="ranking-list">
       <li class="rank-loading">🔄 랭킹을 불러오는 중...</li>
     </ul>
   </div>
 
-  <!-- 메뉴 -->
-  <div class="menu-grid">
-    <div class="menu-card" onclick="showPage('learn')">
-      <div class="icon">📖</div>
-      <h3>배우기</h3>
-      <p>나 전달법이 뭔지 알아봐요</p>
-      <span class="badge badge-mint">개념 학습</span>
-    </div>
-    <div class="menu-card" onclick="showPage('practice')">
-      <div class="icon">✏️</div>
-      <h3>연습하기</h3>
-      <p>빈칸을 채우고 AI 피드백 받기</p>
-      <span class="badge badge-sun">AI 피드백</span>
-    </div>
-    <div class="menu-card" onclick="showPage('apply')">
-      <div class="icon">🎭</div>
-      <h3>적용하기</h3>
-      <p>30가지 상황에서 직접 써보기</p>
-      <span class="badge badge-sky">30가지 상황</span>
-    </div>
-    <div class="menu-card" onclick="showPage('game')">
-      <div class="icon">🎮</div>
-      <h3>게임하기</h3>
-      <p>골든벨 퀴즈로 실력 겨루기</p>
-      <span class="badge badge-coral">랭킹 등록</span>
-    </div>
-  </div>
   <!-- Firebase 설정 안내 -->
   <div class="setup-notice" id="setup-notice" style="display:none">
     ⚙️ <strong>선생님 설정 안내:</strong> 랭킹 기능을 활성화하려면
     <a href="https://console.firebase.google.com" target="_blank" style="color:var(--mint-dk);font-weight:700">Firebase 콘솔</a>에서
     Firestore DB를 만들고, 파일 내 <code>firebaseConfig</code>에 발급받은 키를 입력하세요.
-    AI 피드백은 <code>api.anthropic.com</code>에서 자동 처리됩니다.
     <span style="float:right;cursor:pointer;font-weight:700" onclick="this.parentElement.style.display='none'">✕</span>
   </div>
 
@@ -542,15 +618,15 @@ img{max-width:100%}
   </div>
   <div class="card card-sm" style="margin-bottom:16px">
     <div style="font-size:.82rem;color:var(--ink-md);line-height:1.6">
-      💡 상황을 보고 <strong>행동 / 감정 / 바라는 점</strong>을 입력하세요. AI가 모범 답안과 비교해 피드백을 드려요.
+      💡 상황을 읽고 나 전달법 문장을 직접 써보세요. <strong>행동 + 감정 + 바라는 점</strong>을 모두 넣어야 높은 점수를 받을 수 있어요!
     </div>
   </div>
 
   <!-- 학년 탭 -->
   <div class="level-tabs" style="margin-bottom:16px">
-    <button class="level-tab active" onclick="switchPracticeLevel('low',this)">🐣 저학년</button>
-    <button class="level-tab" onclick="switchPracticeLevel('mid',this)">🐥 중학년</button>
-    <button class="level-tab" onclick="switchPracticeLevel('high',this)">🐓 고학년</button>
+    <button class="level-tab" id="ptab-low" onclick="switchPracticeLevel('low',this)">🐣 저학년</button>
+    <button class="level-tab" id="ptab-mid" onclick="switchPracticeLevel('mid',this)">🐥 중학년</button>
+    <button class="level-tab" id="ptab-high" onclick="switchPracticeLevel('high',this)">🐓 고학년</button>
   </div>
 
   <div id="practice-container"></div>
@@ -564,22 +640,11 @@ img{max-width:100%}
   </div>
   <div class="card card-sm" style="margin-bottom:16px">
     <div style="font-size:.82rem;color:var(--ink-md);line-height:1.6">
-      💡 초등학교에서 일어날 수 있는 30가지 상황이에요. 나 전달법 문장을 완성해보세요!
+      💡 힌트 없이 나 전달법 문장을 완성해보세요. <strong>행동 + 감정 + 바라는 점</strong>을 모두 담아야 해요!
     </div>
   </div>
-
   <div class="category-pills" id="apply-cats"></div>
-
-  <div class="situation-nav">
-    <span class="sit-counter" id="apply-counter">1 / 30</span>
-    <div style="display:flex;gap:8px">
-      <button class="btn-secondary" onclick="applyPrev()" style="padding:7px 14px;font-size:.82rem">◀</button>
-      <button class="btn-secondary" onclick="applyNext()" style="padding:7px 14px;font-size:.82rem">▶</button>
-    </div>
-  </div>
-  <div class="progress-bar-wrap"><div class="progress-bar" id="apply-progress" style="width:3%"></div></div>
-
-  <div class="card" id="apply-card-container"></div>
+  <div id="apply-card-container"></div>
 </div>
 
 <!-- ======================== GAME PAGE ======================== -->
@@ -715,64 +780,267 @@ const FC_DATA = {
 ===================================================== */
 const PRACTICE_DATA = {
   low: [
-    { id:'p1', situation:"친구가 줄을 서고 있는데 내 앞으로 새치기했어요.", action:"친구가 내 앞으로 끼어들었을 때", feel:"속상하고 억울해", want:"줄은 뒤에서 서줬으면 해", model:"네가 내 앞으로 새치기했을 때, 나는 속상하고 억울했어. 줄은 뒤에서 서줘." },
-    { id:'p2', situation:"친구가 말도 없이 내 색연필을 가져다 써요.", action:"내 색연필을 허락 없이 가져갔을 때", feel:"당황스럽고 속상해", want:"빌릴 때 먼저 물어봐줘", model:"내 색연필을 말도 없이 가져갔을 때, 나는 당황했어. 빌릴 때는 먼저 물어봐줘." },
-    { id:'p3', situation:"친구들이 나만 빼고 같이 놀아요.", action:"친구들이 나만 빼고 놀 때", feel:"슬프고 외로워", want:"나도 같이 놀았으면 해", model:"나만 빼고 놀면 슬프고 외로운 기분이야. 나도 같이 놀았으면 해." },
-    { id:'p4', situation:"친구가 내 그림을 못 그린다고 놀렸어요.", action:"내 그림을 놀렸을 때", feel:"창피하고 속상해", want:"앞으로 놀리지 않았으면 해", model:"내 그림을 놀렸을 때 창피하고 속상했어. 앞으로 놀리지 말아줘." },
-    { id:'p5', situation:"친구가 내 차례인데 먼저 해버렸어요.", action:"내 차례인데 먼저 해버렸을 때", feel:"억울해", want:"차례를 지켜줬으면 해", model:"내 차례인데 먼저 해버리면 억울해. 차례를 지켜줘." }
+    { id:'p1', situation:'친구가 줄을 서고 있는데 내 앞으로 새치기했어요.',
+      keywords:{ action:['새치기','끼어','앞으로','앞에'], feel:['속상','억울','화','기분'], want:['서줘','서줬으면','뒤에','차례'] },
+      badWords:['때문에','왜 그래','나쁜','못됐'],
+      model:'네가 내 앞으로 끼어들었을 때 억울하고 속상했어. 줄 뒤에서 서줬으면 해.' },
+    { id:'p2', situation:'친구가 말도 없이 내 색연필을 가져다 써요.',
+      keywords:{ action:['허락','말도 없이','가져','빌려'], feel:['당황','속상','불편','싫'], want:['물어봐','말해줘','허락','먼저'] },
+      badWords:['도둑','왜 가져가','나쁜'],
+      model:'말도 없이 내 색연필을 가져갔을 때 당황스럽고 속상해. 빌릴 때는 먼저 물어봐줘.' },
+    { id:'p3', situation:'친구들이 나만 빼고 같이 놀아요.',
+      keywords:{ action:['빼고','혼자','같이 안','나만'], feel:['슬프','외로','속상','서운'], want:['같이','함께','놀고 싶','포함'] },
+      badWords:['나쁜','싫어','때문에'],
+      model:'나만 빼고 놀면 슬프고 외로운 기분이야. 나도 같이 놀았으면 해.' },
+    { id:'p4', situation:'친구가 내 그림을 못 그린다고 놀렸어요.',
+      keywords:{ action:['놀렸','별명','못 그린','웃었'], feel:['창피','속상','상처','부끄'], want:['놀리지','그러지 마','말아줘','존중'] },
+      badWords:['바보','나쁜','때문에'],
+      model:'내 그림을 놀렸을 때 창피하고 속상했어. 앞으로 놀리지 말아줘.' },
+    { id:'p5', situation:'친구가 내 차례인데 먼저 해버렸어요.',
+      keywords:{ action:['차례','먼저','순서','빼앗'], feel:['억울','속상','화','기분'], want:['차례','순서','지켜줘','기다려'] },
+      badWords:['나쁜','왜 그래','때문에'],
+      model:'내 차례인데 먼저 해버리면 억울해. 차례를 지켜줘.' },
+    { id:'p6', situation:'친구가 내가 아끼는 지우개를 허락 없이 써서 다 닳아버렸어요.',
+      keywords:{ action:['허락','닳','써버','가져'], feel:['속상','아깝','화','슬프'], want:['물어봐','허락','조심','먼저'] },
+      badWords:['도둑','나쁜','때문에'],
+      model:'허락 없이 써서 지우개가 다 닳았을 때 속상하고 아까웠어. 다음엔 먼저 물어봐줘.' },
+    { id:'p7', situation:'모둠 청소 시간에 친구가 아무것도 안 하고 있어요.',
+      keywords:{ action:['안 하','청소','혼자','놀고'], feel:['힘들','지쳐','억울','불공평'], want:['같이','함께','도와','나눠'] },
+      badWords:['게으른','나쁜','때문에'],
+      model:'혼자 청소하는 것 같아서 힘들어. 같이 해줬으면 해.' }
   ],
   mid: [
-    { id:'p6', situation:"모둠활동에서 친구가 아무것도 안 하고 있어요.", action:"모둠활동에서 아무것도 하지 않았을 때", feel:"혼자 다 하는 것 같아서 힘들어", want:"같이 역할을 나눠서 했으면 해", model:"모둠활동에서 혼자 다 하는 것 같아서 힘들었어. 다음엔 역할을 나눠서 함께 해줬으면 해." },
-    { id:'p7', situation:"친구가 내 이름을 이상한 별명으로 부르며 놀려요.", action:"내 이름을 이상한 별명으로 불렀을 때", feel:"기분이 나쁘고 상처받았어", want:"내 이름을 바르게 불러줬으면 해", model:"이상한 별명으로 부르면 기분이 나쁘고 상처받아. 바른 이름으로 불러줘." },
-    { id:'p8', situation:"친구가 발표할 때 장난을 치며 방해해요.", action:"발표할 때 장난을 쳤을 때", feel:"집중하기 어렵고 당황스러웠어", want:"발표할 때는 조용히 들어줬으면 해", model:"발표할 때 장난치면 집중하기 어렵고 당황스러워. 발표할 때는 조용히 들어줘." },
-    { id:'p9', situation:"친구가 선생님께 내 잘못을 과장해서 말했어요.", action:"내 잘못을 과장해서 말했을 때", feel:"억울하고 배신감이 느껴졌어", want:"사실대로 말해줬으면 해", model:"과장해서 말하면 억울하고 배신감이 들어. 사실대로 말해줘." },
-    { id:'p10', situation:"친구가 내 의견을 무시하고 계속 자기 것만 고집해요.", action:"내 의견을 무시했을 때", feel:"소외되는 기분이야", want:"내 의견도 들어봐줬으면 해", model:"내 의견을 무시하면 소외되는 기분이야. 내 의견도 한번 들어봐줘." }
+    { id:'p8', situation:'모둠활동에서 친구가 아무것도 안 하고 있어요.',
+      keywords:{ action:['모둠','아무것도','안 하','혼자'], feel:['힘들','지쳐','억울','불공평'], want:['역할','나눠','같이','함께'] },
+      badWords:['게으른','때문에','왜 그래'],
+      model:'모둠활동에서 혼자 다 하는 것 같아서 힘들어. 역할을 나눠서 같이 해줬으면 해.' },
+    { id:'p9', situation:'친구가 내 이름을 이상한 별명으로 부르며 놀려요.',
+      keywords:{ action:['별명','이름','놀려','불러'], feel:['기분 나쁘','상처','불쾌','싫'], want:['바른 이름','제 이름','이름으로','말아줘'] },
+      badWords:['나쁜','때문에','왜 그래'],
+      model:'그 별명으로 불리면 기분이 나쁘고 상처받아. 바른 이름으로 불러줘.' },
+    { id:'p10', situation:'친구가 발표할 때 장난을 치며 방해해요.',
+      keywords:{ action:['장난','방해','발표','떠들'], feel:['당황','집중','어렵','힘들'], want:['조용','들어줘','방해하지','집중'] },
+      badWords:['나쁜','때문에','왜 그래'],
+      model:'발표할 때 장난치면 집중하기 어렵고 당황스러워. 발표할 때는 조용히 들어줘.' },
+    { id:'p11', situation:'친구가 선생님께 내 잘못을 과장해서 말했어요.',
+      keywords:{ action:['과장','일렀','말했','선생님'], feel:['억울','배신','속상','화'], want:['사실','정확히','있는 그대로','바르게'] },
+      badWords:['고자질','나쁜','때문에'],
+      model:'과장해서 말하면 억울하고 배신감이 들어. 사실대로 말해줘.' },
+    { id:'p12', situation:'친구가 내 의견을 무시하고 계속 자기 것만 고집해요.',
+      keywords:{ action:['무시','의견','고집','듣지 않'], feel:['소외','속상','억울','무시'], want:['들어봐','의견','같이','존중'] },
+      badWords:['이기적','나쁜','때문에'],
+      model:'내 의견을 무시하면 소외되는 기분이야. 내 의견도 한번 들어봐줘.' },
+    { id:'p13', situation:'쉬는 시간에 친구가 나 모르게 내 일기장을 읽었어요.',
+      keywords:{ action:['일기','몰래','허락','봤'], feel:['속상','배신','화','불쾌'], want:['동의','허락','물어봐','사생활'] },
+      badWords:['나쁜','도둑','때문에'],
+      model:'허락 없이 일기를 읽으면 배신당한 기분이야. 내 물건은 허락 없이 보지 않았으면 해.' },
+    { id:'p14', situation:'친구가 내가 싫어하는 음식을 강제로 먹으라고 해요.',
+      keywords:{ action:['강제','억지로','먹으라','싫어'], feel:['불편','싫','당황','압박'], want:['강요하지','내 의견','싫으면','존중'] },
+      badWords:['나쁜','때문에','왜 그래'],
+      model:'억지로 먹으라고 하면 불편하고 싫어. 내가 싫다고 하면 강요하지 않았으면 해.' }
   ],
   high: [
-    { id:'p11', situation:"친구가 단톡방에서 나에 대한 험담을 올렸어요.", action:"단톡방에 나에 대한 험담을 올렸을 때", feel:"배신감과 깊은 상처를 받았어", want:"직접 나한테 이야기해줬으면 해", model:"단톡방에서 험담을 봤을 때 배신감과 깊은 상처를 받았어. 문제가 있으면 직접 말해줬으면 해." },
-    { id:'p12', situation:"모둠 발표 준비를 혼자 다 하게 됐어요.", action:"발표 준비를 혼자 하게 됐을 때", feel:"지치고 불공평하다는 생각이 들었어", want:"역할을 공정하게 나눠서 함께 준비했으면 해", model:"발표 준비를 혼자 하게 됐을 때 지치고 불공평하다는 생각이 들었어. 역할을 공정하게 나눠서 함께 준비했으면 해." },
-    { id:'p13', situation:"친구가 나의 비밀을 다른 친구들에게 말했어요.", action:"나의 비밀을 다른 사람에게 말했을 때", feel:"믿었는데 배신당한 기분이야", want:"앞으로 비밀은 지켜줬으면 해", model:"나의 비밀을 말했을 때 믿었는데 배신당한 기분이었어. 앞으로는 비밀을 지켜줬으면 해." },
-    { id:'p14', situation:"학급 임원이 항상 나한테만 힘든 역할을 맡겨요.", action:"항상 나한테만 힘든 역할을 맡겼을 때", feel:"불공평하고 지쳐가는 기분이야", want:"역할을 골고루 나눠줬으면 해", model:"항상 나한테만 힘든 역할을 맡기면 불공평하고 지쳐가. 역할을 골고루 나눠줬으면 해." },
-    { id:'p15', situation:"친구가 내가 없을 때 중요한 결정을 해버렸어요.", action:"내가 없을 때 중요한 결정을 해버렸을 때", feel:"소외된 느낌과 함께 서운함을 느꼈어", want:"다음엔 나도 참여할 수 있도록 기다려줬으면 해", model:"내가 없을 때 결정이 났을 때 소외된 느낌이 들었어. 다음에는 나도 참여할 수 있도록 기다려줬으면 해." }
+    { id:'p15', situation:'친구가 단톡방에서 나에 대한 험담을 올렸어요.',
+      keywords:{ action:['단톡','험담','SNS','올렸'], feel:['배신','상처','속상','충격'], want:['직접','삭제','말해줘','얼굴 보고'] },
+      badWords:['나쁜','때문에','고자질'],
+      model:'단톡방에서 험담을 봤을 때 배신감과 깊은 상처를 받았어. 문제가 있으면 직접 말해줬으면 해.' },
+    { id:'p16', situation:'모둠 발표 준비를 나만 혼자 다 하게 됐어요.',
+      keywords:{ action:['혼자','발표','준비','역할'], feel:['지치','불공평','힘들','억울'], want:['역할','나눠','공평','같이'] },
+      badWords:['게으른','때문에','나쁜'],
+      model:'발표 준비를 혼자 하게 됐을 때 지치고 불공평하다는 생각이 들었어. 역할을 공정하게 나눠서 함께 준비했으면 해.' },
+    { id:'p17', situation:'친구가 나의 비밀을 다른 친구들에게 말했어요.',
+      keywords:{ action:['비밀','말했','퍼뜨','알렸'], feel:['배신','상처','속상','믿었는데'], want:['지켜줘','말하지 마','비밀','약속'] },
+      badWords:['배신자','나쁜','때문에'],
+      model:'비밀을 말했을 때 믿었는데 배신당한 기분이었어. 앞으로는 비밀을 지켜줬으면 해.' },
+    { id:'p18', situation:'학급 임원이 항상 나한테만 힘든 역할을 맡겨요.',
+      keywords:{ action:['항상','나만','역할','맡겨'], feel:['불공평','지쳐','억울','힘들'], want:['골고루','공평','나눠','다른 사람'] },
+      badWords:['이기적','나쁜','때문에'],
+      model:'항상 나한테만 힘든 역할을 맡기면 불공평하고 지쳐가. 역할을 골고루 나눠줬으면 해.' },
+    { id:'p19', situation:'친구가 내가 없을 때 중요한 결정을 해버렸어요.',
+      keywords:{ action:['없을 때','결정','혼자','빼고'], feel:['소외','서운','속상','배제'], want:['기다려','같이','포함','참여'] },
+      badWords:['나쁜','때문에','왜 그래'],
+      model:'내가 없을 때 결정이 났을 때 소외된 느낌이 들었어. 다음에는 나도 참여할 수 있도록 기다려줬으면 해.' },
+    { id:'p20', situation:'친구가 수업 시간에 계속 쪽지를 보내서 수업에 집중하기 어려워요.',
+      keywords:{ action:['쪽지','집중','방해','수업'], feel:['불편','어렵','당황','힘들'], want:['수업 중','나중에','쉬는 시간','집중'] },
+      badWords:['나쁜','때문에','왜 그래'],
+      model:'수업 중에 쪽지를 보내면 집중하기 어렵고 불편해. 쉬는 시간에 이야기해줬으면 해.' },
+    { id:'p21', situation:'친구가 내 발표 내용을 미리 다른 사람에게 말해버렸어요.',
+      keywords:{ action:['발표','미리','말했','알렸'], feel:['당황','억울','배신','속상'], want:['말하지 마','비밀','동의','먼저'] },
+      badWords:['나쁜','때문에','왜 그래'],
+      model:'발표 내용을 미리 말해버리면 당황스럽고 억울해. 내 동의 없이는 말하지 않았으면 해.' }
   ]
 };
+
+/* =====================================================
+   데이터 ─ 30가지 상황 (적용하기)};
 
 /* =====================================================
    데이터 ─ 30가지 상황 (적용하기)
 ===================================================== */
 const SITUATIONS_30 = [
-  { cat:"쉬는 시간", title:"새치기", situation:"줄을 서고 있는데 친구가 내 앞으로 새치기했어요.", model:"네가 내 앞으로 새치기했을 때, 억울하고 속상한 기분이 들었어. 앞으로는 줄 뒤에서 서줬으면 해." },
-  { cat:"쉬는 시간", title:"놀이 배제", situation:"친구들이 나만 빼고 따로 놀고 있어요.", model:"나만 빠지고 같이 안 놀면 외롭고 슬퍼. 나도 같이 놀고 싶어." },
-  { cat:"쉬는 시간", title:"자리 다툼", situation:"내 자리에 다른 친구가 먼저 앉아 있어요.", model:"내 자리에 앉으면 당황스러워. 앉기 전에 먼저 물어봐줘." },
-  { cat:"수업 시간", title:"모둠 무임승차", situation:"모둠활동인데 한 친구만 아무것도 안 해요.", model:"혼자 다 하는 것 같아서 힘들어. 역할을 나눠서 같이 하면 좋겠어." },
-  { cat:"수업 시간", title:"발표 방해", situation:"내가 발표하는데 친구가 장난을 쳐서 방해해요.", model:"발표할 때 장난치면 집중하기 어렵고 당황스러워. 발표할 때는 조용히 들어줘." },
-  { cat:"수업 시간", title:"의견 무시", situation:"모둠토의에서 내 의견을 아무도 들어주지 않아요.", model:"내 의견을 무시하면 소외된 기분이야. 내 의견도 한 번 들어봐줘." },
-  { cat:"수업 시간", title:"혼자 결정", situation:"모둠 발표 주제를 나 빼고 다 정해버렸어요.", model:"내가 없을 때 결정되면 소외된 느낌이 들어. 다음엔 나도 참여할 수 있게 기다려줘." },
-  { cat:"급식·이동", title:"급식 새치기", situation:"급식 줄에서 친구가 갑자기 새치기해요.", model:"새치기하면 억울해. 줄 맨 뒤에서 서줘." },
-  { cat:"급식·이동", title:"음식 장난", situation:"친구가 급식 시간에 음식을 던져서 내 옷에 묻었어요.", model:"음식이 옷에 묻어서 당황스럽고 속상했어. 음식 장난은 하지 말아줘." },
-  { cat:"급식·이동", title:"이동 시 밀기", situation:"복도에서 이동할 때 친구가 나를 밀었어요.", model:"밀리면 넘어질 것 같아서 무서웠어. 복도에서는 조심해줘." },
-  { cat:"물건·소지품", title:"무단 사용", situation:"친구가 말도 없이 내 학용품을 빌려 써요.", model:"허락 없이 내 물건을 쓰면 당황스러워. 빌릴 때는 먼저 물어봐줘." },
-  { cat:"물건·소지품", title:"물건 파손", situation:"친구가 내 물건을 실수로 망가뜨렸어요.", model:"물건이 망가지니 속상하고 아까워. 앞으로 조심히 다뤄줬으면 해." },
-  { cat:"물건·소지품", title:"물건 숨기기", situation:"친구가 장난으로 내 필통을 숨겼어요.", model:"물건을 숨기면 당황스럽고 속상해. 장난으로라도 그러지 말아줘." },
-  { cat:"물건·소지품", title:"무단 대여", situation:"친구가 내 물건을 다른 친구에게 빌려줬어요.", model:"내 물건을 내 허락 없이 빌려주면 기분이 나빠. 빌려줄 때는 나한테 물어봐줘." },
-  { cat:"언어·감정", title:"놀림·별명", situation:"친구가 내 외모나 이름으로 놀려요.", model:"그렇게 부르면 상처받아. 바른 이름으로 불러줘." },
-  { cat:"언어·감정", title:"험담", situation:"친구가 나에 대한 험담을 다른 친구들에게 하고 다녀요.", model:"험담을 들으면 배신감과 상처를 받아. 문제가 있으면 직접 말해줘." },
-  { cat:"언어·감정", title:"비밀 유출", situation:"내가 한 친구에게만 말한 비밀이 반 전체에 퍼졌어요.", model:"비밀이 퍼지면 배신당한 기분이야. 앞으로는 비밀을 지켜줘." },
-  { cat:"언어·감정", title:"무시", situation:"내가 말할 때 친구가 계속 딴 짓을 해요.", model:"말할 때 무시당하는 것 같아서 속상해. 말할 때 들어줬으면 해." },
-  { cat:"언어·감정", title:"욕설", situation:"친구가 장난이라며 나에게 욕을 해요.", model:"장난이라도 욕을 들으면 기분이 나쁘고 상처받아. 욕은 하지 말아줘." },
-  { cat:"언어·감정", title:"비교·비하", situation:"친구가 나를 다른 친구와 비교하며 못하다고 해요.", model:"비교당하면 자존심이 상하고 속상해. 비교하지 않았으면 해." },
-  { cat:"관계·소통", title:"친구 독점", situation:"내 단짝 친구를 다른 친구가 독점해서 나와 놀지 못해요.", model:"혼자가 된 것 같아 외로워. 우리 셋이 같이 놀면 어떨까?" },
-  { cat:"관계·소통", title:"파벌 짓기", situation:"친구들이 편을 갈라서 나를 한쪽으로 강제로 넣으려 해요.", model:"억지로 편에 넣히면 불편하고 당황스러워. 내가 결정할 수 있게 해줘." },
-  { cat:"관계·소통", title:"뒷담화", situation:"친구들이 뒤에서 나에 대해 수군거려요.", model:"뒤에서 수군거리면 불안하고 소외된 기분이야. 할 말이 있으면 직접 말해줘." },
-  { cat:"관계·소통", title:"약속 어김", situation:"함께 하기로 한 친구가 약속을 지키지 않았어요.", model:"약속을 어기면 실망하고 속상해. 못 할 것 같으면 미리 말해줘." },
-  { cat:"SNS·온라인", title:"단톡방 따돌림", situation:"반 단톡방에서 나만 빼고 새 단톡방을 만들었어요.", model:"나만 빠진 걸 알았을 때 소외되고 슬펐어. 나도 포함시켜 줬으면 해." },
-  { cat:"SNS·온라인", title:"온라인 험담", situation:"SNS에 나에 대한 나쁜 글이 올라왔어요.", model:"그 글을 보고 배신감과 상처를 받았어. 삭제하고 직접 말해줬으면 해." },
-  { cat:"청소·당번", title:"청소 기피", situation:"청소 당번인 친구가 아무것도 안 하고 있어요.", model:"혼자 청소하는 것 같아 힘들어. 같이 청소해줬으면 해." },
-  { cat:"청소·당번", title:"역할 떠넘김", situation:"모둠 당번 일을 친구가 나에게 다 떠넘겨요.", model:"나한테만 시키면 불공평하고 지쳐. 역할을 나눠서 같이 해줘." },
-  { cat:"경쟁·평가", title:"결과 비난", situation:"친구가 게임이나 시합에서 지자 나를 탓해요.", model:"탓하면 억울하고 기분이 나빠. 같이 노력한 거니까 서로 격려하면 좋겠어." },
-  { cat:"경쟁·평가", title:"칭찬 독점", situation:"우리 팀이 함께 이겼는데 한 친구만 칭찬을 독차지해요.", model:"함께 이겼는데 내 노력이 무시된 것 같아 속상해. 모두의 노력이 인정받았으면 해." }
+  /* ── 쉬는 시간 ── */
+  { cat:'쉬는 시간', title:'새치기',
+    situation:'줄을 서고 있는데 친구가 내 앞으로 새치기했어요.',
+    keywords:{ action:['새치기','끼어','앞으로','앞에'], feel:['억울','속상','화','기분'], want:['뒤에','서줘','서줬으면','차례'] },
+    badWords:['때문에','왜 그래','나쁜'],
+    model:'네가 내 앞으로 새치기했을 때, 억울하고 속상한 기분이 들었어. 앞으로는 줄 뒤에서 서줬으면 해.' },
+  { cat:'쉬는 시간', title:'놀이 배제',
+    situation:'친구들이 나만 빼고 따로 놀고 있어요.',
+    keywords:{ action:['빼고','혼자','같이 안','나만'], feel:['외롭','슬프','속상','서운'], want:['같이','함께','놀고 싶','포함'] },
+    badWords:['때문에','나쁜'],
+    model:'나만 빠지고 같이 안 놀면 외롭고 슬퍼. 나도 같이 놀고 싶어.' },
+  { cat:'쉬는 시간', title:'자리 다툼',
+    situation:'내 자리에 다른 친구가 먼저 앉아 있어요.',
+    keywords:{ action:['자리','앉','내 자리','차지'], feel:['당황','불편','속상','놀랐'], want:['물어봐','비켜','자리','먼저'] },
+    badWords:['때문에','왜 그래'],
+    model:'내 자리에 앉으면 당황스러워. 앉기 전에 먼저 물어봐줘.' },
+  /* ── 수업 시간 ── */
+  { cat:'수업 시간', title:'모둠 무임승차',
+    situation:'모둠활동인데 한 친구만 아무것도 안 해요.',
+    keywords:{ action:['모둠','안 하','혼자','역할'], feel:['힘들','지쳐','억울','불공평'], want:['역할','나눠','같이','함께'] },
+    badWords:['게으른','때문에','왜 그래'],
+    model:'혼자 다 하는 것 같아서 힘들어. 역할을 나눠서 같이 하면 좋겠어.' },
+  { cat:'수업 시간', title:'발표 방해',
+    situation:'내가 발표하는데 친구가 장난을 쳐서 방해해요.',
+    keywords:{ action:['장난','발표','방해','떠들'], feel:['당황','집중','어렵','힘들'], want:['조용','들어줘','방해하지','집중'] },
+    badWords:['때문에','왜 그래'],
+    model:'발표할 때 장난치면 집중하기 어렵고 당황스러워. 발표할 때는 조용히 들어줘.' },
+  { cat:'수업 시간', title:'의견 무시',
+    situation:'모둠토의에서 내 의견을 아무도 들어주지 않아요.',
+    keywords:{ action:['의견','무시','듣지','안 들'], feel:['소외','속상','억울','서운'], want:['들어봐','의견','존중','한번'] },
+    badWords:['이기적','때문에'],
+    model:'내 의견을 무시하면 소외된 기분이야. 내 의견도 한 번 들어봐줘.' },
+  { cat:'수업 시간', title:'혼자 결정',
+    situation:'모둠 발표 주제를 나 빼고 다 정해버렸어요.',
+    keywords:{ action:['빼고','결정','혼자','정해'], feel:['소외','서운','속상','배제'], want:['기다려','같이','포함','참여'] },
+    badWords:['때문에','왜 그래'],
+    model:'내가 없을 때 결정되면 소외된 느낌이 들어. 다음엔 나도 참여할 수 있게 기다려줘.' },
+  /* ── 급식·이동 ── */
+  { cat:'급식·이동', title:'급식 새치기',
+    situation:'급식 줄에서 친구가 갑자기 새치기해요.',
+    keywords:{ action:['새치기','끼어','급식','앞으로'], feel:['억울','속상','화'], want:['뒤에','차례','서줘','기다려'] },
+    badWords:['때문에','나쁜'],
+    model:'새치기하면 억울해. 줄 맨 뒤에서 서줘.' },
+  { cat:'급식·이동', title:'음식 장난',
+    situation:'친구가 급식 시간에 음식을 던져서 내 옷에 묻었어요.',
+    keywords:{ action:['음식','던져','묻','장난'], feel:['당황','속상','불쾌','기분'], want:['장난하지','그러지 마','조심','말아줘'] },
+    badWords:['때문에','왜 그래'],
+    model:'음식이 옷에 묻어서 당황스럽고 속상했어. 음식 장난은 하지 말아줘.' },
+  { cat:'급식·이동', title:'이동 시 밀기',
+    situation:'복도에서 이동할 때 친구가 나를 밀었어요.',
+    keywords:{ action:['밀었','복도','밀려','부딪'], feel:['무서','놀랐','당황','아팠'], want:['조심','밀지 마','천천히','조심해줘'] },
+    badWords:['때문에','왜 그래'],
+    model:'밀리면 넘어질 것 같아서 무서웠어. 복도에서는 조심해줘.' },
+  /* ── 물건·소지품 ── */
+  { cat:'물건·소지품', title:'무단 사용',
+    situation:'친구가 말도 없이 내 학용품을 빌려 써요.',
+    keywords:{ action:['허락','말도 없이','가져','빌려'], feel:['당황','속상','불편','싫'], want:['물어봐','말해줘','허락','먼저'] },
+    badWords:['도둑','나쁜','때문에'],
+    model:'허락 없이 내 물건을 쓰면 당황스러워. 빌릴 때는 먼저 물어봐줘.' },
+  { cat:'물건·소지품', title:'물건 파손',
+    situation:'친구가 내 물건을 실수로 망가뜨렸어요.',
+    keywords:{ action:['망가','파손','부러','깨'], feel:['속상','아깝','속상','슬프'], want:['조심','배상','조심해줘','소중히'] },
+    badWords:['때문에','왜 그래'],
+    model:'물건이 망가지니 속상하고 아까워. 앞으로 조심히 다뤄줬으면 해.' },
+  { cat:'물건·소지품', title:'물건 숨기기',
+    situation:'친구가 장난으로 내 필통을 숨겼어요.',
+    keywords:{ action:['숨겼','필통','장난','감췄'], feel:['당황','속상','불안','불쾌'], want:['그러지 마','장난하지','돌려줘','말아줘'] },
+    badWords:['때문에','왜 그래'],
+    model:'물건을 숨기면 당황스럽고 속상해. 장난으로라도 그러지 말아줘.' },
+  { cat:'물건·소지품', title:'무단 대여',
+    situation:'친구가 내 물건을 다른 친구에게 빌려줬어요.',
+    keywords:{ action:['빌려줬','허락','다른','내 물건'], feel:['기분 나쁘','불쾌','속상','당황'], want:['물어봐','허락','내 물건','먼저'] },
+    badWords:['때문에','왜 그래'],
+    model:'내 물건을 내 허락 없이 빌려주면 기분이 나빠. 빌려줄 때는 나한테 물어봐줘.' },
+  /* ── 언어·감정 ── */
+  { cat:'언어·감정', title:'놀림·별명',
+    situation:'친구가 내 외모나 이름으로 놀려요.',
+    keywords:{ action:['놀려','별명','웃음','흉내'], feel:['상처','창피','기분 나쁘','속상'], want:['놀리지','바른 이름','그러지 마','말아줘'] },
+    badWords:['때문에','나쁜'],
+    model:'그렇게 부르면 상처받아. 바른 이름으로 불러줘.' },
+  { cat:'언어·감정', title:'험담',
+    situation:'친구가 나에 대한 험담을 다른 친구들에게 하고 다녀요.',
+    keywords:{ action:['험담','뒷말','말하고','이야기하고'], feel:['배신','상처','속상','서운'], want:['직접','말해줘','그러지 마','얼굴 보고'] },
+    badWords:['때문에','나쁜'],
+    model:'험담을 들으면 배신감과 상처를 받아. 문제가 있으면 직접 말해줘.' },
+  { cat:'언어·감정', title:'비밀 유출',
+    situation:'내가 한 친구에게만 말한 비밀이 반 전체에 퍼졌어요.',
+    keywords:{ action:['비밀','퍼졌','말했','알렸'], feel:['배신','상처','속상','믿었는데'], want:['지켜줘','말하지 마','약속','비밀'] },
+    badWords:['배신자','때문에'],
+    model:'비밀이 퍼지면 배신당한 기분이야. 앞으로는 비밀을 지켜줘.' },
+  { cat:'언어·감정', title:'무시',
+    situation:'내가 말할 때 친구가 계속 딴 짓을 해요.',
+    keywords:{ action:['딴 짓','무시','듣지','안 봐'], feel:['속상','무시','서운','기분'], want:['들어줘','봐줘','집중','대화'] },
+    badWords:['때문에','왜 그래'],
+    model:'말할 때 무시당하는 것 같아서 속상해. 말할 때 들어줬으면 해.' },
+  { cat:'언어·감정', title:'욕설',
+    situation:'친구가 장난이라며 나에게 욕을 해요.',
+    keywords:{ action:['욕','장난이라','말','불렀'], feel:['기분 나쁘','상처','불쾌','싫'], want:['욕하지','그러지 마','말아줘','존중'] },
+    badWords:['때문에','나쁜'],
+    model:'장난이라도 욕을 들으면 기분이 나쁘고 상처받아. 욕은 하지 말아줘.' },
+  { cat:'언어·감정', title:'비교·비하',
+    situation:'친구가 나를 다른 친구와 비교하며 못하다고 해요.',
+    keywords:{ action:['비교','못하다','걔보다','다른 친구'], feel:['자존심','속상','상처','기분 나쁘'], want:['비교하지','존중','말아줘','그러지 마'] },
+    badWords:['때문에','왜 그래'],
+    model:'비교당하면 자존심이 상하고 속상해. 비교하지 않았으면 해.' },
+  /* ── 관계·소통 ── */
+  { cat:'관계·소통', title:'친구 독점',
+    situation:'내 단짝 친구를 다른 친구가 독점해서 나와 놀지 못해요.',
+    keywords:{ action:['독점','혼자','같이 못','빼앗'], feel:['외롭','서운','속상','슬프'], want:['같이','셋이','함께','놀면'] },
+    badWords:['때문에','나쁜'],
+    model:'혼자가 된 것 같아 외로워. 우리 셋이 같이 놀면 어떨까?' },
+  { cat:'관계·소통', title:'파벌 짓기',
+    situation:'친구들이 편을 갈라서 나를 한쪽으로 강제로 넣으려 해요.',
+    keywords:{ action:['편','강제','억지로','넣으려'], feel:['불편','당황','불쾌','싫'], want:['내가 결정','선택','강요하지','스스로'] },
+    badWords:['때문에','왜 그래'],
+    model:'억지로 편에 넣히면 불편하고 당황스러워. 내가 결정할 수 있게 해줘.' },
+  { cat:'관계·소통', title:'뒷담화',
+    situation:'친구들이 뒤에서 나에 대해 수군거려요.',
+    keywords:{ action:['수군','뒤에서','소곤','뒷말'], feel:['불안','소외','속상','기분 나쁘'], want:['직접','말해줘','얼굴 보고','수군거리지'] },
+    badWords:['때문에','나쁜'],
+    model:'뒤에서 수군거리면 불안하고 소외된 기분이야. 할 말이 있으면 직접 말해줘.' },
+  { cat:'관계·소통', title:'약속 어김',
+    situation:'함께 하기로 한 친구가 약속을 지키지 않았어요.',
+    keywords:{ action:['약속','어겼','안 왔','취소'], feel:['실망','속상','서운','믿었는데'], want:['지켜줘','미리','말해줘','약속'] },
+    badWords:['때문에','왜 그래'],
+    model:'약속을 어기면 실망하고 속상해. 못 할 것 같으면 미리 말해줘.' },
+  /* ── SNS·온라인 ── */
+  { cat:'SNS·온라인', title:'단톡방 따돌림',
+    situation:'반 단톡방에서 나만 빼고 새 단톡방을 만들었어요.',
+    keywords:{ action:['단톡','빼고','새 방','따돌'], feel:['소외','슬펐','속상','배신'], want:['포함','같이','넣어줘','함께'] },
+    badWords:['때문에','나쁜'],
+    model:'나만 빠진 걸 알았을 때 소외되고 슬펐어. 나도 포함시켜 줬으면 해.' },
+  { cat:'SNS·온라인', title:'온라인 험담',
+    situation:'SNS에 나에 대한 나쁜 글이 올라왔어요.',
+    keywords:{ action:['SNS','글','올렸','올라왔'], feel:['배신','상처','속상','충격'], want:['삭제','직접','말해줘','지워줘'] },
+    badWords:['때문에','나쁜'],
+    model:'그 글을 보고 배신감과 상처를 받았어. 삭제하고 직접 말해줬으면 해.' },
+  /* ── 청소·당번 ── */
+  { cat:'청소·당번', title:'청소 기피',
+    situation:'청소 당번인 친구가 아무것도 안 하고 있어요.',
+    keywords:{ action:['청소','안 하','당번','혼자'], feel:['힘들','지쳐','억울','불공평'], want:['같이','도와','청소','함께'] },
+    badWords:['게으른','때문에'],
+    model:'혼자 청소하는 것 같아 힘들어. 같이 청소해줬으면 해.' },
+  { cat:'청소·당번', title:'역할 떠넘김',
+    situation:'모둠 당번 일을 친구가 나에게 다 떠넘겨요.',
+    keywords:{ action:['떠넘','나만','시켜','혼자'], feel:['불공평','지쳐','억울','힘들'], want:['나눠','골고루','같이','공평'] },
+    badWords:['때문에','왜 그래'],
+    model:'나한테만 시키면 불공평하고 지쳐. 역할을 나눠서 같이 해줘.' },
+  /* ── 경쟁·평가 ── */
+  { cat:'경쟁·평가', title:'결과 비난',
+    situation:'친구가 게임이나 시합에서 지자 나를 탓해요.',
+    keywords:{ action:['탓','비난','내 탓','때문에 졌'], feel:['억울','기분 나쁘','속상','화'], want:['격려','탓하지','함께','서로'] },
+    badWords:['네 탓이야','나쁜'],
+    model:'탓하면 억울하고 기분이 나빠. 같이 노력한 거니까 서로 격려하면 좋겠어.' },
+  { cat:'경쟁·평가', title:'칭찬 독점',
+    situation:'우리 팀이 함께 이겼는데 한 친구만 칭찬을 독차지해요.',
+    keywords:{ action:['칭찬','독차지','혼자','인정'], feel:['속상','무시','억울','서운'], want:['모두','함께','인정','골고루'] },
+    badWords:['때문에','왜 그래'],
+    model:'함께 이겼는데 내 노력이 무시된 것 같아 속상해. 모두의 노력이 인정받았으면 해.' }
 ];
 
+/* =====================================================
+   데이터 ─ 게임 퀴즈 (골든벨)
 /* =====================================================
    데이터 ─ 게임 퀴즈 (골든벨)
 ===================================================== */
@@ -982,7 +1250,7 @@ function showPage(name, pushState=true) {
     updateProgress();
     initTodaySituation();
   }
-  if(name==='practice') renderPractice();
+  if(name==='practice') { syncPracticeTab(); renderPractice(); }
   if(name==='apply') renderApply();
   if(name==='game') renderGameIntro();
   window.scrollTo(0,0);
@@ -1021,8 +1289,10 @@ function showToast(msg, duration=2500) {
 function selectGrade(g) {
   currentGrade = g;
   localStorage.setItem('imsg_grade', g);
-  document.querySelectorAll('.grade-chip').forEach(c=>c.classList.remove('selected'));
-  document.getElementById('grade-'+g).classList.add('selected');
+  // grade-chip(기존) + hero-chip(신규) 모두 선택 처리
+  document.querySelectorAll('.grade-chip, .hero-chip').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('grade-'+g)?.classList.add('selected');
+  practiceLevel = g;  // 연습하기 학년 자동 연동
   showToast({ low:'🐣 저학년으로 설정됐어요!', mid:'🐥 중학년으로 설정됐어요!', high:'🐓 고학년으로 설정됐어요!'}[g]);
 }
 
@@ -1090,137 +1360,313 @@ function prevCard(level) {
 /* =====================================================
    연습하기
 ===================================================== */
+/* =====================================================
+   연습하기 상태
+===================================================== */
+let practiceIdx   = 0;      // 현재 문제 인덱스
+let practiceDone  = {};     // { id: true } 최초 제출 여부
+let practiceShown = {};     // { id: true } 모범답안 표시 여부
+
+/* ─ 학년 탭 전환 ─ */
 function switchPracticeLevel(level, el) {
   practiceLevel = level;
+  practiceIdx   = 0;
   document.querySelectorAll('#page-practice .level-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   renderPractice();
 }
 
+/* ─ 현재 학년 탭 동기화 ─ */
+function syncPracticeTab() {
+  const grade = currentGrade;                 // 홈에서 선택한 학년
+  const map   = { low:'low', mid:'mid', high:'high' };
+  practiceLevel = map[grade] || 'mid';
+  practiceIdx   = 0;
+  document.querySelectorAll('#page-practice .level-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('ptab-'+practiceLevel)?.classList.add('active');
+}
+
+/* ─ 메인 렌더 ─ */
 function renderPractice() {
-  const data = PRACTICE_DATA[practiceLevel];
+  const data  = PRACTICE_DATA[practiceLevel];
+  const total = data.length;
+  const item  = data[practiceIdx];
+  if(!item) return;
+
+  // 진도 바
+  const pct = Math.round(((practiceIdx) / total) * 100);
+  const doneCount = data.filter(d => practiceDone[d.id]).length;
+
   const container = document.getElementById('practice-container');
-  container.innerHTML = data.map((item,i)=>`
+  container.innerHTML = `
+    <!-- 상단 진행 표시 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span style="font-size:.82rem;color:var(--ink-md);font-weight:600">
+        ${practiceIdx+1} / ${total} 문제
+        <span style="color:var(--mint-dk);margin-left:8px">완료 ${doneCount}개 ✅</span>
+      </span>
+      <div style="display:flex;gap:6px">
+        <button class="btn-secondary" style="padding:6px 12px;font-size:.78rem" onclick="practiceNav(-1)">◀ 이전</button>
+        <button class="btn-secondary" style="padding:6px 12px;font-size:.78rem" onclick="practiceNav(1)">다음 ▶</button>
+      </div>
+    </div>
+    <div class="progress-bar-wrap" style="margin-bottom:16px">
+      <div class="progress-bar" style="width:${Math.max(pct,3)}%"></div>
+    </div>
+
+    <!-- 문제 카드 -->
     <div class="card" id="pcard-${item.id}">
-      <div style="font-size:.78rem;font-weight:700;color:var(--ink-lt);margin-bottom:8px">상황 ${i+1}</div>
+      <!-- 상황 -->
       <div class="situation-card">
         <div class="situation-label">📌 상황</div>
         <div class="situation-text">${item.situation}</div>
       </div>
-      <div class="input-group">
-        <div class="input-label"><span class="dot dot-action"></span>행동 — 친구가 어떻게 했나요?</div>
-        <input type="text" id="p-action-${item.id}" placeholder="${practiceLevel==='low'?'친구가 어떻게 했는지 써봐요':'상황·행동을 묘사해주세요'}">
+
+      <!-- 힌트: 3요소 미니 가이드 -->
+      <div style="display:flex;gap:6px;margin:12px 0 14px;flex-wrap:wrap">
+        <span style="font-size:.75rem;padding:3px 9px;border-radius:20px;background:var(--coral-lt);color:var(--coral)">① 행동 묘사</span>
+        <span style="font-size:.75rem;padding:3px 9px;border-radius:20px;background:var(--sky-lt);color:var(--sky)">② 감정 표현</span>
+        <span style="font-size:.75rem;padding:3px 9px;border-radius:20px;background:var(--mint-lt);color:var(--mint-dk)">③ 바라는 점</span>
       </div>
+
+      <!-- 자유 문장 입력 -->
       <div class="input-group">
-        <div class="input-label"><span class="dot dot-feel"></span>감정 — 나는 어떤 기분이었나요?</div>
-        <input type="text" id="p-feel-${item.id}" placeholder="${practiceLevel==='low'?'내 기분을 적어봐요':'감정을 표현해주세요'}">
+        <div class="input-label" style="font-size:.88rem;margin-bottom:8px">
+          ✏️ 나 전달법 문장을 써보세요
+        </div>
+        <textarea class="combined-input" id="p-answer-${item.id}"
+          placeholder="${practiceLevel==='low'
+            ? '예) 네가 ____ 했을 때, 나는 ____ 해. ____ 해줬으면 해.'
+            : '행동 묘사 + 내 감정 + 바라는 점을 한 문장으로 써보세요.'}"
+          rows="3">${practiceDone[item.id] ? (document.getElementById('p-answer-'+item.id)?.value||'') : ''}</textarea>
       </div>
-      <div class="input-group">
-        <div class="input-label"><span class="dot dot-want"></span>바라는 점 — 어떻게 해줬으면 해요?</div>
-        <input type="text" id="p-want-${item.id}" placeholder="${practiceLevel==='low'?'어떻게 해줬으면 하는지 써봐요':'바라는 점을 써주세요'}">
-      </div>
+
       <div class="btn-row">
-        <button class="btn-primary" onclick="submitPractice('${item.id}')">
-          AI 피드백 받기 ✨
+        <button class="btn-primary" id="pbtn-${item.id}" onclick="submitPractice('${item.id}')">
+          채점하기 ✅
         </button>
-        <button class="btn-secondary" onclick="showModel('${item.id}')">모범 답안 보기</button>
+        ${practiceShown[item.id] ? '' :
+          `<button class="btn-secondary" onclick="showPracticeModel('${item.id}')">모범 답안</button>`}
       </div>
+
+      <!-- 채점 결과 -->
       <div class="feedback-box" id="fb-${item.id}"></div>
     </div>
-  `).join('');
+
+    <!-- 문제 목록 미니맵 -->
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:14px;padding:12px;background:var(--card);border-radius:10px;box-shadow:var(--shadow)">
+      ${data.map((d,i)=>`
+        <button onclick="jumpPractice(${i})" style="
+          width:28px;height:28px;border-radius:6px;border:none;cursor:pointer;font-size:.72rem;font-weight:700;
+          background:${i===practiceIdx?'var(--mint-dk)':practiceDone[d.id]?'var(--mint-lt)':'var(--border)'};
+          color:${i===practiceIdx?'#fff':practiceDone[d.id]?'var(--mint-dk)':'var(--ink-lt)'};
+        ">${i+1}</button>`).join('')}
+    </div>
+  `;
+
+  // 이미 제출한 문제라면 결과 복원
+  if(practiceDone[item.id]) restoreFeedback(item.id);
 }
 
-async function submitPractice(id) {
-  const item = Object.values(PRACTICE_DATA).flat().find(d=>d.id===id);
-  if(!item) return;
-  const action = document.getElementById('p-action-'+id)?.value.trim();
-  const feel = document.getElementById('p-feel-'+id)?.value.trim();
-  const want = document.getElementById('p-want-'+id)?.value.trim();
-  if(!action||!feel||!want) { showToast('세 칸을 모두 입력해주세요!'); return; }
-
-  const fb = document.getElementById('fb-'+id);
-  fb.className = 'feedback-box show so-so';
-  fb.innerHTML = `<div class="feedback-header">✨ 피드백을 생성 중이에요... <span class="loading-dots"><span></span><span></span><span></span></span></div>`;
-
-  const gradeLabel = { low:'저학년(1~2학년)', mid:'중학년(3~4학년)', high:'고학년(5~6학년)'}[practiceLevel];
-  const prompt = `당신은 초등학교 학생들에게 나 전달법(I-Message)을 가르치는 친절한 선생님입니다.
-
-학생 정보: ${gradeLabel}
-상황: ${item.situation}
-모범 답안 행동: ${item.action}
-모범 답안 감정: ${item.feel}
-모범 답안 바라는 점: ${item.want}
-
-학생이 입력한 내용:
-- 행동: ${action}
-- 감정: ${feel}
-- 바라는 점: ${want}
-
-다음 형식으로 JSON 응답을 주세요. 마크다운 없이 순수 JSON만:
-{
-  "grade": "good|so-so|needs-work",
-  "emoji": "적절한 이모지",
-  "title": "한 줄 평가 제목",
-  "feedback": "구체적인 피드백 2~3문장 (학년 수준에 맞게, 따뜻하고 격려하는 톤으로)",
-  "tip": "개선 팁 한 문장"
-}`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:600,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    const data = await res.json();
-    const text = data.content?.[0]?.text || '';
-    const clean = text.replace(/```json|```/g,'').trim();
-    const parsed = JSON.parse(clean);
-    const gradeClass = parsed.grade==='good'?'good':parsed.grade==='so-so'?'so-so':'needs-work';
-    fb.className = `feedback-box show ${gradeClass}`;
-    fb.innerHTML = `
-      <div class="feedback-header">${parsed.emoji} ${parsed.title}</div>
-      <div class="feedback-body">${parsed.feedback}<br><br>💡 <strong>팁:</strong> ${parsed.tip}</div>
-      <div class="model-answer">
-        <div class="model-label">✅ 모범 답안</div>
-        ${item.model}
-      </div>`;
-    incPractice();
-  } catch(e) {
-    fb.className = 'feedback-box show so-so';
-    fb.innerHTML = `
-      <div class="feedback-header">📝 수고했어요!</div>
-      <div class="feedback-body">잘 입력했어요. 모범 답안과 비교해보세요.</div>
-      <div class="model-answer">
-        <div class="model-label">✅ 모범 답안</div>
-        ${item.model}
-      </div>`;
-    incPractice();
-  }
+/* ─ 이전/다음 이동 ─ */
+function practiceNav(dir) {
+  const data = PRACTICE_DATA[practiceLevel];
+  practiceIdx = Math.max(0, Math.min(data.length-1, practiceIdx+dir));
+  renderPractice();
+  window.scrollTo(0,120);
+}
+function jumpPractice(idx) {
+  practiceIdx = idx;
+  renderPractice();
+  window.scrollTo(0,120);
 }
 
-function showModel(id) {
-  const item = Object.values(PRACTICE_DATA).flat().find(d=>d.id===id);
-  if(!item) return;
+/* ─ 피드백 캐시 ─ */
+const _practiceCache = {};   // { id: {html, cls} }
+
+function restoreFeedback(id) {
+  const cached = _practiceCache[id];
+  if(!cached) return;
   const fb = document.getElementById('fb-'+id);
-  fb.className = 'feedback-box show good';
-  fb.innerHTML = `
-    <div class="feedback-header">✅ 모범 답안</div>
-    <div class="model-answer" style="margin-top:0">${item.model}</div>`;
+  if(fb) { fb.className = cached.cls; fb.innerHTML = cached.html; }
 }
 
 /* =====================================================
+   키워드 기반 채점 엔진
+===================================================== */
+function scoreAnswer(answer, item) {
+  const a = answer.replace(/\s+/g,' ').trim();
+  const aLow = a;   // 한글은 toLowerCase 불필요
+
+  /* ── 너 전달법 패턴 감지 ── */
+  const youPatterns = ['너 때문에','네 탓','왜 그래','왜 그러','넌 왜','너는 왜','왜 항상','이기적','나쁜 놈','나쁜 애'];
+  const hasYouMsg = youPatterns.some(p => aLow.includes(p));
+
+  /* ── 3요소 키워드 매칭 ── */
+  const kw = item.keywords;
+  const matchAction = kw.action.some(k => aLow.includes(k));
+  const matchFeel   = kw.feel.some(k => aLow.includes(k));
+  const matchWant   = kw.want.some(k => aLow.includes(k));
+
+  /* ── 감정 단어 일반 목록 (추가 보정) ── */
+  const generalFeel = ['속상','억울','슬프','외롭','무섭','당황','불안','서운','상처','지쳐','힘들','불쾌','화가','불편','아깝','실망','배신','소외','창피','부끄'];
+  const hasAnyFeel  = matchFeel || generalFeel.some(k => aLow.includes(k));
+
+  /* ── 바라는 점 일반 목록 ── */
+  const generalWant = ['줘','주세요','해줘','했으면','않았으면','말아줘','주길','바라','원해','부탁'];
+  const hasAnyWant  = matchWant || generalWant.some(k => aLow.includes(k));
+
+  /* ── 길이 체크 (너무 짧으면 감점) ── */
+  const tooShort = a.length < 10;
+
+  /* ── 점수 계산 ── */
+  let score = 0;
+  if(matchAction)  score += 30;
+  if(hasAnyFeel)   score += 35;
+  if(hasAnyWant)   score += 35;
+  if(hasYouMsg)    score -= 30;
+  if(tooShort)     score  = Math.min(score, 20);
+
+  score = Math.max(0, Math.min(100, score));
+
+  /* ── 등급 ── */
+  let grade, emoji, title;
+  if(score >= 80)      { grade='good';       emoji='🌟'; title='훌륭해요! 나 전달법을 잘 이해했어요!'; }
+  else if(score >= 50) { grade='so-so';      emoji='👍'; title='잘 했어요! 조금만 더 보완해봐요.'; }
+  else                 { grade='needs-work'; emoji='💪'; title='다시 도전해봐요! 3가지 요소를 모두 넣어봐요.'; }
+
+  /* ── 세부 피드백 ── */
+  const tips = [];
+  if(!matchAction && !aLow.includes(item.keywords.action[0]))
+    tips.push(`행동 묘사: "${item.keywords.action[0]}"처럼 상황을 구체적으로 써봐요.`);
+  if(!hasAnyFeel)
+    tips.push('감정 표현: 내가 어떤 기분이었는지 솔직하게 써봐요. (예: 속상해, 억울해, 슬펐어)');
+  if(!hasAnyWant)
+    tips.push('바라는 점: 어떻게 해줬으면 하는지 부드럽게 부탁해봐요. (예: ○○해줬으면 해)');
+  if(hasYouMsg)
+    tips.push('⚠️ "너 때문에", "왜 그래" 같은 표현은 상대를 비난할 수 있어요. 나 전달법으로 바꿔봐요!');
+
+  /* ── 점수 막대 ── */
+  const barColor = score>=80?'var(--mint-dk)':score>=50?'var(--sun)':'var(--coral)';
+
+  const feedbackLines = [];
+  if(matchAction)  feedbackLines.push('✅ 행동 묘사가 잘 됐어요!');
+  if(hasAnyFeel)   feedbackLines.push('✅ 감정 표현이 있어요!');
+  if(hasAnyWant)   feedbackLines.push('✅ 바라는 점이 담겨 있어요!');
+
+  return { score, grade, emoji, title, tips, feedbackLines, barColor };
+}
+
+/* ─ 채점 제출 ─ */
+function submitPractice(id) {
+  const item   = Object.values(PRACTICE_DATA).flat().find(d=>d.id===id);
+  if(!item) return;
+  const answer = document.getElementById('p-answer-'+id)?.value.trim() || '';
+  if(answer.length < 5) { showToast('나 전달법 문장을 입력해주세요!'); return; }
+
+  const result = scoreAnswer(answer, item);
+  const fb     = document.getElementById('fb-'+id);
+  const gradeClass = result.grade==='good'?'good':result.grade==='so-so'?'so-so':'needs-work';
+
+  const html = `
+    <div class="feedback-header">${result.emoji} ${result.title}</div>
+    <!-- 점수 바 -->
+    <div style="margin:10px 0 14px">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px">
+        <span style="color:var(--ink-md);font-weight:600">나 전달법 점수</span>
+        <span style="font-weight:800;color:${result.barColor}">${result.score}점</span>
+      </div>
+      <div style="background:var(--border);border-radius:10px;height:10px;overflow:hidden">
+        <div style="width:${result.score}%;height:100%;border-radius:10px;background:${result.barColor};transition:width .6s"></div>
+      </div>
+    </div>
+    <!-- 잘된 점 -->
+    ${result.feedbackLines.length ? `<div class="feedback-body" style="margin-bottom:10px">${result.feedbackLines.join('<br>')}</div>` : ''}
+    <!-- 개선 팁 -->
+    ${result.tips.length ? `
+    <div style="background:var(--card);border-radius:8px;padding:10px 12px;font-size:.83rem;line-height:1.7;border-left:3px solid ${result.barColor}">
+      <strong>💡 이렇게 보완해봐요</strong><br>${result.tips.join('<br>')}
+    </div>` : ''}
+    <!-- 모범 답안 -->
+    <div class="model-answer" style="margin-top:12px">
+      <div class="model-label">✅ 모범 답안</div>
+      ${item.model}
+    </div>`;
+
+  fb.className = `feedback-box show ${gradeClass}`;
+  fb.innerHTML  = html;
+
+  // 버튼을 "다시 채점"으로 변경
+  const btn = document.getElementById('pbtn-'+id);
+  if(btn) { btn.textContent='다시 채점 🔄'; }
+
+  // 캐시 저장
+  _practiceCache[id] = { html, cls:`feedback-box show ${gradeClass}` };
+
+  // 진도: 최초 1회만 카운트 (80점 이상)
+  if(!practiceDone[id]) {
+    practiceDone[id] = true;
+    if(result.score >= 80) incPractice();
+    renderPracticeMinimap();
+  }
+}
+
+/* ─ 미니맵만 갱신 ─ */
+function renderPracticeMinimap() {
+  const data = PRACTICE_DATA[practiceLevel];
+  const wrap = document.querySelector('#practice-container > div:last-child');
+  if(!wrap || !wrap.querySelector('button')) return;
+  wrap.innerHTML = data.map((d,i)=>`
+    <button onclick="jumpPractice(${i})" style="
+      width:28px;height:28px;border-radius:6px;border:none;cursor:pointer;font-size:.72rem;font-weight:700;
+      background:${i===practiceIdx?'var(--mint-dk)':practiceDone[d.id]?'var(--mint-lt)':'var(--border)'};
+      color:${i===practiceIdx?'#fff':practiceDone[d.id]?'var(--mint-dk)':'var(--ink-lt)'};
+    ">${i+1}</button>`).join('');
+}
+
+/* ─ 모범 답안 보기 (제출 전) ─ */
+function showPracticeModel(id) {
+  const item = Object.values(PRACTICE_DATA).flat().find(d=>d.id===id);
+  if(!item) return;
+  practiceShown[id] = true;
+  const fb = document.getElementById('fb-'+id);
+  fb.className = 'feedback-box show good';
+  const html = `<div class="feedback-header">✅ 모범 답안</div>
+    <div class="model-answer" style="margin-top:0">${item.model}</div>`;
+  fb.innerHTML = html;
+  _practiceCache[id] = { html, cls:'feedback-box show good' };
+  renderPractice();   // 모범 답안 버튼 숨김
+}
+
+window.switchPracticeLevel = switchPracticeLevel;
+window.practiceNav         = practiceNav;
+window.jumpPractice        = jumpPractice;
+window.submitPractice      = submitPractice;
+window.showPracticeModel   = showPracticeModel;
+
+/* =====================================================
+   적용하기
+===================================================== *//* =====================================================
    적용하기
 ===================================================== */
+/* =====================================================
+   적용하기 상태
+===================================================== */
+let applyDone    = {};   // { globalIdx: true } 완료 여부
+let applyCache   = {};   // { globalIdx: {html,cls} } 피드백 캐시
+let applyShown   = {};   // { globalIdx: true } 모범답안 표시 여부
+
+/* ─ 카테고리 초기화 ─ */
 function initApplyCats() {
   const cats = ['전체', ...new Set(SITUATIONS_30.map(s=>s.cat))];
   const wrap = document.getElementById('apply-cats');
-  wrap.innerHTML = cats.map(c=>`<button class="cat-pill${c==='전체'?' active':''}" onclick="filterApplyCat('${c}',this)">${c}</button>`).join('');
+  wrap.innerHTML = cats.map(c=>`
+    <button class="cat-pill${c==='전체'?' active':''}" onclick="filterApplyCat('${c}',this)">
+      ${c}${c!=='전체' ? ' <span style="font-size:.7rem;opacity:.7">('+SITUATIONS_30.filter(s=>s.cat===c).length+')</span>' : ''}
+    </button>`).join('');
 }
 
+/* ─ 카테고리 필터 ─ */
 function filterApplyCat(cat, el) {
   applyCat = cat;
   applyIndex = 0;
@@ -1230,93 +1676,187 @@ function filterApplyCat(cat, el) {
   renderApply();
 }
 
+/* ─ 메인 렌더 ─ */
 function renderApply() {
   if(!document.getElementById('apply-cats').children.length) initApplyCats();
   filteredSituations = applyCat==='전체' ? [...SITUATIONS_30] : SITUATIONS_30.filter(s=>s.cat===applyCat);
-  const item = filteredSituations[applyIndex];
+  const item  = filteredSituations[applyIndex];
   if(!item) return;
   const total = filteredSituations.length;
-  document.getElementById('apply-counter').textContent = `${applyIndex+1} / ${total}`;
-  document.getElementById('apply-progress').style.width = `${((applyIndex+1)/total)*100}%`;
+  // 전체 인덱스 (캐시 키)
+  const gIdx  = SITUATIONS_30.indexOf(item);
+  const doneCount = Object.keys(applyDone).length;
 
-  document.getElementById('apply-card-container').innerHTML = `
-    <div style="margin-bottom:6px">
-      <span style="font-size:.78rem;font-weight:700;background:var(--sky-lt);color:var(--sky);padding:3px 8px;border-radius:20px">${item.cat}</span>
-      <span style="font-size:.85rem;font-weight:700;margin-left:8px">${item.title}</span>
+  const container = document.getElementById('apply-card-container');
+  container.innerHTML = `
+    <!-- 상단 진행 표시 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span style="font-size:.82rem;color:var(--ink-md);font-weight:600">
+        ${applyIndex+1} / ${total}
+        <span style="color:var(--mint-dk);margin-left:8px">완료 ${doneCount}/30 ✅</span>
+      </span>
+      <div style="display:flex;gap:6px">
+        <button class="btn-secondary" style="padding:6px 12px;font-size:.78rem" onclick="applyPrev()">◀</button>
+        <button class="btn-secondary" style="padding:6px 12px;font-size:.78rem" onclick="applyNext()">▶</button>
+      </div>
     </div>
-    <div class="situation-card" style="margin:12px 0">
-      <div class="situation-label">📌 상황</div>
-      <div class="situation-text">${item.situation}</div>
+    <div class="progress-bar-wrap" style="margin-bottom:14px">
+      <div class="progress-bar" style="width:${Math.max(Math.round((doneCount/30)*100),2)}%"></div>
     </div>
-    <div class="input-group">
-      <div class="input-label" style="font-size:.88rem;margin-bottom:8px">✏️ 나 전달법으로 말해보세요</div>
-      <textarea class="combined-input" id="apply-answer" placeholder="예) 네가 __ 했을 때, 나는 __ 기분이야. __ 해줬으면 해." rows="3"></textarea>
+
+    <!-- 문제 카드 -->
+    <div class="card" id="acard-${gIdx}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span style="font-size:.75rem;font-weight:700;background:var(--sky-lt);color:var(--sky);padding:3px 8px;border-radius:20px">${item.cat}</span>
+        <span style="font-size:.88rem;font-weight:700">${item.title}</span>
+        ${applyDone[gIdx] ? '<span style="font-size:.75rem;background:var(--mint-lt);color:var(--mint-dk);padding:2px 8px;border-radius:20px;font-weight:700">✅ 완료</span>' : ''}
+      </div>
+      <div class="situation-card" style="margin-bottom:14px">
+        <div class="situation-label">📌 상황</div>
+        <div class="situation-text">${item.situation}</div>
+      </div>
+      <div class="input-group">
+        <div class="input-label" style="font-size:.88rem;margin-bottom:8px">✏️ 나 전달법으로 말해보세요</div>
+        <textarea class="combined-input" id="apply-answer-${gIdx}"
+          placeholder="예) 네가 ____ 했을 때, 나는 ____ 해. ____해줬으면 해."
+          rows="3"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" id="abtn-${gIdx}" onclick="submitApply(${gIdx})">채점하기 ✅</button>
+        ${applyShown[gIdx] ? '' : `<button class="btn-secondary" onclick="showApplyModel(${gIdx})">모범 답안</button>`}
+      </div>
+      <div class="feedback-box" id="apply-fb-${gIdx}"></div>
     </div>
-    <div class="btn-row">
-      <button class="btn-primary" onclick="submitApply(${applyIndex})">AI 피드백 받기 ✨</button>
-      <button class="btn-secondary" onclick="showApplyModel(${applyIndex})">모범 답안</button>
+
+    <!-- 미니맵 -->
+    <div style="margin-top:14px;padding:12px;background:var(--card);border-radius:10px;box-shadow:var(--shadow)">
+      <div style="font-size:.75rem;color:var(--ink-lt);font-weight:600;margin-bottom:8px">전체 진행 현황</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap">
+        ${filteredSituations.map((s,i)=>{
+          const gi = SITUATIONS_30.indexOf(s);
+          return `<button onclick="jumpApply(${i})" title="${s.title}" style="
+            width:26px;height:26px;border-radius:5px;border:none;cursor:pointer;font-size:.68rem;font-weight:700;
+            background:${i===applyIndex?'var(--mint-dk)':applyDone[gi]?'var(--mint-lt)':'var(--border)'};
+            color:${i===applyIndex?'#fff':applyDone[gi]?'var(--mint-dk)':'var(--ink-lt)'};
+          ">${i+1}</button>`;
+        }).join('')}
+      </div>
     </div>
-    <div class="feedback-box" id="apply-fb"></div>
   `;
-}
 
-async function submitApply(idx) {
-  const item = filteredSituations[idx];
-  const answer = document.getElementById('apply-answer')?.value.trim();
-  if(!answer) { showToast('나 전달법 문장을 입력해주세요!'); return; }
-
-  const fb = document.getElementById('apply-fb');
-  fb.className = 'feedback-box show so-so';
-  fb.innerHTML = `<div class="feedback-header">✨ 피드백 생성 중... <span class="loading-dots"><span></span><span></span><span></span></span></div>`;
-
-  const gradeLabel = { low:'저학년', mid:'중학년', high:'고학년'}[currentGrade];
-  const prompt = `초등학교 ${gradeLabel} 학생에게 나 전달법을 가르치는 선생님입니다.
-
-상황: ${item.situation}
-모범 답안: ${item.model}
-학생 답변: ${answer}
-
-JSON만 응답 (마크다운 없이):
-{"grade":"good|so-so|needs-work","emoji":"이모지","title":"한 줄 평가","feedback":"피드백 2문장","tip":"개선 팁 한 문장"}`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:400, messages:[{role:'user',content:prompt}] })
-    });
-    const data = await res.json();
-    const parsed = JSON.parse(data.content?.[0]?.text?.replace(/```json|```/g,'').trim()||'{}');
-    const gc = parsed.grade==='good'?'good':parsed.grade==='so-so'?'so-so':'needs-work';
-    fb.className = `feedback-box show ${gc}`;
-    fb.innerHTML = `
-      <div class="feedback-header">${parsed.emoji||'✅'} ${parsed.title||'수고했어요!'}</div>
-      <div class="feedback-body">${parsed.feedback||''}<br><br>💡 ${parsed.tip||''}</div>
-      <div class="model-answer"><div class="model-label">✅ 모범 답안</div>${item.model}</div>`;
-    incApply(idx);
-  } catch(e) {
-    fb.className = 'feedback-box show so-so';
-    fb.innerHTML = `<div class="feedback-header">📝 잘 했어요!</div><div class="model-answer"><div class="model-label">✅ 모범 답안</div>${item.model}</div>`;
-    incApply(idx);
+  // 캐시 복원
+  if(applyCache[gIdx]) {
+    const fb = document.getElementById('apply-fb-'+gIdx);
+    if(fb) { fb.className = applyCache[gIdx].cls; fb.innerHTML = applyCache[gIdx].html; }
+    const btn = document.getElementById('abtn-'+gIdx);
+    if(btn) btn.textContent = '다시 채점 🔄';
   }
 }
 
-function showApplyModel(idx) {
-  const item = filteredSituations[idx];
-  const fb = document.getElementById('apply-fb');
-  fb.className = 'feedback-box show good';
-  fb.innerHTML = `<div class="feedback-header">✅ 모범 답안</div><div class="model-answer" style="margin-top:0">${item.model}</div>`;
+/* ─ 채점 제출 (연습하기 scoreAnswer 엔진 공용) ─ */
+function submitApply(gIdx) {
+  const item   = SITUATIONS_30[gIdx];
+  if(!item) return;
+  const answer = document.getElementById('apply-answer-'+gIdx)?.value.trim() || '';
+  if(answer.length < 5) { showToast('나 전달법 문장을 입력해주세요!'); return; }
+
+  const result     = scoreAnswer(answer, item);
+  const gradeClass = result.grade==='good'?'good':result.grade==='so-so'?'so-so':'needs-work';
+  const fb         = document.getElementById('apply-fb-'+gIdx);
+
+  const html = `
+    <div class="feedback-header">${result.emoji} ${result.title}</div>
+    <div style="margin:10px 0 14px">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px">
+        <span style="color:var(--ink-md);font-weight:600">나 전달법 점수</span>
+        <span style="font-weight:800;color:${result.barColor}">${result.score}점</span>
+      </div>
+      <div style="background:var(--border);border-radius:10px;height:10px;overflow:hidden">
+        <div style="width:${result.score}%;height:100%;border-radius:10px;background:${result.barColor};transition:width .6s"></div>
+      </div>
+    </div>
+    ${result.feedbackLines.length ? `<div class="feedback-body" style="margin-bottom:10px">${result.feedbackLines.join('<br>')}</div>` : ''}
+    ${result.tips.length ? `
+    <div style="background:var(--card);border-radius:8px;padding:10px 12px;font-size:.83rem;line-height:1.7;border-left:3px solid ${result.barColor}">
+      <strong>💡 이렇게 보완해봐요</strong><br>${result.tips.join('<br>')}
+    </div>` : ''}
+    <div class="model-answer" style="margin-top:12px">
+      <div class="model-label">✅ 모범 답안</div>${item.model}
+    </div>`;
+
+  fb.className = `feedback-box show ${gradeClass}`;
+  fb.innerHTML  = html;
+
+  const btn = document.getElementById('abtn-'+gIdx);
+  if(btn) btn.textContent = '다시 채점 🔄';
+
+  // 캐시 저장
+  applyCache[gIdx] = { html, cls:`feedback-box show ${gradeClass}` };
+
+  // 진도: 최초 1회 + 80점 이상만 카운트
+  if(!applyDone[gIdx]) {
+    applyDone[gIdx] = true;
+    if(result.score >= 80) incApply(gIdx);
+    renderApplyMinimap(gIdx);
+  }
 }
 
+/* ─ 미니맵 갱신 ─ */
+function renderApplyMinimap(gIdx) {
+  const wrap = document.querySelector('#apply-card-container > div:last-child > div:last-child');
+  if(!wrap) return;
+  wrap.innerHTML = filteredSituations.map((s,i)=>{
+    const gi = SITUATIONS_30.indexOf(s);
+    return `<button onclick="jumpApply(${i})" title="${s.title}" style="
+      width:26px;height:26px;border-radius:5px;border:none;cursor:pointer;font-size:.68rem;font-weight:700;
+      background:${i===applyIndex?'var(--mint-dk)':applyDone[gi]?'var(--mint-lt)':'var(--border)'};
+      color:${i===applyIndex?'#fff':applyDone[gi]?'var(--mint-dk)':'var(--ink-lt)'};
+    ">${i+1}</button>`;
+  }).join('');
+  // 완료 카운트도 갱신
+  const cntEl = document.querySelector('#apply-card-container span[style*="mint-dk"]');
+  if(cntEl) cntEl.textContent = `완료 ${Object.keys(applyDone).length}/30 ✅`;
+  // 전체 진도바 갱신
+  const bar = document.querySelector('#apply-card-container .progress-bar');
+  if(bar) bar.style.width = Math.max(Math.round((Object.keys(applyDone).length/30)*100),2)+'%';
+}
+
+/* ─ 모범 답안 (제출 전) ─ */
+function showApplyModel(gIdx) {
+  const item = SITUATIONS_30[gIdx];
+  if(!item) return;
+  applyShown[gIdx] = true;
+  const fb   = document.getElementById('apply-fb-'+gIdx);
+  const html = `<div class="feedback-header">✅ 모범 답안</div>
+    <div class="model-answer" style="margin-top:0">${item.model}</div>`;
+  fb.className = 'feedback-box show good';
+  fb.innerHTML  = html;
+  applyCache[gIdx] = { html, cls:'feedback-box show good' };
+  renderApply();
+}
+
+/* ─ 이전/다음/점프 ─ */
 function applyNext() {
-  if(applyIndex < filteredSituations.length-1) { applyIndex++; renderApply(); window.scrollTo(0,200); }
+  if(applyIndex < filteredSituations.length-1) { applyIndex++; renderApply(); window.scrollTo(0,120); }
   else showToast('마지막 상황이에요! 🎉 처음부터 다시 도전해보세요.');
 }
 function applyPrev() {
-  if(applyIndex > 0) { applyIndex--; renderApply(); window.scrollTo(0,200); }
+  if(applyIndex > 0) { applyIndex--; renderApply(); window.scrollTo(0,120); }
+}
+function jumpApply(idx) {
+  applyIndex = idx;
+  renderApply();
+  window.scrollTo(0,120);
 }
 
+window.submitApply    = submitApply;
+window.applyNext      = applyNext;
+window.applyPrev      = applyPrev;
+window.jumpApply      = jumpApply;
+
 /* =====================================================
+   게임하기
+===================================================== *//* =====================================================
    게임하기
 ===================================================== */
 function renderGameIntro() {
@@ -1584,12 +2124,16 @@ function getStats() {
 }
 
 function renderBadges() {
-  const stats = getStats();
-  const el = document.getElementById('badge-list');
+  const stats  = getStats();
+  const el     = document.getElementById('badge-list');
+  const area   = document.getElementById('badge-area');
   if(!el) return;
+  const earned = BADGES.filter(b=>b.check(stats));
+  // 달성 뱃지가 1개 이상일 때만 섹션 표시
+  if(area) area.style.display = earned.length ? 'block' : 'none';
   el.innerHTML = BADGES.map(b => {
-    const earned = b.check(stats);
-    return `<div class="badge-item ${earned?'earned':'locked'}" title="${b.desc}">
+    const isEarned = b.check(stats);
+    return `<div class="badge-item ${isEarned?'earned':'locked'}" title="${b.desc}">
       <div class="b-icon">${b.icon}</div>
       <div class="b-name">${b.name}</div>
       <div class="b-desc">${b.desc}</div>
@@ -1616,7 +2160,7 @@ function checkNewBadge() {
 ===================================================== */
 function updateProgress() {
   const stats = getStats();
-  const pPct = Math.min(100, (stats.practiceCount/15)*100);
+  const pPct = Math.min(100, (stats.practiceCount/21)*100);
   const aPct = Math.min(100, (stats.applyCount/30)*100);
   const gPct = Math.min(100, (stats.bestScore/1000)*100);
   const set = (id, val) => { const el=document.getElementById(id); if(el) el.style.width=val+'%'; };
@@ -1624,7 +2168,7 @@ function updateProgress() {
   set('prog-practice', pPct);
   set('prog-apply', aPct);
   set('prog-game', gPct);
-  txt('prog-p-cnt', stats.practiceCount+'/15');
+  txt('prog-p-cnt', stats.practiceCount+'/21');
   txt('prog-a-cnt', stats.applyCount+'/30');
   txt('prog-g-cnt', stats.bestScore+'점');
   renderBadges();
@@ -1637,10 +2181,11 @@ function incPractice() {
   updateProgress();
 }
 
-function incApply(idx) {
+function incApply(gIdx) {
+  // localStorage 기반 전체 완료 카운트
   const done = JSON.parse(localStorage.getItem('imsg_apply_done')||'[]');
-  if(!done.includes(idx)) {
-    done.push(idx);
+  if(!done.includes(gIdx)) {
+    done.push(gIdx);
     localStorage.setItem('imsg_apply_done', JSON.stringify(done));
     localStorage.setItem('imsg_apply_cnt', done.length);
     checkNewBadge();
@@ -1829,12 +2374,6 @@ window.nextCard = nextCard;
 window.prevCard = prevCard;
 window.switchPracticeLevel = switchPracticeLevel;
 window.submitPractice = submitPractice;
-window.showModel = showModel;
-window.filterApplyCat = filterApplyCat;
-window.submitApply = submitApply;
-window.showApplyModel = showApplyModel;
-window.applyNext = applyNext;
-window.applyPrev = applyPrev;
 window.renderGameIntro = renderGameIntro;
 window.startGame = startGame;
 window.answerGame = answerGame;
@@ -1842,7 +2381,7 @@ window.endGame = endGame;
 window.registerScore = registerScore;
 window.closeModal = closeModal;
 
-// 초기 학년 표시
+// 초기 학년 표시 (grade-chip + hero-chip 모두)
 document.getElementById('grade-'+currentGrade)?.classList.add('selected');
 initApplyCats();
 initTodaySituation();
