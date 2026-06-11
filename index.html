@@ -245,6 +245,23 @@ img{max-width:100%}
 .prog-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--mint),var(--sky));transition:width .6s}
 .prog-count{font-size:.75rem;color:var(--ink-lt);width:36px;text-align:right;flex-shrink:0}
 
+/* ===== SCHOOL SEARCH AUTOCOMPLETE ===== */
+.school-search-wrap{position:relative}
+.school-input-row{display:flex;gap:6px}
+.school-input-row .form-input{flex:1}
+.school-clear{padding:0 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--card);color:var(--ink-lt);font-size:.9rem;cursor:pointer;flex-shrink:0}
+.school-clear:hover{background:var(--coral-lt);color:var(--coral);border-color:var(--coral)}
+.school-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1.5px solid var(--border);border-radius:10px;box-shadow:var(--shadow-lg);z-index:150;max-height:220px;overflow-y:auto;display:none}
+.school-dropdown.open{display:block}
+.school-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+.school-item:last-child{border-bottom:none}
+.school-item:hover,.school-item.focused{background:var(--mint-lt)}
+.school-item-name{font-size:.9rem;font-weight:600;color:var(--ink)}
+.school-item-addr{font-size:.75rem;color:var(--ink-lt);margin-top:2px}
+.school-searching{padding:12px 14px;font-size:.85rem;color:var(--ink-lt);text-align:center}
+.school-selected-badge{display:none;align-items:center;gap:6px;padding:8px 12px;background:var(--mint-lt);border:1.5px solid var(--mint-dk);border-radius:8px;margin-top:6px;font-size:.83rem;font-weight:600;color:var(--mint-dk)}
+.school-selected-badge.show{display:flex}
+
 /* ===== FIREBASE SETUP NOTICE ===== */
 .setup-notice{background:#FFF8E6;border:1.5px solid var(--sun);border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:.83rem;line-height:1.6;color:var(--ink-md)}
 .setup-notice strong{color:#7A5A00}
@@ -370,7 +387,7 @@ img{max-width:100%}
     </div>
   </div>
   <!-- Firebase 설정 안내 -->
-  <div class="setup-notice" id="setup-notice">
+  <div class="setup-notice" id="setup-notice" style="display:none">
     ⚙️ <strong>선생님 설정 안내:</strong> 랭킹 기능을 활성화하려면
     <a href="https://console.firebase.google.com" target="_blank" style="color:var(--mint-dk);font-weight:700">Firebase 콘솔</a>에서
     Firestore DB를 만들고, 파일 내 <code>firebaseConfig</code>에 발급받은 키를 입력하세요.
@@ -620,12 +637,13 @@ import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, where
 
 // ── Firebase 설정 (여기에 본인 프로젝트 config 입력) ──
 const firebaseConfig = {
-  apiKey: "REPLACE_WITH_YOUR_API_KEY",
-  authDomain: "REPLACE.firebaseapp.com",
-  projectId: "REPLACE_WITH_YOUR_PROJECT_ID",
-  storageBucket: "REPLACE.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "REPLACE_WITH_YOUR_APP_ID"
+  apiKey: "AIzaSyCF8nvq9wRdmUmDkjsJuSsCoLLDO6AsgmU",
+  authDomain: "i-message-a5d1d.firebaseapp.com",
+  projectId: "i-message-a5d1d",
+  storageBucket: "i-message-a5d1d.firebasestorage.app",
+  messagingSenderId: "902334408907",
+  appId: "1:902334408907:web:b6d1770c68241af3a4d34e",
+  measurementId: "G-6FMVPK8P1G"
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -758,27 +776,180 @@ const SITUATIONS_30 = [
 /* =====================================================
    데이터 ─ 게임 퀴즈 (골든벨)
 ===================================================== */
+/* =====================================================
+   퀴즈 유형 정의
+   type: 'choose'   → 4개 보기 중 올바른 나 전달법 고르기
+         'blank'    → 빈칸에 들어갈 알맞은 말 고르기
+         'error'    → 나 전달법 문장의 잘못된 부분 찾기
+         'order'    → 3요소(행동·감정·바라는 점) 올바른 순서 고르기
+         'convert'  → 너 전달법 → 나 전달법으로 바르게 바꾼 것 고르기
+===================================================== */
 const QUIZ_DATA = [
-  { situation:"친구가 줄 서기에서 내 앞으로 새치기했어요.", q:"다음 중 나 전달법에 가장 가까운 것은?",
-    options:["야, 왜 새치기야? 버릇없게!","네가 내 앞으로 끼어들면 억울하고 속상해. 줄 뒤에 서줘.","저 친구가 새치기했어요!","난 항상 재수 없어."], answer:1 },
-  { situation:"친구가 내 색연필을 허락 없이 가져갔어요.", q:"나 전달법으로 가장 알맞게 표현한 것은?",
-    options:["왜 내 걸 맘대로 가져가?","넌 항상 남의 것을 빼앗아.","허락 없이 가져가면 당황스럽고 속상해. 빌릴 때는 먼저 물어봐줘.","그냥 가져가도 돼."], answer:2 },
-  { situation:"모둠활동에서 친구가 아무것도 하지 않아요.", q:"가장 좋은 나 전달법은?",
-    options:["넌 왜 항상 이래? 게으른 거야?","나만 일하는 것 같아서 힘들어. 같이 역할을 나눠서 하면 좋겠어.","선생님, 얘가 안 해요!","됐어, 내가 다 할게."], answer:1 },
-  { situation:"친구가 내 이름을 이상한 별명으로 불러요.", q:"나 전달법 표현을 고르세요.",
-    options:["넌 왜 그런 별명으로 불러? 이상하게.","그 별명으로 불리면 기분이 나빠. 바른 이름으로 불러줘.","에이, 신경 쓰지 마.","나도 네 별명 만들어 줄게!"], answer:1 },
-  { situation:"발표하는데 친구가 장난치며 방해해요.", q:"나 전달법에 해당하는 것은?",
-    options:["발표할 때 장난치면 집중하기 어렵고 당황스러워. 조용히 들어줘.","야, 그만 좀 해!","선생님이 야단칠 거야.","나도 장난칠 거야."], answer:0 },
-  { situation:"단톡방에서 나만 빼고 새 단톡방을 만들었어요.", q:"나 전달법으로 올바른 표현은?",
-    options:["너희 진짜 나쁘다.","나만 빠진 걸 알았을 때 소외되고 슬펐어. 나도 포함해줬으면 해.","나도 따돌릴 거야.","원래 그럴 수도 있지."], answer:1 },
-  { situation:"친구가 내 비밀을 다른 친구에게 말했어요.", q:"나 전달법은?",
-    options:["배신자!","비밀이 퍼지면 배신당한 기분이야. 앞으로는 비밀을 지켜줘.","너랑 안 놀아.","나도 네 비밀 말할 거야."], answer:1 },
-  { situation:"청소 당번인데 친구가 아무것도 안 해요.", q:"가장 좋은 나 전달법은?",
-    options:["혼자 청소하는 것 같아 힘들어. 같이 해줬으면 해.","왜 넌 항상 이래?","선생님한테 이를 거야.","내가 다 할게."], answer:0 },
-  { situation:"친구가 약속을 어겼어요.", q:"나 전달법 표현을 고르세요.",
-    options:["넌 항상 약속을 안 지켜.","약속을 어기면 실망하고 속상해. 못 할 것 같으면 미리 말해줘.","됐어, 친구 안 해.","에이, 뭐."], answer:1 },
-  { situation:"나를 다른 친구와 비교하며 못한다고 해요.", q:"나 전달법은?",
-    options:["너도 못하잖아!","비교당하면 자존심이 상하고 속상해. 비교하지 않았으면 해.","알았어, 더 열심히 할게.","그냥 무시할래."], answer:1 }
+
+  /* ── 유형1: 올바른 나 전달법 고르기 (오답도 비슷한 길이) ── */
+  {
+    type:'choose',
+    situation:"줄을 서고 있는데 친구가 내 앞으로 새치기했어요.",
+    q:"다음 중 나 전달법에 가장 가까운 것은?",
+    options:[
+      "네가 새치기하면 안 된다는 거 알잖아. 왜 자꾸 그러는 거야?",         // 비난·추궁 포함
+      "네가 내 앞으로 끼어들면 억울하고 속상해. 줄 뒤에서 서줬으면 해.",   // ✅ 정답
+      "새치기했을 때 나는 기분이 좀 안 좋았어. 다음엔 조심해.",             // 바라는 점 약함(명령 아닌 훈계)
+      "새치기는 규칙 위반이야. 나는 규칙을 지켜야 한다고 생각해."           // 감정 없음, 교훈식
+    ],
+    answer:1,
+    explain:"'비난 없는 행동 묘사 + 구체적 감정 + 명확한 바라는 점' 세 요소가 모두 있어야 해요."
+  },
+  {
+    type:'choose',
+    situation:"친구가 말도 없이 내 색연필을 가져다 써요.",
+    q:"나 전달법으로 가장 알맞게 표현한 것은?",
+    options:[
+      "허락 없이 가져가면 당황스럽고 속상해. 빌릴 때는 먼저 물어봐줘.",   // ✅ 정답
+      "내 물건을 허락 없이 쓰면 짜증 나. 앞으로는 그러지 마.",             // '짜증'은 공격적, '그러지 마'는 명령
+      "내 색연필이 없어서 나는 수업을 못 했어. 네가 가져간 거잖아.",        // 비난·추궁 포함
+      "빌릴 거면 빌린다고 말해야지. 나는 그게 예의라고 생각해."            // 감정 표현 없음, 훈계식
+    ],
+    answer:0,
+    explain:"'당황스럽고 속상해'처럼 구체적인 감정 표현과 '먼저 물어봐줘'처럼 부드러운 바라는 점이 핵심이에요."
+  },
+  {
+    type:'choose',
+    situation:"모둠활동에서 한 친구가 계속 아무것도 안 하고 있어요.",
+    q:"가장 올바른 나 전달법은?",
+    options:[
+      "나만 열심히 하는 것 같아서 억울해. 너도 같이 해줬으면 해.",          // 살짝 비난 포함('나만')
+      "모둠 활동인데 참여 안 하면 모두에게 피해야. 같이 해줘.",             // 감정 없음, 훈계식
+      "혼자 다 하는 것 같아서 힘들고 지쳐. 역할을 나눠서 같이 하면 좋겠어.", // ✅ 정답
+      "네가 안 하면 나도 하기 싫어져. 분위기를 망치지 말아줘."              // 비난·위협 포함
+    ],
+    answer:2,
+    explain:"'혼자 하는 것 같아 힘들다'는 감정 표현이 상대를 비난하지 않으면서 내 상황을 솔직하게 전달해요."
+  },
+
+  /* ── 유형2: 빈칸 채우기 ── */
+  {
+    type:'blank',
+    situation:"친구가 발표 중에 장난을 쳐서 집중이 안 됐어요.",
+    q:"다음 나 전달법 문장의 빈칸에 들어갈 말로 알맞은 것은?
+
+"네가 발표 중에 장난쳤을 때, 나는 ___(①)___. 발표할 때는 ___(②)___."",
+    options:[
+      "① 화가 났어  ② 그러지 마",                    // 감정 표현 공격적, 명령형
+      "① 집중하기 어렵고 당황스러웠어  ② 조용히 들어줬으면 해", // ✅ 정답
+      "① 너무 짜증났어  ② 장난치지 말아야 해",          // 강한 감정 + 훈계
+      "① 기분이 좋지 않았어  ② 알아서 해줘"             // 바라는 점 불명확
+    ],
+    answer:1,
+    explain:"빈칸 ①은 구체적이고 차분한 감정 표현, ②는 강요 없이 부드럽게 부탁하는 표현이어야 해요."
+  },
+  {
+    type:'blank',
+    situation:"친구들이 나만 빼고 따로 모여서 이야기하고 있어요.",
+    q:"빈칸에 알맞은 말을 골라 나 전달법 문장을 완성하세요.
+
+"너희끼리만 이야기할 때 나는 ___(①)___. 나도 ___(②)___."",
+    options:[
+      "① 소외되고 슬픈 기분이야  ② 함께했으면 해",     // ✅ 정답
+      "① 정말 화가 나  ② 끼워줘야 하는 거 아냐",        // 감정 강함 + 요구 공격적
+      "① 별로 안 좋아  ② 알아서 해",                    // 감정·바라는 점 모두 불명확
+      "① 이해가 안 돼  ② 왜 그러는지 설명해줘"           // 감정 아닌 의문, 따짐
+    ],
+    answer:0,
+    explain:"'소외되고 슬프다'는 솔직한 감정 표현과 '함께했으면 해'라는 바라는 점이 나 전달법의 핵심이에요."
+  },
+
+  /* ── 유형3: 잘못된 부분 찾기 ── */
+  {
+    type:'error',
+    situation:"친구가 내 비밀을 다른 친구에게 말했어요.",
+    q:"다음 문장에서 나 전달법답지 않은 부분은 어디일까요?
+
+"네가 내 비밀을 말했을 때 배신당한 기분이었어. 넌 정말 믿을 수가 없어. 앞으로는 비밀을 지켜줘."",
+    options:[
+      "배신당한 기분이었어",          // 감정 표현 → 올바름
+      "넌 정말 믿을 수가 없어",       // ✅ 정답 (상대 비난·평가)
+      "내 비밀을 말했을 때",          // 행동 묘사 → 올바름
+      "비밀을 지켜줘"                 // 바라는 점 → 올바름
+    ],
+    answer:1,
+    explain:"'넌 믿을 수가 없어'는 상대방을 평가·비난하는 너 전달법이에요. 나 전달법은 상대를 판단하지 않아요."
+  },
+  {
+    type:'error',
+    situation:"친구가 약속 시간에 30분 늦게 왔어요.",
+    q:"다음 문장에서 나 전달법이 아닌 부분을 찾으세요.
+
+"네가 30분 늦게 왔을 때 걱정되고 기다리느라 지쳤어. 넌 항상 늦잖아. 다음엔 시간을 지켜줬으면 해."",
+    options:[
+      "30분 늦게 왔을 때",            // 행동 묘사 → 올바름
+      "걱정되고 기다리느라 지쳤어",    // 감정 표현 → 올바름
+      "넌 항상 늦잖아",               // ✅ 정답 (일반화·비난)
+      "시간을 지켜줬으면 해"           // 바라는 점 → 올바름
+    ],
+    answer:2,
+    explain:"'항상'이라는 단어로 상대를 일반화·비난하는 건 너 전달법이에요. 이번 일만 구체적으로 말하는 게 좋아요."
+  },
+
+  /* ── 유형4: 3요소 순서 맞추기 ── */
+  {
+    type:'order',
+    situation:"친구가 내 이름을 이상한 별명으로 불러요.",
+    q:"나 전달법의 3요소(행동 묘사 → 감정 → 바라는 점) 순서로 올바르게 연결한 것은?",
+    options:[
+      "바른 이름으로 불러줘 → 그 별명으로 불릴 때 → 기분이 나쁘고 상처받아",  // 순서 틀림
+      "그 별명으로 불릴 때 → 기분이 나쁘고 상처받아 → 바른 이름으로 불러줘",  // ✅ 정답
+      "기분이 나쁘고 상처받아 → 바른 이름으로 불러줘 → 그 별명으로 불릴 때",  // 순서 틀림
+      "그 별명으로 불릴 때 → 바른 이름으로 불러줘 → 기분이 나쁘고 상처받아"   // 감정·바라는점 순서 바뀜
+    ],
+    answer:1,
+    explain:"나 전달법은 '① 행동 묘사 → ② 내 감정 → ③ 바라는 점' 순서로 말하면 가장 자연스럽고 효과적이에요."
+  },
+  {
+    type:'order',
+    situation:"모둠 발표 준비를 나만 혼자 다 했어요.",
+    q:"나 전달법 3단계를 올바른 순서로 나열한 것은?",
+    options:[
+      "역할을 나눠서 준비하면 좋겠어 → 나 혼자 준비하게 됐을 때 → 지치고 불공평하다는 생각이 들었어",
+      "나 혼자 준비하게 됐을 때 → 역할을 나눠서 준비하면 좋겠어 → 지치고 불공평하다는 생각이 들었어",
+      "나 혼자 준비하게 됐을 때 → 지치고 불공평하다는 생각이 들었어 → 역할을 나눠서 준비하면 좋겠어",  // ✅ 정답
+      "지치고 불공평하다는 생각이 들었어 → 나 혼자 준비하게 됐을 때 → 역할을 나눠서 준비하면 좋겠어"
+    ],
+    answer:2,
+    explain:"행동 → 감정 → 바라는 점 순서가 맞아요. 행동을 먼저 구체적으로 말한 다음 감정, 마지막으로 부탁해요."
+  },
+
+  /* ── 유형5: 너 전달 → 나 전달 변환 ── */
+  {
+    type:'convert',
+    situation:"청소 당번인 친구가 아무것도 하지 않아요.",
+    q:"다음 '너 전달법'을 나 전달법으로 바르게 바꾼 것은?
+
+너 전달법: "넌 왜 맨날 청소 안 해? 진짜 게으르다."",
+    options:[
+      "청소를 안 하면 안 된다는 거 알지? 다음엔 꼭 해줘.",                        // 훈계·명령, 감정 없음
+      "혼자 청소하게 되면 힘들고 지쳐. 같이 해줬으면 해.",                         // ✅ 정답
+      "나는 청소를 열심히 했는데 너는 안 했어. 그건 불공평한 거야.",                // 비교·비난 포함
+      "청소를 같이 해야 빨리 끝나잖아. 우리 같이 하는 게 좋지 않을까?"              // 감정 없음, 논리 설득
+    ],
+    answer:1,
+    explain:"'혼자 청소하게 되면 힘들고 지쳐'처럼 내 감정을 솔직하게 표현하고, '같이 해줬으면 해'로 부드럽게 부탁하는 게 나 전달법이에요."
+  },
+  {
+    type:'convert',
+    situation:"친구가 나를 다른 친구와 비교하며 못한다고 해요.",
+    q:"너 전달법을 나 전달법으로 바르게 바꾼 것은?
+
+너 전달법: "넌 왜 걔보다 못해? 부끄럽지도 않냐."",
+    options:[
+      "비교당하면 자존심이 상하고 속상해. 비교하지 않았으면 해.",                   // ✅ 정답
+      "나도 열심히 하고 있어. 비교하는 건 나쁜 거야.",                              // 방어 + 훈계, 감정 불명확
+      "그런 말 들으면 기분 나빠. 조금만 생각하고 말해.",                            // 바라는 점이 지시·훈계
+      "비교하면 서로 상처받는 거 알지? 앞으로 조심해줘."                            // 감정 없음, 교훈식
+    ],
+    answer:0,
+    explain:"'자존심이 상하고 속상해'라는 구체적 감정과 '비교하지 않았으면 해'라는 명확한 바라는 점이 모두 들어 있어요."
+  }
 ];
 
 const DEMO_RANKINGS = [
@@ -1166,10 +1337,23 @@ function startGame() {
   renderGameQuestion();
 }
 
+const QUIZ_TYPE_LABEL = {
+  choose:  { icon:'🔍', text:'올바른 나 전달법 고르기' },
+  blank:   { icon:'✏️', text:'빈칸 채우기' },
+  error:   { icon:'🔎', text:'잘못된 부분 찾기' },
+  order:   { icon:'🔢', text:'순서 맞추기' },
+  convert: { icon:'🔄', text:'나 전달법으로 바꾸기' },
+};
+
 function renderGameQuestion() {
   if(!gameState) return;
   const q = gameState.questions[gameState.current];
+  const typeInfo = QUIZ_TYPE_LABEL[q.type] || QUIZ_TYPE_LABEL.choose;
   const container = document.getElementById('game-container');
+  // 줄바꿈 처리(
+ → <br>)
+  const questionHtml = q.q.replace(/
+/g,'<br>');
   container.innerHTML = `
     <div class="game-stats-row">
       <div class="stat-chip"><div class="val">${gameState.current+1}/${gameState.questions.length}</div><div class="lbl">문제</div></div>
@@ -1179,10 +1363,15 @@ function renderGameQuestion() {
     </div>
     <div class="timer-bar-wrap"><div class="timer-bar" id="g-timer-bar" style="width:100%"></div></div>
     <div class="quiz-card">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        <span style="font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--sky-lt);color:var(--sky)">${typeInfo.icon} ${typeInfo.text}</span>
+        ${gameState.combo>=3?`<span class="combo-badge">${gameState.combo}콤보!</span>`:''}
+      </div>
       <div class="quiz-situation">${q.situation}</div>
-      <div class="quiz-question">${q.q}${gameState.combo>=3?`<span class="combo-badge">${gameState.combo}콤보!</span>`:''}</div>
+      <div class="quiz-question">${questionHtml}</div>
       <div class="quiz-options" id="quiz-opts">
-        ${q.options.map((o,i)=>`<button class="quiz-option" onclick="answerGame(${i})" id="qopt-${i}">${o}</button>`).join('')}
+        ${q.options.map((o,i)=>`<button class="quiz-option" onclick="answerGame(${i})" id="qopt-${i}">${o.replace(/
+/g,'<br>')}</button>`).join('')}
       </div>
     </div>`;
   startTimer();
@@ -1217,6 +1406,18 @@ function answerGame(idx) {
     if(i===q.answer) btn.classList.add('correct');
     else if(i===idx && !correct) btn.classList.add('wrong');
   });
+
+  // 해설 박스 표시
+  if(q.explain) {
+    const explainBox = document.createElement('div');
+    explainBox.style.cssText = 'margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.83rem;line-height:1.6;' +
+      (correct
+        ? 'background:var(--mint-lt);border:1.5px solid var(--mint-dk);color:var(--mint-dk)'
+        : 'background:var(--coral-lt);border:1.5px solid var(--coral);color:#8B1A0A');
+    explainBox.innerHTML = (correct?'✅ ':'❌ ') + '<strong>' + (correct?'정답!':'오답!') + '</strong> ' + q.explain;
+    document.getElementById('quiz-opts')?.after(explainBox);
+  }
+
   if(correct) {
     const timeBonus = Math.floor(gameState.timeLeft * 3);
     const comboBonus = gameState.combo >= 2 ? gameState.combo * 20 : 0;
@@ -1230,29 +1431,36 @@ function answerGame(idx) {
   } else {
     gameState.combo = 0;
     document.getElementById('g-combo').textContent = 0;
-    showToast('😅 오답! 정답을 확인해보세요.');
+    showToast('😅 오답! 해설을 확인해보세요.');
   }
   setTimeout(()=>{
     gameState.current++;
     if(gameState.current < gameState.questions.length) renderGameQuestion();
     else endGame();
-  }, 1800);
+  }, 2400);
 }
 
 function timeUp() {
   if(!gameState||gameState.answered) return;
   gameState.answered = true;
   gameState.combo = 0;
+  const q = gameState.questions[gameState.current];
   document.querySelectorAll('.quiz-option').forEach((btn,i)=>{
     btn.disabled = true;
-    if(i===gameState.questions[gameState.current].answer) btn.classList.add('correct');
+    if(i===q.answer) btn.classList.add('correct');
   });
-  showToast('⏰ 시간 초과!');
+  if(q.explain) {
+    const explainBox = document.createElement('div');
+    explainBox.style.cssText = 'margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.83rem;line-height:1.6;background:var(--sun-lt);border:1.5px solid var(--sun);color:#7A5A00';
+    explainBox.innerHTML = '⏰ <strong>시간 초과!</strong> ' + q.explain;
+    document.getElementById('quiz-opts')?.after(explainBox);
+  }
+  showToast('⏰ 시간 초과! 해설을 확인하세요.');
   setTimeout(()=>{
     gameState.current++;
     if(gameState.current < gameState.questions.length) renderGameQuestion();
     else endGame();
-  }, 1800);
+  }, 2400);
 }
 
 function endGame() {
@@ -1275,8 +1483,22 @@ function endGame() {
       <div class="register-form">
         <h4>🏆 전국 랭킹에 등록할까요?</h4>
         <div class="form-group">
-          <label class="form-label">학교 이름</label>
-          <input type="text" class="form-input" id="r-school" placeholder="예) 행복초등학교">
+          <label class="form-label">학교 검색</label>
+          <div class="school-search-wrap" id="r-school-wrap">
+            <div class="school-input-row">
+              <input type="text" class="form-input" id="r-school-input"
+                placeholder="학교 이름을 입력하세요"
+                autocomplete="off"
+                oninput="searchSchool(this.value,'r')"
+                onkeydown="schoolKeyNav(event,'r')">
+              <button class="school-clear" onclick="clearSchool('r')" title="지우기">✕</button>
+            </div>
+            <div class="school-selected-badge" id="r-school-badge">
+              <span>🏫</span><span id="r-school-badge-text"></span>
+            </div>
+            <div class="school-dropdown" id="r-school-dropdown"></div>
+          </div>
+          <input type="hidden" id="r-school">
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -1303,11 +1525,18 @@ function endGame() {
 }
 
 async function registerScore() {
-  const school = document.getElementById('r-school')?.value.trim();
-  const grade = document.getElementById('r-grade')?.value;
+  // hidden input(선택된 학교) 우선, 없으면 텍스트 입력값 fallback
+  const schoolHidden = document.getElementById('r-school')?.value.trim();
+  const schoolInput  = document.getElementById('r-school-input')?.value.trim();
+  const school = schoolHidden || schoolInput;
+  const grade    = document.getElementById('r-grade')?.value;
   const classNum = document.getElementById('r-class')?.value.trim();
-  const name = document.getElementById('r-name')?.value.trim();
-  if(!school||!classNum||!name) { showToast('모든 항목을 입력해주세요!'); return; }
+  const name     = document.getElementById('r-name')?.value.trim();
+
+  if(!school)    { showToast('🏫 학교를 검색해서 선택해주세요!'); document.getElementById('r-school-input')?.focus(); return; }
+  if(!classNum)  { showToast('반을 입력해주세요!'); return; }
+  if(!name)      { showToast('이름을 입력해주세요!'); return; }
+
   const data = { school, grade, classNum, name, score: pendingScore };
   const ok = window._submitScore ? await window._submitScore(data) : false;
   showToast(ok ? '🏆 랭킹에 등록됐어요!' : '📋 기록됐어요! (데모 모드)');
@@ -1437,6 +1666,143 @@ function goTodaySituation() {
 }
 
 window.goTodaySituation = goTodaySituation;
+
+/* =====================================================
+   NEIS 학교 검색 자동완성
+===================================================== */
+const NEIS_KEY = 'ba946f12ee3c429bbc1ab08cbb2eace5';
+const NEIS_URL = 'https://open.neis.go.kr/hub/schoolInfo';
+
+// 접두어별 디바운스 타이머
+const _schoolTimers = {};
+// 키보드 포커스 인덱스
+const _schoolFocusIdx = {};
+
+async function searchSchool(query, prefix) {
+  const dropdown = document.getElementById(prefix+'-school-dropdown');
+  const hidden   = document.getElementById(prefix+'-school');
+  const badge    = document.getElementById(prefix+'-school-badge');
+
+  // 선택 초기화
+  if(hidden) hidden.value = '';
+  if(badge)  badge.classList.remove('show');
+
+  if(!query || query.length < 2) {
+    if(dropdown) { dropdown.innerHTML=''; dropdown.classList.remove('open'); }
+    return;
+  }
+
+  // 디바운스 200ms
+  clearTimeout(_schoolTimers[prefix]);
+  _schoolTimers[prefix] = setTimeout(async () => {
+    if(!dropdown) return;
+    dropdown.innerHTML = '<div class="school-searching">🔍 검색 중...</div>';
+    dropdown.classList.add('open');
+    _schoolFocusIdx[prefix] = -1;
+
+    try {
+      const params = new URLSearchParams({
+        KEY: NEIS_KEY,
+        Type: 'json',
+        pIndex: 1,
+        pSize: 10,
+        SCHUL_KND_SC_NM: '초등학교',
+        SCHUL_NM: query
+      });
+      const res  = await fetch(`${NEIS_URL}?${params}`);
+      const data = await res.json();
+      const rows = data?.schoolInfo?.[1]?.row || [];
+
+      if(!rows.length) {
+        dropdown.innerHTML = '<div class="school-searching">검색 결과가 없어요 😅</div>';
+        return;
+      }
+
+      dropdown.innerHTML = rows.map((r, i) => `
+        <div class="school-item" data-name="${r.SCHUL_NM}" data-addr="${r.LCTN_SC_NM} ${r.ORG_RDNMA||''}"
+             tabindex="-1"
+             onclick="selectSchool('${r.SCHUL_NM}','${r.LCTN_SC_NM} '+'${(r.ORG_RDNMA||'').replace(/'/g,'')}','${prefix}')">
+          <div class="school-item-name">🏫 ${r.SCHUL_NM}</div>
+          <div class="school-item-addr">${r.LCTN_SC_NM} · ${r.ORG_RDNMA||''}</div>
+        </div>`).join('');
+
+    } catch(e) {
+      dropdown.innerHTML = '<div class="school-searching">⚠️ 검색 오류. 직접 입력해주세요.</div>';
+      // 오류 시 직접 입력값을 hidden에 저장
+      if(hidden) hidden.value = query;
+    }
+  }, 200);
+}
+
+function selectSchool(name, addr, prefix) {
+  const input    = document.getElementById(prefix+'-school-input');
+  const hidden   = document.getElementById(prefix+'-school');
+  const dropdown = document.getElementById(prefix+'-school-dropdown');
+  const badge    = document.getElementById(prefix+'-school-badge');
+  const badgeTxt = document.getElementById(prefix+'-school-badge-text');
+
+  if(input)    input.value    = name;
+  if(hidden)   hidden.value   = name;
+  if(dropdown) { dropdown.innerHTML=''; dropdown.classList.remove('open'); }
+  if(badge)    badge.classList.add('show');
+  if(badgeTxt) badgeTxt.textContent = name + ' · ' + addr;
+  _schoolFocusIdx[prefix] = -1;
+}
+
+function clearSchool(prefix) {
+  const input    = document.getElementById(prefix+'-school-input');
+  const hidden   = document.getElementById(prefix+'-school');
+  const dropdown = document.getElementById(prefix+'-school-dropdown');
+  const badge    = document.getElementById(prefix+'-school-badge');
+  if(input)    input.value = '';
+  if(hidden)   hidden.value = '';
+  if(dropdown) { dropdown.innerHTML=''; dropdown.classList.remove('open'); }
+  if(badge)    badge.classList.remove('show');
+  if(input)    input.focus();
+}
+
+function schoolKeyNav(e, prefix) {
+  const dropdown = document.getElementById(prefix+'-school-dropdown');
+  if(!dropdown || !dropdown.classList.contains('open')) return;
+  const items = dropdown.querySelectorAll('.school-item');
+  if(!items.length) return;
+
+  if(e.key === 'ArrowDown') {
+    e.preventDefault();
+    _schoolFocusIdx[prefix] = Math.min((_schoolFocusIdx[prefix]||0)+1, items.length-1);
+    items.forEach((it,i)=>it.classList.toggle('focused', i===_schoolFocusIdx[prefix]));
+    items[_schoolFocusIdx[prefix]]?.scrollIntoView({block:'nearest'});
+  } else if(e.key === 'ArrowUp') {
+    e.preventDefault();
+    _schoolFocusIdx[prefix] = Math.max((_schoolFocusIdx[prefix]||0)-1, 0);
+    items.forEach((it,i)=>it.classList.toggle('focused', i===_schoolFocusIdx[prefix]));
+    items[_schoolFocusIdx[prefix]]?.scrollIntoView({block:'nearest'});
+  } else if(e.key === 'Enter') {
+    e.preventDefault();
+    const idx = _schoolFocusIdx[prefix];
+    if(idx >= 0 && items[idx]) {
+      const name = items[idx].dataset.name;
+      const addr = items[idx].dataset.addr;
+      selectSchool(name, addr, prefix);
+    }
+  } else if(e.key === 'Escape') {
+    dropdown.classList.remove('open');
+  }
+}
+
+// 드롭다운 외부 클릭 시 닫기
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('.school-dropdown.open').forEach(dd => {
+    if(!dd.closest('.school-search-wrap')?.contains(e.target)) {
+      dd.classList.remove('open');
+    }
+  });
+});
+
+window.searchSchool  = searchSchool;
+window.selectSchool  = selectSchool;
+window.clearSchool   = clearSchool;
+window.schoolKeyNav  = schoolKeyNav;
 
 /* =====================================================
    Firebase 설정 안내 (미설정 시)
